@@ -1,92 +1,63 @@
-
 @extends('layouts.base')
 
-
 @section('content')
-<div class="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
-      <!-- Header -->
-      <div class="text-center mb-6">
-        <h1 class="text-2xl font-bold text-emerald-700">Create Account</h1>
-        <p class="text-gray-500 text-sm mt-1">Join Money Manager today</p>
-      </div>
+<div class="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 mx-auto mt-10">
+    <h1 class="text-2xl font-bold text-emerald-700 text-center mb-6">Create User (Admin)</h1>
 
-      <!-- Register Form -->
-      <form action="#" method="POST" class="space-y-5">
+    @if (session('success'))
+        <div class="bg-green-100 text-green-700 p-2 mb-4 rounded">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div class="bg-red-100 text-red-700 p-2 mb-4 rounded">
+            <ul class="list-disc pl-5">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form action="{{ route('create-user') }}" method="POST" class="space-y-5">
+        @csrf
+
         <div>
-          <label for="name" class="block text-sm font-medium text-gray-600 mb-1">Full Name</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            placeholder="John Doe"
-            required
-            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          />
+            <label class="block text-sm font-medium text-gray-600 mb-1">Name</label>
+            <input type="text" name="name" value="{{ old('name') }}" required
+                   class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-emerald-500" />
         </div>
 
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-600 mb-1">Email Address</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="you@example.com"
-            required
-            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          />
+            <label class="block text-sm font-medium text-gray-600 mb-1">Email</label>
+            <input type="email" name="email" value="{{ old('email') }}" required
+                   class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-emerald-500" />
         </div>
 
         <div>
-          <label for="password" class="block text-sm font-medium text-gray-600 mb-1">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="••••••••"
-            required
-            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          />
+            <label class="block text-sm font-medium text-gray-600 mb-1">Phone Number</label>
+            <input type="text" name="phone_number" value="{{ old('phone_number') }}" required
+                   class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-emerald-500" />
         </div>
 
         <div>
-          <label for="confirm-password" class="block text-sm font-medium text-gray-600 mb-1">Confirm Password</label>
-          <input
-            type="password"
-            id="confirm-password"
-            name="password_confirmation"
-            placeholder="••••••••"
-            required
-            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          />
+            <label class="block text-sm font-medium text-gray-600 mb-1">Role</label>
+            <select name="role" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-emerald-500">
+                <option value="">Select Role</option>
+                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>User</option>
+            </select>
         </div>
 
-        <button
-          type="submit"
-          class="w-full bg-emerald-600 text-white py-2.5 rounded-lg hover:bg-emerald-700 transition font-medium"
-        >
-          Create Account
+        <div class="text-gray-500 text-sm">
+            Default password will be <strong>12345</strong>. User can change after first login.
+        </div>
+
+        <button type="submit"
+                class="w-full bg-emerald-600 text-white py-2.5 rounded-lg hover:bg-emerald-700 transition font-medium">
+            Create User
         </button>
-      </form>
-
-      <!-- Divider -->
-      <div class="my-6 flex items-center">
-        <div class="flex-grow h-px bg-gray-200"></div>
-        <span class="px-3 text-gray-400 text-sm">OR</span>
-        <div class="flex-grow h-px bg-gray-200"></div>
-      </div>
-
-      <!-- Social Register -->
-      <div class="flex gap-3">
-        <button class="flex-1 border border-gray-300 rounded-lg py-2 text-sm hover:bg-gray-50">Google</button>
-        <button class="flex-1 border border-gray-300 rounded-lg py-2 text-sm hover:bg-gray-50">Facebook</button>
-      </div>
-
-      <!-- Login Link -->
-      <p class="text-center text-sm text-gray-600 mt-6">
-        Already have an account?
-        <a href="{{route('login')}}" class="text-emerald-600 font-medium hover:underline">Sign In</a>
-      </p>
-    </div>
-    
-
+    </form>
+</div>
 @endsection

@@ -1,28 +1,37 @@
 @extends('layouts.base')
 
 @section('content')
-<div class="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
-    <!-- Logo or Title -->
+<div class="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 mx-auto">
+    <!-- Title -->
     <div class="text-center mb-6">
         <h1 class="text-2xl font-bold text-emerald-700">Login</h1>
-        <p class="text-gray-500 text-sm mt-1">Manage your finances smartly</p>
+        <p class="text-gray-500 text-sm mt-1">Access your account securely</p>
     </div>
 
     <!-- Login Form -->
     <form action="{{ route('login') }}" method="POST" class="space-y-5">
         @csrf
+
+        <!-- Phone Number -->
         <div>
-            <label for="email" class="block text-sm font-medium text-gray-600 mb-1">Email Address</label>
+            <label for="phone_number" class="block text-sm font-medium text-gray-600 mb-1">
+                Phone Number
+            </label>
             <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="you@example.com"
-                required
+                type="text"
+                id="phone_number"
+                name="phone_number"
+                value="{{ old('phone_number') }}"
+                placeholder="Enter your phone number"
                 class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                required
             />
+            @error('phone_number')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
         </div>
 
+        <!-- Password -->
         <div>
             <label for="password" class="block text-sm font-medium text-gray-600 mb-1">Password</label>
             <input
@@ -30,19 +39,28 @@
                 id="password"
                 name="password"
                 placeholder="••••••••"
-                required
                 class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                required
             />
+            @error('password')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
         </div>
 
+        <!-- Remember Me & Forgot Password -->
         <div class="flex items-center justify-between text-sm">
             <label class="flex items-center">
-                <input type="checkbox" class="text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded" />
+                <input
+                    type="checkbox"
+                    name="remember"
+                    class="text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded"
+                />
                 <span class="ml-2 text-gray-600">Remember me</span>
             </label>
             <a href="#" class="text-emerald-600 hover:underline">Forgot password?</a>
         </div>
 
+        <!-- Submit -->
         <button
             type="submit"
             class="w-full bg-emerald-600 text-white py-2.5 rounded-lg hover:bg-emerald-700 transition font-medium"
@@ -58,7 +76,7 @@
         <div class="flex-grow h-px bg-gray-200"></div>
     </div>
 
-    <!-- Social Login -->
+    <!-- Social Login (Optional) -->
     <div class="flex gap-3">
         <button class="flex-1 border border-gray-300 rounded-lg py-2 text-sm hover:bg-gray-50">Google</button>
         <button class="flex-1 border border-gray-300 rounded-lg py-2 text-sm hover:bg-gray-50">Facebook</button>
