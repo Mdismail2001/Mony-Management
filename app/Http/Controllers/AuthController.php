@@ -18,7 +18,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        // ✅ Step 1: Validate input with custom messages
+        //  Step 1: Validate input with custom messages
         $credentials = $request->validate([
             'phone_number' => 'required|string',
             'password' => 'required|string',
@@ -27,23 +27,23 @@ class AuthController extends Controller
             'password.required' => 'The password field is required.',
         ]);
 
-        // ✅ Step 2: Attempt login
+        //  Step 2: Attempt login
         if (Auth::attempt([
             'phone_number' => $credentials['phone_number'],
             'password' => $credentials['password'],
         ])) {
-            // ✅ Step 3: Regenerate session
+            //  Step 3: Regenerate session
             $request->session()->regenerate();
 
-            // ✅ Step 4: Check user role and redirect accordingly
+            //  Step 4: Check user role and redirect accordingly
             $user = Auth::user();
 
             if ($user->role === 'admin') {
-                return redirect()->intended('/adminDashboard');
+                return view('dashboard.admin');
             } elseif ($user->role === 'user') {
-                return redirect()->intended('/userDashboard');
+                return view('dashboard.user');
             } else {
-                return redirect()->intended('/home');
+                return redirect()->intended('/')->with('error', 'Unauthorized role.');
             }
         }
 
