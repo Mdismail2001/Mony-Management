@@ -10,8 +10,5 @@ class Kernel extends HttpKernel
         'auth' => \App\Http\Middleware\Authenticate::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
-        // ✅ Your custom ones
-        'is_admin' => \App\Http\Middleware\IsAdmin::class,
-        'is_user'  => \App\Http\Middleware\IsUser::class,
     ];
 }

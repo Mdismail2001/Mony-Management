@@ -15,12 +15,6 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/create-user', [AuthController::class, 'createUserByAdmin'])->name('create-user');
 
-// Admin routes
-Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/adminDashboard', [DashboardController::class, 'adminDash'])->name('adminDashboard');
-});
 
-// User routes
-Route::prefix('user')->middleware(['auth', 'is_user'])->group(function () {
     Route::get('/userDashboard', [DashboardController::class, 'userDash'])->name('userDashboard');
-});

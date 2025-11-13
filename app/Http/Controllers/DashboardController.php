@@ -11,12 +11,12 @@ class DashboardController extends Controller
     // Show the admin dashboard
     public function adminDash()
     {
-        return view('dashboard.dashboard');
+        return view('dashboard.adminDash');
     }
 
     // Show the user dashboard
     public function userDash()
     {
-        return view('dashboard.dashboard2');
+        return view('dashboard.userDash');
     }
 }

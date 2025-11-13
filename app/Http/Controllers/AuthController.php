@@ -37,11 +37,10 @@ class AuthController extends Controller
 
             //  Step 4: Check user role and redirect accordingly
             $user = Auth::user();
-
             if ($user->role === 'admin') {
-                return view('dashboard.admin');
+                return redirect()->route('adminDashboard');
             } elseif ($user->role === 'user') {
-                return view('dashboard.user');
+                return redirect()->route('userDashboard');
             } else {
                 return redirect()->intended('/')->with('error', 'Unauthorized role.');
             }
