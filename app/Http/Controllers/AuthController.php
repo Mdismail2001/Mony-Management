@@ -52,6 +52,16 @@ class AuthController extends Controller
         ])->onlyInput('phone_number');
     }
 
+    // logout
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken(); 
+        return redirect()->route('loginForm');
+
+    }
+
 
     // Show the registration form
     public function showRegisterForm()

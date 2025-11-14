@@ -6,7 +6,7 @@
     <title>Document</title>
     @vite('resources/css/app.css')
 </head>
-<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+<body class="bg-gray-100 flex justify-center items-center w-full h-auto">
     @yield('content')
 </body>
 </html>
