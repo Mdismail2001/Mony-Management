@@ -7,13 +7,21 @@ use App\Models\Member;
 
 class MembersController extends Controller
 {
-    // Show all members
-    public function index()
-    {
-        $members = Member::all();
-        return view('members.index', compact('members'));
-    }
+    // // Show all members
+    // public function index()
+    // {
+    //     $members = Member::all();
+    //     return view('members.index', compact('members'));
+    // }
 
+    //  Show form to create a new member
+    public function createMemberForm()
+    {
+        return view('members.createMember', [
+            'showHeader' => false,
+            'showSidebar' => false,
+        ]);
+    }
     // Create a new member
     public function store(Request $request)
     {

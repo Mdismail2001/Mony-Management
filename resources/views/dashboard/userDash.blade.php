@@ -14,7 +14,7 @@
         <h2 class="text-3xl font-semibold mb-4">Welcome to Your Dashboard, {{ $user->name ?? 'User' }}!</h2>
         <p class="text-gray-700">Here you can manage your finances, track expenses, and view reports.</p>
     </div>
-</div>
+</div>  
 
 {{-- Footer --}}
 <x-footer 

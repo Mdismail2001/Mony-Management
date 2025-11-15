@@ -12,7 +12,10 @@ class AuthController extends Controller
     // Show the login form
     public function showLoginForm()
     {
-        return view('auth.login');
+        return view('auth.login',[
+            'showHeader' => false,
+            'showSidebar' => false,
+        ]);
     }
     // Handle login
 
@@ -66,7 +69,10 @@ class AuthController extends Controller
     // Show the registration form
     public function showRegisterForm()
     {
-        return view('auth.register');
+        return view('auth.register',[
+            'showHeader' => false,
+            'showSidebar' => false,
+        ]);
     }
 
     // Uer registration

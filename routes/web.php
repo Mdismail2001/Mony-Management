@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\MembersController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,3 +22,10 @@ Route::get('/userDashboard', [DashboardController::class, 'userDash'])->name('us
 
 // Logout route
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Other routes can be added here
+// communities routes
+// Route::get('/communities', [CommunityController::class, 'index'])->name('communities.index');
+Route::get('/communities/{id}', [CommunityController::class, 'show'])->name('communities');
+Route::get('/create-member', [MembersController::class, 'createMemberForm'])->name('create-member');
+Route::post('/store-member', [MembersController::class, 'storeMember'])->name('store-member');
