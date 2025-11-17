@@ -11,4 +11,11 @@ class Community extends Model
         'min_amount',
         'total_amount',
     ];
+
+    // Relationship with members
+    public function members()
+{
+    return $this->hasMany(Member::class);
+}
+
 }

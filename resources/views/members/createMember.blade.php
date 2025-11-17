@@ -46,7 +46,7 @@
     </form>
 
     <div class="mt-5 text-center">
-        <a href="" class="text-gray-600 hover:text-gray-800">
+        <a href="{{ route('communities', $community->id) }}" class="text-gray-600 hover:text-gray-800">
             ⬅ Back to Community
         </a>
     </div>

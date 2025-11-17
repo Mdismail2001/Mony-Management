@@ -9,7 +9,8 @@ class CommunityController extends Controller
 {
     public function show($id)
     {
-        $community = Community::findOrFail($id);
+        
+        $community = Community::with('members.user')->findOrFail($id);
         return view('communities.show' , compact('community'));
     }
 
