@@ -26,6 +26,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Other routes can be added here
 // communities routes
 // Route::get('/communities', [CommunityController::class, 'index'])->name('communities.index');
+Route::get('/community-create', [CommunityController::class, 'createShowForm'])->name('community-create');
+Route::post('/community-store', [CommunityController::class, 'store'])->name('community-store');
 Route::get('/communities/{id}', [CommunityController::class, 'show'])->name('communities');
 Route::get('/create-member/{id}', [MembersController::class, 'createMemberForm'])->name('create-member');
 Route::post('/store-member', [MembersController::class, 'storeMember'])->name('store-member');

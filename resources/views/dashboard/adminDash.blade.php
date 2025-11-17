@@ -6,7 +6,15 @@
 <div class="min-h-screen grid grid-cols-1 lg:grid-cols-12  ">
 
     <!-- MAIN CONTENT -->
-    <main class="col-span-1 lg:col-span-10 p-6">
+    <main class="col-span-1 lg:col-span-12 p-6">
+
+      {{-- Community create button --}}
+        <div class="flex justify-end mb-6">
+            <a href="{{ route('community-create') }}"
+               class="px-4 py-2 bg-emerald-600 text-white rounded hover:bg-emerald-700">
+                + Create Community
+            </a>
+        </div>
 
         <!-- Overview Cards -->
         <section class="flex flex-wrap gap-6 mb-10 justify-between">

@@ -53,6 +53,7 @@
                 <th class="border px-4 py-2">Role</th>
                 <th class="border px-4 py-2">Last Deposit</th>
                 <th class="border px-4 py-2">Total Amount</th>
+                <th class="border px-4 py-2">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -64,6 +65,12 @@
                     <td class="border px-4 py-2">{{ $member->role }}</td>
                     <td class="border px-4 py-2">{{ $member->last_payment ?? '-' }}</td>
                     <td class="border px-4 py-2">${{ $member->total_amount ?? 0 }}</td>
+                    <td class="border px-4 py-2">
+                        <a href="#"
+                           class="text-blue-600 hover:underline">
+                            View
+                        </a>
+                    </td>
                 </tr>
             @empty
                 <tr>
