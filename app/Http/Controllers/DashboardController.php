@@ -15,7 +15,7 @@ class DashboardController extends Controller
         $user = auth()->user();
 
         // fetch communities data
-        $communities = Community::all();
+        $communities = Community::withCount('members')->get();
         // Define dynamic header menu items based on role
         if ($user->role === 'admin') {
             $menuItems = [
@@ -38,7 +38,7 @@ class DashboardController extends Controller
             // You can add more community-specific data here if needed
             $cards[] = [
                 'title' => $community->name,
-                'value_1' => ' Total Members: ' . $community->member_count,
+                'value_1' => ' Total Members: ' . $community->members_count,
                 'value_2' => ' Total Funds: $' . number_format($community->total_amount, 2),
                 'description' => 'Manage ' . $community->name . ' community',
                 'border' => 'border-blue-500',
