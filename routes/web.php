@@ -27,5 +27,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // communities routes
 // Route::get('/communities', [CommunityController::class, 'index'])->name('communities.index');
 Route::get('/communities/{id}', [CommunityController::class, 'show'])->name('communities');
-Route::get('/create-member', [MembersController::class, 'createMemberForm'])->name('create-member');
+Route::get('/create-member/{id}', [MembersController::class, 'createMemberForm'])->name('create-member');
 Route::post('/store-member', [MembersController::class, 'storeMember'])->name('store-member');
+
+// Invite routes
+Route::get('/invite/{token}', [MembersController::class, 'showInviteForm'])->name('invite.show');
+Route::post('/invite/register', [MembersController::class, 'processInviteRegistration'])->name('invite.register');

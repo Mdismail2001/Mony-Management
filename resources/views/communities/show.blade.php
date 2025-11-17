@@ -37,7 +37,7 @@
 
     {{-- Create Member Button --}}
     <div class="mt-6 mb-4 flex justify-end">
-        <a href="{{ route('create-member') }}"
+        <a href="{{ route('create-member',$community->id) }}"
            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
            + Create Member
         </a>

@@ -6,6 +6,16 @@
 <div class="max-w-xl mx-auto p-6 bg-white shadow rounded-xl">
     <h2 class="text-2xl font-bold mb-6">Add New Member</h2>
 
+    @if($errors->any())
+        <div class="mb-4 p-4 bg-red-100 text-red-700 rounded">
+            <ul class="list-disc list-inside">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form action="{{ route('store-member') }}" method="POST">
         @csrf
 
@@ -25,9 +35,9 @@
                 <option value="">Select Role</option>
                 <option value="leader">Leader</option>
                 <option value="member">Member</option>
-                <option value="treasurer">Treasurer</option>
             </select>
         </div>
+        <input type="hidden" name="community_id" value="{{ $community->id }}">
 
         <button type="submit"
             class="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700">
