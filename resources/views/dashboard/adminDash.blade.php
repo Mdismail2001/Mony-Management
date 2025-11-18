@@ -51,7 +51,7 @@
                     <!-- Content -->
                     <h3 class="text-sm font-medium text-slate-400 mb-2">{{ $card['title'] }}</h3>
                     <div class="space-y-1">
-                        <p class="text-2xl font-bold text-white">{{ $card['value_1'] }}</p>
+                        <p class="text-xl font-bold text-white">{{ $card['value_1'] }}</p>
                         @if(!empty($card['value_2']))
                             <p class="text-lg font-semibold text-slate-300">{{ $card['value_2'] }}</p>
                         @endif

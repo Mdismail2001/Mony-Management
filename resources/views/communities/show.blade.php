@@ -132,7 +132,7 @@
                                     ${{ number_format($member->total_amount ?? 0, 2) }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    <a href="#"
+                                    <a href="{{ route('user-details',$member->id ) }}"
                                        class="inline-flex items-center gap-1 text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors">
                                         View
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

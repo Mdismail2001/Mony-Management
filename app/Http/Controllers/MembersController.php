@@ -182,4 +182,17 @@ class MembersController extends Controller
             return back()->withErrors(['error' => 'An error occurred. Please try again.']);
         }
     }
+
+
+    // Show user details in a community
+        public function userDetails($id)
+        {
+            $member = Member::with(['user', 'community'])->findOrFail($id);
+            // dd($member);
+            return view('members.userDetails', [
+                // 'showHeader' => true,
+                // 'showSidebar' => true,
+                'member' => $member,
+            ]);
+        }
 }

@@ -31,6 +31,7 @@ Route::post('/community-store', [CommunityController::class, 'store'])->name('co
 Route::get('/communities/{id}', [CommunityController::class, 'show'])->name('communities');
 Route::get('/create-member/{id}', [MembersController::class, 'createMemberForm'])->name('create-member');
 Route::post('/store-member', [MembersController::class, 'storeMember'])->name('store-member');
+Route::get('/user-details/{id}', [MembersController::class, 'userDetails'])->name('user-details');
 
 // Invite routes
 Route::get('/invite/{token}', [MembersController::class, 'showInviteForm'])->name('invite.show');
