@@ -20,12 +20,35 @@
         </div>
 
         {{-- Page Header --}}
-        <div class="mb-8">
-            {{-- Updated text colors for dark theme --}}
-            <h1 class="text-4xl font-bold text-white mb-2 text-balance">{{ $community->name }}</h1>
-            <p class="text-slate-400">Manage community details and member information</p>
+        <div class="mb-8 flex items-start justify-between">
+            <div>
+                <h1 class="text-4xl font-bold text-white mb-2 text-balance">{{ $community->name }}</h1>
+                <p class="text-slate-400">Manage community details and member information</p>
+            </div>
+            
+            {{-- Action Buttons --}}
+            <div class="flex items-center gap-3">
+                <!-- Edit Button -->
+                <a href="{{ route('community-edit', $community->id) }}" 
+                class="flex items-center gap-2 px-4 py-2 bg-slate-800/50 hover:bg-emerald-600 rounded-lg transition-all group/edit backdrop-blur-sm border border-slate-700 hover:border-emerald-500"
+                title="Edit Community">
+                    <svg class="w-5 h-5 text-slate-400 group-hover/edit:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                    <span class="text-sm font-medium text-slate-300 group-hover/edit:text-white">Edit</span>
+                </a>
+                
+                <!-- Delete Button -->
+                <button onclick="if(confirm('Are you sure you want to delete this community? This action cannot be undone.')) { /* Add delete form submission */ }"
+                        class="flex items-center gap-2 px-4 py-2 bg-slate-800/50 hover:bg-red-600 rounded-lg transition-all group/delete backdrop-blur-sm border border-slate-700 hover:border-red-500"
+                        title="Delete Community">
+                    <svg class="w-5 h-5 text-slate-400 group-hover/delete:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    <span class="text-sm font-medium text-slate-300 group-hover/delete:text-white">Delete</span>
+                </button>
+            </div>
         </div>
-
         {{-- Community Stats Cards --}}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             {{-- Updated cards to dark glass-morphism style --}}
@@ -79,14 +102,14 @@
             <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between">
                 <div>
                     <h2 class="text-xl font-bold text-white">Community Members</h2>
-                    <p class="text-sm text-slate-400 mt-1">{{ $community->members->count() }} total member(s)</p>
+                    <p class="text-sm text-slate-400 mt-1">total members : {{ $community->members->count() }} </p>
                 </div>
                 <a href="{{ route('create-member', $community->id) }}"
                    class="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-medium rounded-lg hover:from-emerald-600 hover:to-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all shadow-lg shadow-emerald-500/20">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                     </svg>
-                    Create Member
+                    Add Member
                 </a>
             </div>
 
@@ -131,7 +154,7 @@
                                 <td class="px-6 py-4 text-sm font-semibold text-emerald-400">
                                     ${{ number_format($member->total_amount ?? 0, 2) }}
                                 </td>
-                                <td class="px-6 py-4">
+                                {{-- <td class="px-6 py-4">
                                     <a href="{{ route('user-details',$member->id ) }}"
                                        class="inline-flex items-center gap-1 text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors">
                                         View
@@ -139,6 +162,37 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                                         </svg>
                                     </a>
+                                </td> --}}
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2">
+                                        <!-- View Button -->
+                                        <a href="{{ route('user-details', $member->id) }}" 
+                                        class="p-2 bg-slate-800/50 hover:bg-blue-600 rounded-lg transition-all group/view"
+                                        title="View Details">
+                                            <svg class="w-4 h-4 text-slate-400 group-hover/view:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                        </a>
+                                        
+                                        <!-- Edit Button -->
+                                        <a href="#" 
+                                        class="p-2 bg-slate-800/50 hover:bg-emerald-600 rounded-lg transition-all group/edit"
+                                        title="Edit">
+                                            <svg class="w-4 h-4 text-slate-400 group-hover/edit:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                            </svg>
+                                        </a>
+                                        
+                                        <!-- Delete Button -->
+                                        <button onclick="if(confirm('Are you sure you want to remove this member?')) { /* Add delete logic */ }"
+                                                class="p-2 bg-slate-800/50 hover:bg-red-600 rounded-lg transition-all group/delete"
+                                                title="Delete">
+                                            <svg class="w-4 h-4 text-slate-400 group-hover/delete:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         @empty

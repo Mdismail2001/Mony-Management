@@ -35,10 +35,30 @@ class CommunityController extends Controller
 
     // Show community details
     public function show($id)
-    {
-        
+    {   
         $community = Community::with('members.user')->findOrFail($id);
         return view('communities.show' , compact('community'));
+    }
+
+    // Show the community edit form
+    public function editForm($id)
+    {
+        $community = Community::findOrFail($id);
+        return view('communities.editCommunity', compact('community'));
+    }
+    // Restore community
+    public function edit(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'min_amount' => 'required|numeric|min:0',
+        ]); 
+        $community = Community::findOrFail($id);
+        $community->name = $request->input('name');
+        $community->min_amount = $request->input('min_amount');
+        $community->save(); 
+        return redirect()->route('communities', $community->id)->with('success', 'Community updated successfully.');
+
     }
 
 
