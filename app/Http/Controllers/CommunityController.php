@@ -29,7 +29,7 @@ class CommunityController extends Controller
             'min_amount' => $request->input('min_amount'),
             'total_amount' => 0, // Initialize total amount to 0
         ]);
-        return redirect()->route('adminDashboard')->with('success', 'Community created successfully.');
+        return redirect()->route('Dashboard')->with('success', 'Community created successfully.');
     } 
 
 
