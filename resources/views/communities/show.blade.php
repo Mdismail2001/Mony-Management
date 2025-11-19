@@ -10,7 +10,7 @@
         {{-- Back Button --}}
         <div class="mb-6">
             {{-- Updated text colors for dark theme --}}
-            <a href="{{ route('adminDashboard') }}"
+            <a href="{{ route('Dashboard') }}"
                class="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-400 transition-colors group">
                 <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>

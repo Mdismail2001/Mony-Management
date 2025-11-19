@@ -26,9 +26,9 @@
                         </div>
                         <div class="flex flex-col">
                             <span class="text-sm font-semibold text-white">{{ $user->name ?? 'Guest' }}</span>
-                            @if(!empty($user->role))
+                            {{-- @if(!empty($user->role))
                                 <span class="text-xs text-emerald-400">{{ $user->role }}</span>
-                            @endif
+                            @endif --}}
                         </div>
                     </div>
 

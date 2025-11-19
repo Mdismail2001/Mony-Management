@@ -10,18 +10,18 @@
 
     {{-- Header --}}
     @if (!empty($showHeader) && $showHeader)
-        <header class="col-span-1 lg:col-span-12">
-            <x-header :user="$user" :menuItems="$menuItems" />
+        <header class="col-span-1 lg:col-span-12 bg-gray-900  text-white">
+            <x-header :user="$user"  />
         </header>
     @endif
 
     {{-- Layout Wrapper (Sidebar + Page Content) --}}
     <div class="flex">
         @if (!empty($showSidebar) && $showSidebar)
-            <aside id="sidebar" class="hidden lg:block w-64 bg-slate-900/80 backdrop-blur-lg border-r border-slate-700/50 text-white min-h-screen flex flex-col">
+            <aside id="sidebar" class=" w-64 min-h-screen bg-gray-900 ">
 
                 <!-- Navigation -->
-                <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
+                <nav class="flex-1 p-4 space-y-1 overflow-y-auto bg">
                     <a href="#" class="group flex items-center space-x-3 px-4 py-3 rounded-xl bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-400 shadow-lg shadow-emerald-500/10 transition-all duration-200">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

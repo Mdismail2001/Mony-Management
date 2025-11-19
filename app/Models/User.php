@@ -47,4 +47,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Relationship with Member model
+    public function communities()
+    {
+        return $this->belongsToMany(Community::class, 'members',)
+                    ->withPivot('role', 'last_payment', 'total_amount')
+                    ->withTimestamps();
+    }
+
 }

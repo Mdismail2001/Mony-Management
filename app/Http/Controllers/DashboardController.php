@@ -10,28 +10,16 @@ use App\Models\Community;
 class DashboardController extends Controller
 {
     // Show the admin dashboard
-    public function adminDash()
+    public function Dashboard()
     {
         $user = auth()->user();
 
-        // fetch communities data
-        $communities = Community::withCount('members')->get();
-        // Define dynamic header menu items based on role
-        if ($user->role === 'admin') {
-            $menuItems = [
-                ['name' => 'Dashboard', 'route' => 'adminDashboard'],
-                ['name' => 'Manage Users', 'route' => 'users.index'],
-                ['name' => 'Reports', 'route' => 'reports.index'],
-            ];
-        } else {
-            $menuItems = [
-                ['name' => 'Dashboard', 'route' => 'userDashboard'],
-                ['name' => 'Transactions', 'route' => 'transactions.index'],
-                ['name' => 'Profile', 'route' => 'profile.index'],
-            ];
-        }
 
-        // Cards for dashboard
+         // Fetch only communities where the logged-in user is a member
+        $communities = $user->communities()->withCount('members')->get();
+
+
+        // Cards for landing page
         $cards = [];
         
         foreach ($communities as $community) {
@@ -48,38 +36,15 @@ class DashboardController extends Controller
             ];
         }
 
-        return view('dashboard.adminDash', [
+        return view('dashboard.landing', [
             'user' => $user,
-            'menuItems' => $menuItems,
+            // 'menuItems' => $menuItems,
             'cards' => $cards,
             'showHeader' => true,
             'showSidebar' => true,
         ]);
     }
 
-
-    // Show the user dashboard
-    public function userDash()
-    {
-        $user = auth()->user();
-
-        // Define dynamic menu items based on role
-        if ($user->role === 'admin') {
-            $menuItems = [
-                ['name' => 'Dashboard', 'route' => 'adminDashboard'],
-                ['name' => 'Manage Users', 'route' => 'users.index'],
-                ['name' => 'Reports', 'route' => 'reports.index'],
-            ];
-        } else {
-            $menuItems = [
-                ['name' => 'Dashboard', 'route' => 'userDashboard'],
-                ['name' => 'Transactions', 'route' => 'transactions.index'],
-                ['name' => 'Profile', 'route' => 'profile.index'],
-            ];
-        }
-
-        return view('dashboard.userDash', compact('user', 'menuItems'));
-    }
 
 
 }

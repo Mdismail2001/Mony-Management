@@ -18,4 +18,12 @@ class Community extends Model
     return $this->hasMany(Member::class);
 }
 
+public function users()
+{
+    return $this->belongsToMany(User::class, 'members')
+        ->withPivot('role', 'total_amount', 'last_payment')
+        ->withTimestamps();
+}
+
+
 }

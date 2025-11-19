@@ -38,16 +38,9 @@ class AuthController extends Controller
             //  Step 3: Regenerate session
             $request->session()->regenerate();
 
-            //  Step 4: Check user role and redirect accordingly
-            $user = Auth::user();
-            if ($user->role === 'admin') {
-                return redirect()->route('adminDashboard');
-            } elseif ($user->role === 'user') {
-                return redirect()->route('userDashboard');
-            } else {
-                return redirect()->intended('/')->with('error', 'Unauthorized role.');
+            // Redirect all users to the same dashboard
+            return redirect()->route('Dashboard');
             }
-        }
 
         //  Step 5: Invalid credentials
         return back()->withErrors([
