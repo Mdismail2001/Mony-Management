@@ -21,45 +21,52 @@
             </a>
         </div>
 
-        <!-- Overview Cards -->
-        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            @foreach($cards as $card)
-                @php
-                    $iconMap = [
-                        'Total Communities' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />',
-                        'Total Members' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />',
-                        'Total Income' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />',
-                        'Total Expenses' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />'
-                    ];
-                    $icon = $iconMap[$card['title']] ?? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />';
-                @endphp
-                
-                <a href="{{ $card['route'] ?? '#' }}" 
-                   class="group relative bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 hover:border-slate-700 transition-all hover:shadow-xl hover:shadow-slate-900/50">
-                    <!-- Icon -->
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="p-3 bg-slate-800/50 rounded-xl group-hover:bg-slate-800 transition-colors">
-                            <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                {!! $icon !!}
-                            </svg>
-                        </div>
-                        <svg class="w-5 h-5 text-slate-600 group-hover:text-slate-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+    <!-- Overview Cards -->
+    @php
+        $cardCount = count($cards);
+        $gridClass = match($cardCount) {
+            1 => 'grid-cols-1',
+            2 => 'grid-cols-1 md:grid-cols-2',
+            3 => 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+            default => 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
+        };
+    @endphp
+    <section class="grid {{ $gridClass }} gap-6 mb-8">
+        @foreach($cards as $card)
+            @php
+                $iconMap = [
+                    'Total Communities' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />',
+                    'Total Members' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />',
+                    'Total Income' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />',
+                    'Total Expenses' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />'
+                ];
+                $icon = $iconMap[$card['title']] ?? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />';
+            @endphp
+            
+            <a href="{{ $card['route'] ?? '#' }}" class="group relative bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 hover:border-slate-700 transition-all hover:shadow-xl hover:shadow-slate-900/50">
+                <!-- Icon -->
+                <div class="flex items-center justify-between mb-4">
+                    <div class="p-3 bg-slate-800/50 rounded-xl group-hover:bg-slate-800 transition-colors">
+                        <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            {!! $icon !!}
                         </svg>
                     </div>
-                    
-                    <!-- Content -->
-                    <h3 class="text-sm font-medium text-slate-400 mb-2">{{ $card['title'] }}</h3>
-                    <div class="space-y-1">
-                        <p class="text-xl font-bold text-white">{{ $card['value_1'] }}</p>
-                        @if(!empty($card['value_2']))
-                            <p class="text-lg font-semibold text-slate-300">{{ $card['value_2'] }}</p>
-                        @endif
-                    </div>
-                </a>
-            @endforeach
-        </section>
-        
+                    <svg class="w-5 h-5 text-slate-600 group-hover:text-emerald-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </div>
+                
+                <!-- Content -->
+                <h3 class="text-sm font-medium text-slate-400 mb-2">{{ $card['title'] }}</h3>
+                <div class="space-y-1">
+                    <p class="text-2xl font-bold text-white">{{ $card['value_1'] }}</p>
+                    @if(!empty($card['value_2']))
+                        <p class="text-lg font-semibold text-slate-300">{{ $card['value_2'] }}</p>
+                    @endif
+                </div>
+            </a>
+        @endforeach
+    </section>        
         <!-- Charts Section -->
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             <!-- Income vs Expenses Chart -->

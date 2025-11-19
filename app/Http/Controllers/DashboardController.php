@@ -44,7 +44,4 @@ class DashboardController extends Controller
             'showSidebar' => true,
         ]);
     }
-
-
-
 }
