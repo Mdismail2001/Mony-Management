@@ -14,6 +14,9 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
 
+        if (!$user) {
+        return redirect()->route('login')->with('error', 'Session expired. Please login again.');
+        }
 
          // Fetch only communities where the logged-in user is a member
         $communities = $user->communities()->withCount('members')->get();
