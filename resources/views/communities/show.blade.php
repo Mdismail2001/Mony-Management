@@ -46,7 +46,7 @@
                     </a>
                     
                     <!-- Delete Button -->
-                    <button onclick="if(confirm('Are you sure you want to delete this community? This action cannot be undone.')) { /* Add delete form submission */ }"
+                    <button onclick="if(confirm('Are you sure you want to delete this community? This action cannot be undone.')) { window.location.href='{{ route('delete-community', $community->id) }}'; }"
                             class="flex items-center gap-2 px-4 py-2 bg-slate-800/50 hover:bg-red-600 rounded-lg transition-all group/delete backdrop-blur-sm border border-slate-700 hover:border-red-500"
                             title="Delete Community">
                         <svg class="w-5 h-5 text-slate-400 group-hover/delete:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">

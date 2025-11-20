@@ -30,6 +30,7 @@ Route::post('/community-store', [CommunityController::class, 'store'])->name('co
 Route::get('/communities/{id}', [CommunityController::class, 'show'])->name('communities');
 Route::get('/community-edit/{id}', [CommunityController::class, 'editForm'])->name('community-edit');
 Route::post('/edit/{id}', [CommunityController::class, 'edit'])->name('edit');
+Route::get('delete-community/{id}', [CommunityController::class, 'delete'])->name('delete-community');
 // members routes
 Route::get('/create-member/{id}', [MembersController::class, 'createMemberForm'])->name('create-member');
 Route::post('/store-member', [MembersController::class, 'storeMember'])->name('store-member');

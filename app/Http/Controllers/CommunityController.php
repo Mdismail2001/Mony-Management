@@ -46,7 +46,7 @@ class CommunityController extends Controller
         $community = Community::findOrFail($id);
         return view('communities.editCommunity', compact('community'));
     }
-    // Restore community
+    // Edit community
     public function edit(Request $request, $id)
     {
         $request->validate([
@@ -61,5 +61,12 @@ class CommunityController extends Controller
 
     }
 
+    // Delete community
+    public function delete($id)
+    {
+        $community = Community::findOrFail($id);
+        $community->delete();
+        return redirect()->route('Dashboard')->with('success', 'Community deleted successfully.');
+    }
 
 }
