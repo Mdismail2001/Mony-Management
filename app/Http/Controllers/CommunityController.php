@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Community;
+use App\Models\Member;
 
 class CommunityController extends Controller
 {
@@ -16,21 +17,31 @@ class CommunityController extends Controller
         ]);
     }
 
-    // Store a new community
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'min_amount' => 'required|numeric|min:0',
         ]); 
+
         // Create the community
-        Community::create([
+        $community = Community::create([
             'name' => $request->input('name'),
             'min_amount' => $request->input('min_amount'),
             'total_amount' => 0, // Initialize total amount to 0
         ]);
+
+        // Assign the current user as the leader of the community
+        Member::create([
+            'community_id' => $community->id,
+            'user_id' => auth()->id(),
+            'role' => 'leader',         // default role
+            'total_amount' => 0,
+            'last_payment' => null,
+        ]);
+
         return redirect()->route('Dashboard')->with('success', 'Community created successfully.');
-    } 
+    }
 
 
     // Show community details

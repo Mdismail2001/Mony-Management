@@ -12,6 +12,23 @@
                 <h1 class="text-3xl font-bold text-white mb-2">Dashboard Overview</h1>
                 <p class="text-slate-400">Monitor your community financial health at a glance</p>
             </div>
+            {{-- controller message show --}}
+{{-- Controller success message (auto hide after 5 seconds) --}}
+@if(session('success'))
+    <div 
+        x-data="{ show: true }" 
+        x-init="setTimeout(() => show = false, 5000)" 
+        x-show="show"
+        x-transition
+        class="mt-4 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 px-4 py-3 rounded-lg text-sm flex items-center gap-2"
+    >
+        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        {{ session('success') }}
+    </div>
+@endif
+            {{-- end message show --}}
             <a href="{{ route('community-create') }}"
                class="mt-4 lg:mt-0 inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl font-medium hover:bg-emerald-500 transition-all shadow-lg shadow-emerald-900/50 hover:shadow-emerald-900/70">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

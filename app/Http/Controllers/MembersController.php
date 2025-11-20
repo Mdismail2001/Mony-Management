@@ -175,7 +175,7 @@ class MembersController extends Controller
             // Auto-login the user
             Auth::login($user);
 
-            return redirect()->route('userDashboard')
+            return redirect()->route('Dashboard')
                 ->with('success', 'Account created successfully! You have been added to the community.');
 
         } catch (\Exception $e) {
