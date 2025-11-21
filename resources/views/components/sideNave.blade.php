@@ -1,28 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Money Manager')</title>
-    @vite('resources/css/app.css')
-    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-</head>
-<body class="bg-gray-100 min-h-screen">
-
-    {{-- Header --}}
-    {{-- @if (!empty($showHeader) && $showHeader)
-        <header class="col-span-1 lg:col-span-12 bg-gray-900  text-white">
-            <x-header :user="$user"  />
-        </header>
-    @endif --}}
-
-    {{-- Layout Wrapper (Sidebar + Page Content) --}}
-    <div class="flex">
-        {{-- @if (!empty($showSidebar) && $showSidebar)
-            <aside id="sidebar" class=" w-64 min-h-screen bg-gray-900 ">
-
+            <aside id="sidebar" class="fixed left-0 top-16 bottom-0 w-64 bg-slate-900 border-r border-slate-800/50 z-40 hidden lg:flex flex-col overflow-y-auto">
                 <!-- Navigation -->
-                <nav class="flex-1 p-4 space-y-1 overflow-y-auto bg">
+                <nav class="flex-1 p-4 space-y-1">
                     <a href="#" class="group flex items-center space-x-3 px-4 py-3 rounded-xl bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-400 shadow-lg shadow-emerald-500/10 transition-all duration-200">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -80,12 +58,3 @@
                     </form>
                 </div>
             </aside>
-        @endif --}}
-        {{-- PAGE CONTENT --}}
-        <main class="flex-1 ">
-            @yield('content')
-        </main>
-    </div>
-
-</body>
-</html>
