@@ -233,4 +233,17 @@ public function updateMember(Request $request, $id)
 
     return redirect()->route('communities', $member->community_id)->with('success', 'Member updated successfully!');
 }
+
+    // Delete member
+    public function deleteMember($id)
+    {
+        $member = Member::findOrFail($id);
+        $community_id = $member->community_id;
+        $member->delete();
+
+        return redirect()->route('communities', $community_id)
+                         ->with('success', 'Member deleted successfully!');
+    }
+
+
 }

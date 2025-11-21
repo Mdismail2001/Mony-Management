@@ -204,7 +204,7 @@
                                             </a>
                                             
                                             <!-- Delete Button -->
-                                            <button onclick="if(confirm('Are you sure you want to remove this member?')) { /* Add delete logic */ }"
+                                            <button onclick="if(confirm('Are you sure you want to remove this member?')) { window.location.href='{{ route('delete-member', $member->id) }}'; }"
                                                     class="p-2 bg-slate-800/50 hover:bg-red-600 rounded-lg transition-all group/delete"
                                                     title="Delete">
                                                 <svg class="w-4 h-4 text-slate-400 group-hover/delete:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
