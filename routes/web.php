@@ -34,7 +34,10 @@ Route::get('delete-community/{id}', [CommunityController::class, 'delete'])->nam
 // members routes
 Route::get('/create-member/{id}', [MembersController::class, 'createMemberForm'])->name('create-member');
 Route::post('/store-member', [MembersController::class, 'storeMember'])->name('store-member');
-Route::get('/user-details/{id}', [MembersController::class, 'userDetails'])->name('user-details');
+Route::get('/member-details/{id}', [MembersController::class, 'memberDetails'])->name('member-details');
+Route::get('/edit-member/{id}', [MembersController::class, 'editform'])->name('edit-member');
+Route::put('/update-member/{id}', [MembersController::class, 'updateMember'])->name('update-member');
+Route::get('/delete-member/{id}', [MembersController::class, 'deleteMember'])->name('delete-member');
 
 // Invite routes
 Route::get('/invite/{token}', [MembersController::class, 'showInviteForm'])->name('invite.show');

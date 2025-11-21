@@ -31,6 +31,21 @@
                 <h1 class="text-4xl font-bold text-white mb-2 text-balance">{{ $community->name }}</h1>
                 <p class="text-slate-400">Manage community details and member information</p>
             </div>
+            {{-- Message --}}
+            @if(session('success'))
+                <div 
+                    x-data="{ show: true }" 
+                    x-init="setTimeout(() => show = false, 5000)" 
+                    x-show="show"
+                    x-transition
+                    class="mt-4 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 px-4 py-3 rounded-lg text-sm flex items-center gap-2"
+                    >
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    {{ session('success') }}
+                </div>
+            @endif
             
             {{-- Action Buttons --}}
             @if ($loggedUserRole === 'leader')
@@ -170,7 +185,7 @@
                                     <td class="px-6 py-4">
                                         <div class="flex items-center gap-2">
                                             <!-- View Button -->
-                                            <a href="{{ route('user-details', $member->id) }}" 
+                                            <a href="{{ route('member-details', $member->id) }}" 
                                             class="p-2 bg-slate-800/50 hover:bg-blue-600 rounded-lg transition-all group/view"
                                             title="View Details">
                                                 <svg class="w-4 h-4 text-slate-400 group-hover/view:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -180,7 +195,7 @@
                                             </a>
                                             
                                             <!-- Edit Button -->
-                                            <a href="#" 
+                                            <a href="{{ route('edit-member', $member->id) }}" 
                                             class="p-2 bg-slate-800/50 hover:bg-emerald-600 rounded-lg transition-all group/edit"
                                             title="Edit">
                                                 <svg class="w-4 h-4 text-slate-400 group-hover/edit:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">

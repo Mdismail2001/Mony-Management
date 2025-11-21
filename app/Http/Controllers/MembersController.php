@@ -184,8 +184,8 @@ class MembersController extends Controller
     }
 
 
-    // Show user details in a community
-        public function userDetails($id)
+    // Show member details in a community
+        public function memberDetails($id)
         {
             $member = Member::with(['user', 'community'])->findOrFail($id);
             // dd($member);
@@ -195,4 +195,42 @@ class MembersController extends Controller
                 'member' => $member,
             ]);
         }
+
+    // Edit member details
+    public function editform(Request $request, $id)
+    {
+        $member = Member::findOrFail($id);
+        return view('members.editMember', [
+            'showHeader' => false,
+            'showSidebar' => false,
+            'member' => $member,
+        ]);
+    }
+
+    // Update member details
+public function updateMember(Request $request, $id)
+{
+    $request->validate([
+        'role' => 'required',
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'phone_number' => 'required',
+    ]);
+
+    // Fetch member
+    $member = Member::findOrFail($id);
+
+    // Update role from members table
+    $member->role = $request->role;
+    $member->save();
+
+    // Update user info from users table
+    $user = User::findOrFail($member->user_id);
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->phone_number = $request->phone_number;
+    $user->save();
+
+    return redirect()->route('communities', $member->community_id)->with('success', 'Member updated successfully!');
+}
 }
