@@ -16,17 +16,11 @@
             </a>
         </div>
 
-        {{-- Card with form --}}
+        {{-- Card --}}
         <div class="bg-slate-900/80 backdrop-blur-lg shadow-xl rounded-2xl p-8 border border-slate-800/50">
-            {{-- Heading --}}
-            <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-                    Edit Community
-                </h2>
-                <div class="text-sm text-slate-400">
-                    ID: <span class="font-mono text-slate-300">{{ $community->id }}</span>
-                </div>
-            </div>
+            <h2 class="text-3xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent mb-8">
+                Edit Community
+            </h2>
 
             {{-- Success Message --}}
             @if(session('success'))
@@ -38,100 +32,82 @@
                 </div>
             @endif
 
-            {{-- Error Message --}}
+            {{-- Error Messages --}}
             @if($errors->any())
                 <div class="bg-red-500/10 border border-red-500/30 text-red-400 p-4 rounded-lg mb-6">
-                    <div class="flex items-start gap-3">
-                        <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <ul class="list-disc pl-5 space-y-1">
-                            @foreach($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
+                    <ul class="list-disc pl-5 space-y-1">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             @endif
 
-            <form action="{{ route('edit', $community->id )}}" method="POST" class="space-y-6">
+            <form action="{{ route('edit', $community->id) }}" method="POST" class="space-y-6">
                 @csrf
 
-                {{-- Read-only Fields Section --}}
-                <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 space-y-4">
-                    <h3 class="text-sm font-semibold text-slate-300 uppercase tracking-wide mb-4">System Information</h3>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {{-- Created At --}}
-                        <div>
-                            <label class="block text-sm font-medium text-slate-400 mb-2">Created At</label>
-                            <div class="w-full bg-slate-900/50 border border-slate-700/50 text-slate-400 px-4 py-3 rounded-lg font-mono text-sm">
-                                {{ $community->created_at ? $community->created_at->format('M d, Y H:i:s') : 'N/A' }}
-                            </div>
-                        </div>
-
-                        {{-- Updated At --}}
-                        <div>
-                            <label class="block text-sm font-medium text-slate-400 mb-2">Last Updated</label>
-                            <div class="w-full bg-slate-900/50 border border-slate-700/50 text-slate-400 px-4 py-3 rounded-lg font-mono text-sm">
-                                {{ $community->updated_at ? $community->updated_at->format('M d, Y H:i:s') : 'N/A' }}
-                            </div>
-                        </div>
-                    </div>
+                {{-- Community Name --}}
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-2">
+                        Community Name <span class="text-red-400">*</span>
+                    </label>
+                    <input type="text" 
+                           name="name" 
+                           value="{{ old('name', $community->name) }}" 
+                           required
+                           class="w-full bg-slate-800/50 border border-slate-700 text-slate-100 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all placeholder-slate-500">
                 </div>
 
-                {{-- Editable Fields Section --}}
-                <div class="space-y-6">
-                    {{-- Community Name --}}
-                    <div>
-                        <label class="block text-sm font-medium text-slate-300 mb-2">
-                            Community Name <span class="text-red-400">*</span>
-                        </label>
-                        <input type="text" 
-                               name="name" 
-                               value="{{ old('name', $community->name) }}" 
-                               required
-                               class="w-full bg-slate-800/50 border border-slate-700 text-slate-100 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all placeholder-slate-500"
-                               placeholder="Enter community name">
-                        @error('name')
-                            <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
-                        @enderror
-                    </div>
+                {{-- Minimum Amount --}}
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-2">
+                        Minimum Amount <span class="text-red-400">*</span>
+                    </label>
+                    <input type="number" 
+                           name="min_amount" 
+                           value="{{ old('min_amount', $community->min_amount) }}" 
+                           step="0.01"
+                           required
+                           class="w-full bg-slate-800/50 border border-slate-700 text-slate-100 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all placeholder-slate-500">
+                </div>
 
-                    {{-- Minimum Amount --}}
-                    <div>
-                        <label class="block text-sm font-medium text-slate-300 mb-2">
-                            Minimum Amount <span class="text-red-400">*</span>
-                        </label>
-                        <div class="relative">
-                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">$</span>
-                            <input type="number" 
-                                   name="min_amount" 
-                                   value="{{ old('min_amount', $community->min_amount) }}" 
-                                   step="0.01"
-                                   required
-                                   class="w-full bg-slate-800/50 border border-slate-700 text-slate-100 pl-8 pr-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all placeholder-slate-500"
-                                   placeholder="0.00">
-                        </div>
-                        @error('min_amount')
-                            <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
-                        @enderror
-                    </div>
+                {{-- Banking Info --}}
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-2">Banking Info</label>
+                    <div id="banking-info-wrapper" class="space-y-4">
+                        @php
+                            $bankingInfos = old('banking_info', $community->banking_info ?? []);
+                        @endphp
 
-                    {{-- Total Amount (Read-only, calculated field) --}}
-                    <div>
-                        <label class="block text-sm font-medium text-slate-400 mb-2">
-                            Total Amount 
-                            <span class="text-xs text-slate-500">(Auto-calculated)</span>
-                        </label>
-                        <div class="relative">
-                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">$</span>
-                            <div class="w-full bg-slate-900/50 border border-slate-700/50 text-emerald-400 pl-8 pr-4 py-3 rounded-lg font-semibold">
-                                {{ number_format($community->total_amount ?? 0, 2) }}
+                        @foreach($bankingInfos as $index => $bank)
+                        <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-4 space-y-2 relative">
+                            <button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">Remove</button>
+
+                            <select name="banking_info[{{ $index }}][type]" class="w-full bg-slate-800/50 border border-slate-700 text-slate-100 px-4 py-3 rounded-lg" onchange="toggleBankFields(this)">
+                                <option value="">Select Type</option>
+                                <option value="Bank" {{ ($bank['type'] ?? '') == 'Bank' ? 'selected' : '' }}>Bank</option>
+                                <option value="Mobile Bank" {{ ($bank['type'] ?? '') == 'Mobile Bank' ? 'selected' : '' }}>Mobile Bank</option>
+                            </select>
+
+                            {{-- Bank Fields --}}
+                            <div class="bank-fields mt-2" style="{{ ($bank['type'] ?? '') == 'Bank' ? '' : 'display:none;' }}">
+                                <input type="text" name="banking_info[{{ $index }}][account_no]" value="{{ $bank['account_no'] ?? '' }}" placeholder="Account No" class="w-full bg-slate-800/50 border border-slate-700 text-slate-100 px-4 py-3 rounded-lg mb-2">
+                                <input type="text" name="banking_info[{{ $index }}][bank_name]" value="{{ $bank['bank_name'] ?? '' }}" placeholder="Bank Name" class="w-full bg-slate-800/50 border border-slate-700 text-slate-100 px-4 py-3 rounded-lg mb-2">
+                                <input type="text" name="banking_info[{{ $index }}][holder_name]" value="{{ $bank['holder_name'] ?? '' }}" placeholder="Holder Name" class="w-full bg-slate-800/50 border border-slate-700 text-slate-100 px-4 py-3 rounded-lg mb-2">
+                                <input type="text" name="banking_info[{{ $index }}][branch]" value="{{ $bank['branch'] ?? '' }}" placeholder="Branch" class="w-full bg-slate-800/50 border border-slate-700 text-slate-100 px-4 py-3 rounded-lg">
+                            </div>
+
+                            {{-- Mobile Bank Fields --}}
+                            <div class="mobile-bank-fields mt-2" style="{{ ($bank['type'] ?? '') == 'Mobile Bank' ? '' : 'display:none;' }}">
+                                <input type="text" name="banking_info[{{ $index }}][account_no]" value="{{ $bank['account_no'] ?? '' }}" placeholder="Account No" class="w-full bg-slate-800/50 border border-slate-700 text-slate-100 px-4 py-3 rounded-lg mb-2">
+                                <input type="text" name="banking_info[{{ $index }}][mobile_type]" value="{{ $bank['mobile_type'] ?? '' }}" placeholder="Type (Bkash/Nagad)" class="w-full bg-slate-800/50 border border-slate-700 text-slate-100 px-4 py-3 rounded-lg mb-2">
+                                <input type="text" name="banking_info[{{ $index }}][holder_name]" value="{{ $bank['holder_name'] ?? '' }}" placeholder="Holder Name" class="w-full bg-slate-800/50 border border-slate-700 text-slate-100 px-4 py-3 rounded-lg">
                             </div>
                         </div>
-                        <p class="mt-1 text-xs text-slate-500">This value is automatically calculated based on member contributions</p>
+                        @endforeach
                     </div>
+
+                    <button type="button" onclick="addBankField()" class="mt-2 px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition">Add Bank/Mobile Bank</button>
                 </div>
 
                 {{-- Action Buttons --}}
@@ -146,15 +122,42 @@
                     </a>
                 </div>
             </form>
-
-            {{-- Additional Info --}}
-            <div class="mt-6 pt-6 border-t border-slate-800">
-                <div class="flex items-center justify-between text-sm">
-                    <span class="text-slate-400">Need help?</span>
-                    <a href="#" class="text-emerald-400 hover:text-emerald-300 transition-colors">View Documentation</a>
-                </div>
-            </div>
         </div>
     </div>
 </div>
+
+<script>
+function toggleBankFields(select) {
+    const parent = select.parentElement;
+    parent.querySelector('.bank-fields').style.display = select.value === 'Bank' ? 'block' : 'none';
+    parent.querySelector('.mobile-bank-fields').style.display = select.value === 'Mobile Bank' ? 'block' : 'none';
+}
+
+function addBankField() {
+    const wrapper = document.getElementById('banking-info-wrapper');
+    const index = wrapper.children.length;
+    const div = document.createElement('div');
+    div.className = 'bg-slate-800/30 border border-slate-700/50 rounded-xl p-4 space-y-2 relative';
+    div.innerHTML = `
+        <button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">Remove</button>
+        <select name="banking_info[${index}][type]" class="w-full bg-slate-800/50 border border-slate-700 text-slate-100 px-4 py-3 rounded-lg" onchange="toggleBankFields(this)">
+            <option value="">Select Type</option>
+            <option value="Bank">Bank</option>
+            <option value="Mobile Bank">Mobile Bank</option>
+        </select>
+        <div class="bank-fields mt-2" style="display:none;">
+            <input type="text" name="banking_info[${index}][account_no]" placeholder="Account No" class="w-full bg-slate-800/50 border border-slate-700 text-slate-100 px-4 py-3 rounded-lg mb-2">
+            <input type="text" name="banking_info[${index}][bank_name]" placeholder="Bank Name" class="w-full bg-slate-800/50 border border-slate-700 text-slate-100 px-4 py-3 rounded-lg mb-2">
+            <input type="text" name="banking_info[${index}][holder_name]" placeholder="Holder Name" class="w-full bg-slate-800/50 border border-slate-700 text-slate-100 px-4 py-3 rounded-lg mb-2">
+            <input type="text" name="banking_info[${index}][branch]" placeholder="Branch" class="w-full bg-slate-800/50 border border-slate-700 text-slate-100 px-4 py-3 rounded-lg">
+        </div>
+        <div class="mobile-bank-fields mt-2" style="display:none;">
+            <input type="text" name="banking_info[${index}][account_no]" placeholder="Account No" class="w-full bg-slate-800/50 border border-slate-700 text-slate-100 px-4 py-3 rounded-lg mb-2">
+            <input type="text" name="banking_info[${index}][mobile_type]" placeholder="Type (Bkash/Nagad)" class="w-full bg-slate-800/50 border border-slate-700 text-slate-100 px-4 py-3 rounded-lg mb-2">
+            <input type="text" name="banking_info[${index}][holder_name]" placeholder="Holder Name" class="w-full bg-slate-800/50 border border-slate-700 text-slate-100 px-4 py-3 rounded-lg">
+        </div>
+    `;
+    wrapper.appendChild(div);
+}
+</script>
 @endsection
