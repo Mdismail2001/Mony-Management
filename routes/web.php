@@ -28,7 +28,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Route::get('/communities', [CommunityController::class, 'index'])->name('communities.index');
 Route::get('/community-create', [CommunityController::class, 'createShowForm'])->name('community-create');
 Route::post('/community-store', [CommunityController::class, 'store'])->name('community-store');
-Route::get('/communities/{id}', [CommunityController::class, 'show'])->name('communities');
+Route::get('/communities/{id}', [CommunityController::class, 'show'])->name('communities') ->middleware('auth');
 Route::get('/community-edit/{id}', [CommunityController::class, 'editForm'])->name('community-edit');
 Route::post('/edit/{id}', [CommunityController::class, 'edit'])->name('edit');
 Route::get('delete-community/{id}', [CommunityController::class, 'delete'])->name('delete-community');
