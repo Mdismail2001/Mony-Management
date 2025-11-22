@@ -31,6 +31,7 @@
                 <h1 class="text-4xl font-bold text-white mb-2 text-balance">{{ $community->name }}</h1>
                 <p class="text-slate-400">Manage community details and member information</p>
             </div>
+
             {{-- Message --}}
             @if(session('success'))
                 <div 
@@ -39,14 +40,14 @@
                     x-show="show"
                     x-transition
                     class="mt-4 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 px-4 py-3 rounded-lg text-sm flex items-center gap-2"
-                    >
+                >
                     <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                     </svg>
                     {{ session('success') }}
                 </div>
             @endif
-            
+
             {{-- Action Buttons --}}
             @if ($loggedUserRole === 'leader')
                 <div class="flex items-center gap-3">
@@ -59,7 +60,7 @@
                         </svg>
                         <span class="text-sm font-medium text-slate-300 group-hover/edit:text-white">Edit</span>
                     </a>
-                    
+
                     <!-- Delete Button -->
                     <button onclick="if(confirm('Are you sure you want to delete this community? This action cannot be undone.')) { window.location.href='{{ route('delete-community', $community->id) }}'; }"
                             class="flex items-center gap-2 px-4 py-2 bg-slate-800/50 hover:bg-red-600 rounded-lg transition-all group/delete backdrop-blur-sm border border-slate-700 hover:border-red-500"
@@ -117,6 +118,125 @@
                 </div>
             </div>
         </div>
+
+        {{-- Transaction section --}}
+        <div class=" mb-8 bg-slate-900/80 backdrop-blur-lg rounded-xl border border-slate-800 shadow-lg overflow-hidden">
+            {{-- Section Header --}}
+            <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between">
+                <div>
+                    <h2 class="text-xl font-bold text-white">Transactions History</h2>
+                    <p class="text-sm text-slate-400 mt-1">total transactions :  </p>
+                </div>
+                    <a href="{{ route('transactions-form', ['member_id' => auth()->user()->id, 'community_id' => $community->id]) }}"
+                    class="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-medium rounded-lg hover:from-emerald-600 hover:to-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all shadow-lg shadow-emerald-500/20">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                        Deposit Now
+                    </a>
+            </div>
+
+            {{-- Transaction Table --}}
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-slate-800/50 border-b border-slate-700">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">No</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">Name</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">Amount</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">Month</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">Date</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">Status</th>
+                            @if($loggedUserRole === 'leader')
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">Actions</th>
+                            @endif
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800">
+                        {{-- @forelse($community->members as $index => $member) --}}
+                            <tr class="hover:bg-slate-800/50 transition-colors">
+                                <td class="px-6 py-4 text-sm text-white font-medium"></td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center flex-shrink-0 shadow-lg shadow-emerald-500/20">
+                                            <span class="text-sm font-semibold text-white">
+                                            </span>
+                                        </div>
+                                        <span class="text-sm font-medium text-white"></span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-slate-400"></td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium" >
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-slate-400">
+                                </td>
+                                <td class="px-6 py-4 text-sm font-semibold text-emerald-400">
+                                </td>
+                                @if ($loggedUserRole === 'leader')
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2">
+                                        <!-- View Button -->
+                                        <a href="" 
+                                        class="p-2 bg-slate-800/50 hover:bg-blue-600 rounded-lg transition-all group/view"
+                                        title="View Details">
+                                            <svg class="w-4 h-4 text-slate-400 group-hover/view:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                        </a>
+
+                                        <!-- Approve Button -->
+                                        <a href="" 
+                                        class="p-2 bg-slate-800/50 hover:bg-green-600 rounded-lg transition-all group/approve"
+                                        title="Approve">
+                                            <svg class="w-4 h-4 text-slate-400 group-hover/approve:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                            </svg>
+                                        </a>
+
+                                        <!-- Reject Button -->
+                                        <button onclick="if(confirm('Are you sure you want to reject this member?')) { }"
+                                                class="p-2 bg-slate-800/50 hover:bg-red-600 rounded-lg transition-all group/reject"
+                                                title="Reject">
+                                            <svg class="w-4 h-4 text-slate-400 group-hover/reject:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </td>
+                                @endif
+                            </tr>
+                        {{-- @empty --}}
+                            <tr>
+                                <td colspan="7" class="px-6 py-12 text-center">
+                                    <div class="flex flex-col items-center gap-3">
+                                        <div class="w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center">
+                                            <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <p class="text-white font-medium">No transactions yet</p>
+                                            <p class="text-sm text-slate-400 mt-1">Get started by creating your first member</p>
+                                        </div>
+                                        <a href="{{ route('transactions-form', ['member_id' => auth()->user()->id, 'community_id' => $community->id]) }}"
+                                           class="mt-2 inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-medium rounded-lg hover:from-emerald-600 hover:to-teal-600 transition-all shadow-lg shadow-emerald-500/20">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                            </svg>
+                                            Deposit Now
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {{-- @endforelse --}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
 
         {{-- Members Section --}}
         {{-- Updated to dark glass-morphism style --}}

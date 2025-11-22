@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\MembersController;
+use App\Http\Controllers\TransactionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -42,3 +43,6 @@ Route::get('/delete-member/{id}', [MembersController::class, 'deleteMember'])->n
 // Invite routes
 Route::get('/invite/{token}', [MembersController::class, 'showInviteForm'])->name('invite.show');
 Route::post('/invite/register', [MembersController::class, 'processInviteRegistration'])->name('invite.register');
+
+// transactions routes
+Route::get('/transactionsForm', [TransactionController::class, 'showForm'])->name('transactions-form');
