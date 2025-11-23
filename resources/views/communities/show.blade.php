@@ -127,7 +127,7 @@
                     <h2 class="text-xl font-bold text-white">Transactions History</h2>
                     <p class="text-sm text-slate-400 mt-1">total transactions :  </p>
                 </div>
-                    <a href="{{ route('transactions-form', ['member_id' => auth()->user()->id, 'community_id' => $community->id]) }}"
+                    <a href="{{ route('transactions-form', ['member_id' => $loggedUserMember->id, 'community_id' => $community->id]) }}"
                     class="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-medium rounded-lg hover:from-emerald-600 hover:to-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all shadow-lg shadow-emerald-500/20">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
@@ -239,7 +239,6 @@
 
 
         {{-- Members Section --}}
-        {{-- Updated to dark glass-morphism style --}}
         <div class="bg-slate-900/80 backdrop-blur-lg rounded-xl border border-slate-800 shadow-lg overflow-hidden">
             {{-- Section Header --}}
             <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between">

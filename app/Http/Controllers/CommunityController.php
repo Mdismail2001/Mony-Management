@@ -19,9 +19,9 @@ class CommunityController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created community.
-     */
+    
+    //Store a newly created community.
+    
     public function store(Request $request)
     {
         // dd($request->all());

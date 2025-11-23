@@ -46,3 +46,4 @@ Route::post('/invite/register', [MembersController::class, 'processInviteRegistr
 
 // transactions routes
 Route::get('/transactionsForm', [TransactionController::class, 'showForm'])->name('transactions-form');
+Route::post('/store-transaction', [TransactionController::class, 'store'])->name('store-transaction');

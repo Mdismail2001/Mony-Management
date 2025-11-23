@@ -10,7 +10,7 @@
             <p class="text-slate-600">Record a new payment transaction for this member.</p>
         </div>
 
-        <form action="#" method="POST" enctype="multipart/form-data" class="space-y-6">
+        <form action="{{ route('store-transaction') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="member_id" value="{{ $memberId }}">
             <input type="hidden" name="community_id" value="{{ $communityId }}">

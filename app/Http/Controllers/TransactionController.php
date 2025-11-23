@@ -17,66 +17,35 @@ class TransactionController extends Controller
         return view('transactions.depositForm', compact('memberId', 'communityId'));
     }
 
+    // store transaction
+    public function store(Request $request)
+    {
+        
+        // dd($request->all());
+        $request->validate([
+            'member_id' => 'required|exists:members,id',
+            'community_id' => 'required|exists:communities,id',
+            'amount' => 'required|numeric',
+            'date' => 'required|date',
+            'month' => 'required',
+            'proof' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+        ]);
 
-    // // Member submits transaction
-    // public function store(Request $request)
-    // {
-    //     $request->validate([
-    //         'member_id' => 'required|exists:members,id',
-    //         'community_id' => 'required|exists:communities,id',
-    //         'amount' => 'required|numeric',
-    //         'date' => 'required|date',
-    //         'month' => 'required',
-    //         'proof' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
-    //     ]);
+        $proof = null;  
+        if ($request->hasFile('proof')) {
+            $proof = $request->file('proof')->store('proofs', 'public');
+        }
+        Transaction::create([
+            'member_id' => $request->member_id,
+            'community_id' => $request->community_id,
+            'amount' => $request->amount,
+            'date' => $request->date,
+            'month' => $request->month,
+            'proof' => $proof,
+            'status' => 0 // submitted
+        ]);
+        return redirect()->route('communities', $request->community_id)->with('success', 'Transaction submitted for approval.');
+    }
 
-    //     $proof = null;
 
-    //     if ($request->hasFile('proof')) {
-    //         $proof = $request->file('proof')->store('proofs', 'public');
-    //     }
-
-    //     Transaction::create([
-    //         'member_id' => $request->member_id,
-    //         'community_id' => $request->community_id,
-    //         'amount' => $request->amount,
-    //         'date' => $request->date,
-    //         'month' => $request->month,
-    //         'proof' => $proof,
-    //         'status' => 0 // submitted
-    //     ]);
-
-    //     return back()->with('success', 'Transaction submitted for approval.');
-    // }
-
-    // Admin approves
-    // public function approve($id)
-    // {
-    //     $transaction = Transaction::findOrFail($id);
-
-    //     $transaction->update([
-    //         'status' => 1,
-    //         'verified_by' => Auth::id(),
-    //         'verified_at' => now(),
-    //     ]);
-
-    //     return back()->with('success', 'Transaction approved.');
-    // }
-
-    // Admin rejects
-    // public function reject(Request $request, $id)
-    // {
-    //     $request->validate(['reason' => 'required']);
-
-    //     $transaction = Transaction::findOrFail($id);
-
-    //     $transaction->update([
-    //         'status' => 2,
-    //         'reason_for_rejection' => $request->reason,
-    //         'verified_by' => Auth::id(),
-    //         'verified_at' => now(),
-    //     ]);
-
-    //     return back()->with('error', 'Transaction rejected.');
-    // }
 }
