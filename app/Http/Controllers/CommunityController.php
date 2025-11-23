@@ -89,19 +89,27 @@ class CommunityController extends Controller
      */
     public function edit(Request $request, $id)
     {
+        // dd($request->all());
         $request->validate([
             'name' => 'required|string|max:255',
             'min_amount' => 'required|numeric|min:0',
             'banking_info' => 'nullable|array',
-            'banking_info.*.type' => 'required_with:banking_info|string|in:Bank,Mobile Bank',
-            'banking_info.*.account_no' => 'required_with:banking_info|string|max:255',
-            // Only validate as string if type is Bank
-            'banking_info.*.bank_name' => 'nullable|string|required_if:banking_info.*.type,Bank|max:255',
-            'banking_info.*.branch' => 'nullable|string|required_if:banking_info.*.type,Bank|max:255',
-            // Only validate as string if type is Mobile Bank
-            'banking_info.*.mobile_type' => 'nullable|string|required_if:banking_info.*.type,Mobile Bank|max:255',
-            'banking_info.*.holder_name' => 'required|string|max:255',
+
+            // Type
+            'banking_info.*.type' => 'required|string|in:Bank,Mobile Bank',
+
+            // Bank validation
+            'banking_info.*.bank_account_no' => 'required_if:banking_info.*.type,Bank|nullable|string|max:255',
+            'banking_info.*.bank_holder_name' => 'required_if:banking_info.*.type,Bank|nullable|string|max:255',
+            'banking_info.*.bank_name' => 'required_if:banking_info.*.type,Bank|nullable|string|max:255',
+            'banking_info.*.branch' => 'required_if:banking_info.*.type,Bank|nullable|string|max:255',
+
+            // Mobile Bank validation
+            'banking_info.*.mobile_account_no' => 'required_if:banking_info.*.type,Mobile Bank|nullable|string|max:255',
+            'banking_info.*.mobile_holder_name' => 'required_if:banking_info.*.type,Mobile Bank|nullable|string|max:255',
+            'banking_info.*.mobile_type' => 'required_if:banking_info.*.type,Mobile Bank|nullable|string|max:255',
         ]);
+
 
 
         $community = Community::findOrFail($id);

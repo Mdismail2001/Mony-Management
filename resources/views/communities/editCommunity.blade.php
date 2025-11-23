@@ -88,17 +88,17 @@
 
                             {{-- Bank Fields --}}
                             <div class="bank-fields" style="{{ ($bank['type'] ?? '') == 'Bank' ? 'display:block;' : 'display:none;' }}">
-                                <input type="text" name="banking_info[{{ $index }}][account_no]" value="{{ $bank['account_no'] ?? '' }}" placeholder="Account No" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
+                                <input type="text" name="banking_info[{{ $index }}][bank_account_no]" value="{{ $bank['bank_account_no'] ?? '' }}" placeholder="Account No" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
                                 <input type="text" name="banking_info[{{ $index }}][bank_name]" value="{{ $bank['bank_name'] ?? '' }}" placeholder="Bank Name" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
-                                <input type="text" name="banking_info[{{ $index }}][holder_name]" value="{{ $bank['holder_name'] ?? '' }}" placeholder="Holder Name" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
+                                <input type="text" name="banking_info[{{ $index }}][bank_holder_name]" value="{{ $bank['bank_holder_name'] ?? '' }}" placeholder="Holder Name" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
                                 <input type="text" name="banking_info[{{ $index }}][branch]" value="{{ $bank['branch'] ?? '' }}" placeholder="Branch" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
                             </div>
 
                             {{-- Mobile Bank Fields --}}
                             <div class="mobile-bank-fields" style="{{ ($bank['type'] ?? '') == 'Mobile Bank' ? 'display:block;' : 'display:none;' }}">
-                                <input type="text" name="banking_info[{{ $index }}][account_no]" value="{{ $bank['account_no'] ?? '' }}" placeholder="Account Number" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
+                                <input type="text" name="banking_info[{{ $index }}][mobile_account_no]" value="{{ $bank['mobile_account_no'] ?? '' }}" placeholder="Account Number" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
                                 <input type="text" name="banking_info[{{ $index }}][mobile_type]" value="{{ $bank['mobile_type'] ?? '' }}" placeholder="Type (bKash / Nagad)" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
-                                <input type="text" name="banking_info[{{ $index }}][holder_name]" value="{{ $bank['holder_name'] ?? '' }}" placeholder="Holder Name" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
+                                <input type="text" name="banking_info[{{ $index }}][mobile_holder_name]" value="{{ $bank['mobile_holder_name'] ?? '' }}" placeholder="Holder Name" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
                             </div>
 
                             <button type="button" onclick="this.parentElement.remove()" class="px-3 py-2 bg-red-50 text-red-600 border border-red-200 rounded-lg hover:bg-red-100 transition mt-2 w-full sm:w-auto">Remove</button>
@@ -150,15 +150,15 @@ function addBankField() {
             <option value="Mobile Bank">Mobile Bank</option>
         </select>
         <div class="bank-fields">
-            <input type="text" name="banking_info[${index}][account_no]" placeholder="Account No" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
+            <input type="text" name="banking_info[${index}][bank_account_no]" placeholder="Account No" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
             <input type="text" name="banking_info[${index}][bank_name]" placeholder="Bank Name" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
-            <input type="text" name="banking_info[${index}][holder_name]" placeholder="Holder Name" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
+            <input type="text" name="banking_info[${index}][bank_holder_name]" placeholder="Holder Name" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
             <input type="text" name="banking_info[${index}][branch]" placeholder="Branch" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
         </div>
         <div class="mobile-bank-fields" style="display:none;">
-            <input type="text" name="banking_info[${index}][account_no]" placeholder="Account Number" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
+            <input type="text" name="banking_info[${index}][mobile_account_no]" placeholder="Account Number" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
             <input type="text" name="banking_info[${index}][mobile_type]" placeholder="Type (bKash / Nagad)" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
-            <input type="text" name="banking_info[${index}][holder_name]" placeholder="Holder Name" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
+            <input type="text" name="banking_info[${index}][mobile_holder_name]" placeholder="Holder Name" class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 text-slate-900 mt-2">
         </div>
         <button type="button" onclick="this.parentElement.remove()" class="px-3 py-2 bg-red-50 text-red-600 border border-red-200 rounded-lg hover:bg-red-100 transition mt-2 w-full sm:w-auto">Remove</button>
     `;
