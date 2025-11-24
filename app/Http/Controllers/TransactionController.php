@@ -58,32 +58,45 @@ class TransactionController extends Controller
 
     //status uptadate function
 
-    public function status(Request $request, $id)
-    {
-        // Validate the input
-        $request->validate([
-            'status' => 'required|in:1,2', // 1=Approved, 2=Rejected
-            'reason' => 'nullable|string|max:500',
-        ]);
+public function status(Request $request, $id)
+{
+    $request->validate([
+        'status' => 'required|in:1,2',
+        'reason' => 'nullable|string|max:500',
+    ]);
 
-        // Find the transaction
-        $transaction = Transaction::findOrFail($id);
+    $transaction = Transaction::findOrFail($id);
 
-        // Only update if status is pending (0)
-        if ($transaction->status != 0) {
-            return redirect()->back()->with('error', 'This transaction has already been verified.');
-        }
-
-        // Update the transaction
-        $transaction->status = $request->status;
-        $transaction->reason_for_rejection = $request->status == 2 ? $request->reason : null;
-        $transaction->verified_by = Auth::id();
-        $transaction->verified_at = now();
-        $transaction->save();
-
-        // Redirect back with success message
-        return redirect()-> route('communities',$transaction->community->id)->with('success', 'Transaction status updated successfully.');
+    if ($transaction->status != 0) {
+        return redirect()->back()->with('error', 'This transaction has already been verified.');
     }
+
+    // Update transaction status first
+    $transaction->status = $request->status;
+    $transaction->reason_for_rejection = $request->status == 2 ? $request->reason : null;
+    $transaction->verified_by = Auth::id();
+    $transaction->verified_at = now();
+    $transaction->save();
+
+    // ONLY RUN WHEN APPROVED
+    if ($request->status == 1) {
+
+        // Update Member table
+        $member = $transaction->member; // Relationship must exist (belongsTo)
+        $member->last_payment = $transaction->amount;
+        $member->total_amount += $transaction->amount;
+        $member->save();
+
+        // Update Community table
+        $community = $transaction->community; // Relationship must exist (belongsTo)
+        $community->total_amount += $transaction->amount;
+        $community->save();
+    }
+
+    return redirect()
+        ->route('communities', $transaction->community->id)
+        ->with('success', 'Transaction status updated successfully.');
+}
 
 
 }

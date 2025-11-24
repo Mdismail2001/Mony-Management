@@ -328,7 +328,7 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 text-sm text-slate-400">
-                                    {{ $member->last_payment ? \Carbon\Carbon::parse($member->last_payment)->format('M d, Y') : '—' }}
+                                    {{ $member->last_payment ? $member->last_payment : "00" }}
                                 </td>
                                 <td class="px-6 py-4 text-sm font-semibold text-emerald-400">
                                     ${{ number_format($member->total_amount ?? 0, 2) }}
