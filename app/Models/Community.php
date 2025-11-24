@@ -30,5 +30,11 @@ class Community extends Model
             ->withTimestamps();
     }
 
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+
 
 }

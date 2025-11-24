@@ -153,26 +153,39 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-800">
-                        {{-- @forelse($community->members as $index => $member) --}}
+                        @forelse($community->transactions as $index => $transaction)
                             <tr class="hover:bg-slate-800/50 transition-colors">
-                                <td class="px-6 py-4 text-sm text-white font-medium"></td>
+                                <td class="px-6 py-4 text-sm text-white font-medium">{{$index + 1}}</td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-3">
                                         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center flex-shrink-0 shadow-lg shadow-emerald-500/20">
                                             <span class="text-sm font-semibold text-white">
+                                                {{ strtoupper(substr($transaction->member->user->name, 0, 1)) }}
                                             </span>
                                         </div>
-                                        <span class="text-sm font-medium text-white"></span>
+                                        <span class="text-sm font-medium text-white">{{$transaction->member->user->name}}</span>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-slate-400"></td>
+                                <td class="px-6 py-4 text-sm text-slate-400">{{ number_format($transaction->amount, 2) }}</td>
                                 <td class="px-6 py-4">
-                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium" >
+                                    <span class=" text-xs font-medium text-white ">
+                                        {{ \Carbon\Carbon::createFromFormat('Y-m', $transaction->month)->format('F Y') }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-slate-400">
+                                <td class="px-6 py-4 text-sm text-white">
+                                    {{ \Carbon\Carbon::parse($transaction->date)->format('d M Y') }}
                                 </td>
-                                <td class="px-6 py-4 text-sm font-semibold text-emerald-400">
+                                <td class="px-6 py-4 text-sm font-semibold
+                                    {{ $transaction->status == 1 ? 'text-emerald-400' : ($transaction->status == 2 ? 'text-red-400' : 'text-yellow-400') }}">
+                                    
+                                    @if ($transaction->status == 1)
+                                        Approved
+                                    @elseif ($transaction->status == 2)
+                                        Rejected
+                                    @else
+                                        Pending
+                                    @endif
+
                                 </td>
                                 @if ($loggedUserRole === 'leader')
                                 <td class="px-6 py-4">
@@ -208,7 +221,7 @@
                                 </td>
                                 @endif
                             </tr>
-                        {{-- @empty --}}
+                        @empty
                             <tr>
                                 <td colspan="7" class="px-6 py-12 text-center">
                                     <div class="flex flex-col items-center gap-3">
@@ -231,7 +244,7 @@
                                     </div>
                                 </td>
                             </tr>
-                        {{-- @endforelse --}}
+                        @endforelse
                     </tbody>
                 </table>
             </div>
