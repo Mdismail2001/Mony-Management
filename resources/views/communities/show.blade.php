@@ -125,7 +125,7 @@
             <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between">
                 <div>
                     <h2 class="text-xl font-bold text-white">Transactions History</h2>
-                    <p class="text-sm text-slate-400 mt-1">total transactions :  </p>
+                    <p class="text-sm text-slate-400 mt-1">total transactions : {{ $community->transactions->count()}}  </p>
                 </div>
                     <a href="{{ route('transactions-form', ['member_id' => $loggedUserMember->id, 'community_id' => $community->id]) }}"
                     class="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-medium rounded-lg hover:from-emerald-600 hover:to-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all shadow-lg shadow-emerald-500/20">
@@ -190,10 +190,30 @@
                                 @if ($loggedUserRole === 'leader')
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-2">
-                                        <!-- View Button -->
-                                        <a href="" 
-                                        class="p-2 bg-slate-800/50 hover:bg-blue-600 rounded-lg transition-all group/view"
-                                        title="View Details">
+                                        {{-- view link --}}
+                                        <a href="{{ route('view-transaction', $transaction->id) }}"
+                                            class="flex items-center gap-2 px-3 py-2 bg-slate-800/60 hover:bg-blue-600 
+                                                border border-slate-700 hover:border-blue-500 rounded-lg transition-all">
+                                            
+                                            <!-- Icon -->
+                                            <svg class="w-4 h-4 text-slate-300 group-hover:text-white transition-colors" 
+                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7
+                                                    -1.274 4.057-5.064 7-9.542 7 -4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+
+                                            <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">
+                                                Views
+                                            </span>
+                                        </a>
+
+                                        {{-- <!-- View Button -->
+                                        <a href="{{ route('view-transaction',$transation->id) }}" 
+                                            class="p-2 bg-slate-800/50 hover:bg-blue-600 rounded-lg transition-all group/view"
+                                            title="View Details">
                                             <svg class="w-4 h-4 text-slate-400 group-hover/view:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -202,11 +222,11 @@
 
                                         <!-- Approve Button -->
                                         <a href="" 
-                                        class="p-2 bg-slate-800/50 hover:bg-green-600 rounded-lg transition-all group/approve"
-                                        title="Approve">
-                                            <svg class="w-4 h-4 text-slate-400 group-hover/approve:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                            </svg>
+                                            class="p-2 bg-slate-800/50 hover:bg-green-600 rounded-lg transition-all group/approve"
+                                            title="Approve">
+                                                <svg class="w-4 h-4 text-slate-400 group-hover/approve:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                </svg>
                                         </a>
 
                                         <!-- Reject Button -->
@@ -216,7 +236,7 @@
                                             <svg class="w-4 h-4 text-slate-400 group-hover/reject:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                             </svg>
-                                        </button>
+                                        </button> --}}
                                     </div>
                                 </td>
                                 @endif

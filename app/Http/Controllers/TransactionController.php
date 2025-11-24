@@ -47,5 +47,43 @@ class TransactionController extends Controller
         return redirect()->route('communities', $request->community_id)->with('success', 'Transaction submitted for approval.');
     }
 
+    // view transaction details
+    public function view(Request $request, $id)
+    {
+        // Find the transaction by ID
+        $transaction = Transaction::with(['member', 'community', 'verifiedBy'])->findOrFail($id);
+        // Pass it to the Blade view
+        return view('transactions.view', compact('transaction'));
+    }
+
+    //status uptadate function
+
+    public function status(Request $request, $id)
+    {
+        // Validate the input
+        $request->validate([
+            'status' => 'required|in:1,2', // 1=Approved, 2=Rejected
+            'reason' => 'nullable|string|max:500',
+        ]);
+
+        // Find the transaction
+        $transaction = Transaction::findOrFail($id);
+
+        // Only update if status is pending (0)
+        if ($transaction->status != 0) {
+            return redirect()->back()->with('error', 'This transaction has already been verified.');
+        }
+
+        // Update the transaction
+        $transaction->status = $request->status;
+        $transaction->reason_for_rejection = $request->status == 2 ? $request->reason : null;
+        $transaction->verified_by = Auth::id();
+        $transaction->verified_at = now();
+        $transaction->save();
+
+        // Redirect back with success message
+        return redirect()-> route('communities',$transaction->community->id)->with('success', 'Transaction status updated successfully.');
+    }
+
 
 }

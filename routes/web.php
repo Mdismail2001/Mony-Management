@@ -47,3 +47,5 @@ Route::post('/invite/register', [MembersController::class, 'processInviteRegistr
 // transactions routes
 Route::get('/transactionsForm', [TransactionController::class, 'showForm'])->name('transactions-form');
 Route::post('/store-transaction', [TransactionController::class, 'store'])->name('store-transaction');
+Route::get('/view-transaction/{id}', [TransactionController::class, 'view'])->name('view-transaction');
+Route::put('/status-update/{id}' , [TransactionController::class, 'status'])->name('status-update');
