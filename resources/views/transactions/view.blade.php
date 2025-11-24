@@ -7,10 +7,15 @@
 <div class="max-w-5xl mx-auto p-6">
 
     <!-- Back Button -->
-    <a href="{{ route('communities',$transaction->community->id) }}" 
-       class="inline-flex items-center gap-2 text-sm mb-4 text-slate-600 hover:text-slate-800 transition">
-        ⬅ Back
-    </a>
+    <div class="mb-6">
+        <a href="{{ route('communities',$transaction->community->id) }}"
+            class="inline-flex items-center gap-2 text-slate-600 hover:text-emerald-400 transition-colors group">
+            <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            <span class="text-sm font-medium">Back to Community</span>
+        </a>
+    </div>
 
     <!-- Header -->
     <div class="mb-6">
