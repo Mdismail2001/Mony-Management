@@ -1,5 +1,5 @@
 @props(['user' => null, 'menuItems' => []])
-<header class="fixed top-0 left-0 right-0 z-50 h-16 bg-slate-900/80 backdrop-blur-lg border-b border-slate-700/50 text-white shadow-lg">
+<header class="fixed top-0 left-0 right-0 z-50 h-16 bg-white border-b border-slate-200 shadow-lg">
     <div class="flex justify-between items-center px-4 sm:px-6 lg:px-8 h-full">
         <!-- Logo & Brand -->
         <div class="flex items-center space-x-3">
@@ -17,11 +17,11 @@
         <div class="flex items-center space-x-2 sm:space-x-6">
             @isset($user)
                 <!-- User Info -->
-                <div class="hidden sm:flex items-center space-x-3 px-3 py-1 rounded-lg bg-slate-800/50 backdrop-blur-sm border border-slate-700/50">
+                <div class="hidden sm:flex items-center space-x-3 px-3 py-1 rounded-lg bg-white border border-slate-200 shadow-sm">
                     <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-sm sm:text-base font-semibold shadow-lg">
                         {{ strtoupper(substr($user->name ?? 'G', 0, 1)) }}
                     </div>
-                    <span class="text-sm sm:text-base font-semibold text-white">{{ $user->name ?? 'Guest' }}</span>
+                    <span class="text-sm sm:text-base font-semibold text-slate-800">{{ $user->name ?? 'Guest' }}</span>
                 </div>
 
                 <!-- Mobile initials only -->
@@ -33,7 +33,7 @@
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit"
-                        class="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-1 sm:py-2 rounded-lg bg-slate-800/50 hover:bg-red-500/20 text-slate-300 hover:text-red-400 border border-slate-700/50 hover:border-red-500/50 text-sm sm:text-base font-medium transition-all duration-200">
+                        class="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-1 sm:py-2 rounded-lg bg-white hover:bg-red-50 text-slate-800 hover:text-red-600 border border-slate-200 hover:border-red-300 text-sm sm:text-base font-medium transition-all duration-200">
                         <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                         </svg>
@@ -41,7 +41,7 @@
                     </button>
                 </form>
             @else
-                <span class="px-3 py-1 text-sm rounded-lg bg-slate-800/30">Guest</span>
+                <span class="px-3 py-1 text-sm rounded-lg bg-white border border-slate-200 shadow-sm text-slate-800">Guest</span>
             @endisset
         </div>
     </div>

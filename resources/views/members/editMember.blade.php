@@ -139,7 +139,7 @@
                             <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
                                 <p class="text-xs text-slate-500">Last Payment</p>
                                 <p class="text-lg font-semibold text-white mt-1">
-                                    {{ $member->last_payment ? \Carbon\Carbon::parse($member->last_payment)->format('M d, Y') : 'Never' }}
+                                    {{ $member->last_payment ? $member->last_payment  : '0' }}
                                 </p>
                             </div>
                             <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
