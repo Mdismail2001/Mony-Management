@@ -16,19 +16,30 @@
         <!-- User Section -->
         <div class="flex items-center space-x-2 sm:space-x-6">
             @isset($user)
-                <!-- User Info -->
-                <div class="hidden sm:flex items-center space-x-3 px-3 py-1 rounded-lg bg-white border border-slate-200 shadow-sm">
-                    <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-sm sm:text-base font-semibold shadow-lg">
-                        {{ strtoupper(substr($user->name ?? 'G', 0, 1)) }}
-                    </div>
+            <!-- User Info (Desktop) -->
+            <div class="hidden sm:flex items-center space-x-3 px-3 py-1 rounded-lg bg-white border border-slate-200 shadow-sm cursor-pointer hover:bg-slate-100 transition">
+                <a href="{{ route('profile')}}" class="flex items-center space-x-3">
+                    <!-- User Icon / Initials -->
+                    @if($user->profile_photo_path)
+                        <img src="{{ asset('storage/' . $user->profile_photo_path) }}" 
+                            alt="{{ $user->name }}" 
+                            class="w-6 h-6 sm:w-8 sm:h-8 rounded-full object-cover shadow-lg">
+                    @else
+                        <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-sm sm:text-base font-semibold shadow-lg">
+                            {{ strtoupper(substr($user->name ?? 'G', 0, 1)) }}
+                        </div>
+                    @endif
+
                     <span class="text-sm sm:text-base font-semibold text-slate-800">{{ $user->name ?? 'Guest' }}</span>
-                </div>
+                </a>
+            </div>
 
-                <!-- Mobile initials only -->
-                <div class="sm:hidden flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-semibold shadow-lg">
+            <!-- Mobile initials -->
+            <div class="sm:hidden flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-semibold shadow-lg cursor-pointer hover:opacity-80 transition">
+                <a href="{{ route('profile')}}">
                     {{ strtoupper(substr($user->name ?? 'G', 0, 1)) }}
-                </div>
-
+                </a>
+            </div>
                 <!-- Logout Button -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
