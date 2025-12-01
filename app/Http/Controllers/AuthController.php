@@ -100,6 +100,11 @@ class AuthController extends Controller
         return redirect()->back()->with('success', 'User created successfully with default password (12345).');
     }
 
+    // Profile 
+    public function profile(Request $request)
+    {
+        return view ('auth.profile');
+    }
 
 }
 

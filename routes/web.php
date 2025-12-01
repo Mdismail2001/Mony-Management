@@ -20,6 +20,9 @@ Route::post('/create-user', [AuthController::class, 'createUserByAdmin'])->name(
 // Dashboard routes
 Route::get('/Dashboard', [DashboardController::class, 'Dashboard'])->name('Dashboard');
 
+// profile update
+Route::get('/profile', [AuthController::class, 'profile']) -> name('profile');
+
 // Logout route
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 

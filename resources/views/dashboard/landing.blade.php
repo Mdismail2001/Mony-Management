@@ -42,7 +42,7 @@
                 @endif
 
                 <a href="{{ route('community-create') }}"
-                   class="mt-4 lg:mt-0 inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl font-medium hover:bg-emerald-500 transition-all shadow-md">
+                    class="mt-4 lg:mt-0 inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-xl font-medium hover:opacity-90 transition-all shadow-md">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
@@ -74,7 +74,7 @@
                     
                     <a href="{{ $card['route'] ?? '#' }}" class="group relative bg-gray-100 border border-gray-200 rounded-2xl p-6 hover:shadow-lg transition-all">
                         <div class="flex items-center justify-between mb-4">
-                            <div class="p-3 bg-emerald-600 rounded-xl flex items-center justify-center w-12 h-12">
+                        <div class="p-3 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center w-12 h-12 shadow-md">
                                 <span class="text-white text-xl font-bold">
                                     {{ strtoupper(substr($card['title'], 0, 1)) }}
                                 </span>
