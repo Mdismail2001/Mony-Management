@@ -94,16 +94,50 @@ class AuthController extends Controller
             'email' => $validated['email'],
             'phone_number' => $validated['phone_number'],
             'role' => $validated['role'],
-            'password' => Hash::make('12345'), // default password
+            'password' => Hash::make('123456'), // default password
         ]);
 
-        return redirect()->back()->with('success', 'User created successfully with default password (12345).');
+        return redirect()->back()->with('success', 'User created successfully with default password (123456).');
     }
 
     // Profile 
     public function profile(Request $request)
     {
         return view ('auth.profile');
+    }
+
+    // profile update
+    public function profileUpdate(Request $request)
+    {
+        // dd($request ->all);
+        $user = Auth::user(); // get currently logged-in user
+
+        // Validate input
+        $request->validate([
+            'name'  => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // optional
+        ]);
+
+        // Update name and email
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        // If a new profile photo is uploaded
+        if ($request->hasFile('photo')) {
+            // Delete old photo if exists
+            if ($user->profile_photo_path) {
+                Storage::delete('public/' . $user->profile_photo_path);
+            }
+
+            // Store new photo
+            $path = $request->file('photo')->store('profile-photos', 'public');
+            $user->photo = $path;
+        }
+
+        $user->save();
+
+        return redirect()->route('Dashboard')->with('success', 'Profile updated successfully!');
     }
 
 }

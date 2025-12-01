@@ -18,10 +18,11 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/create-user', [AuthController::class, 'createUserByAdmin'])->name('create-user');
 // Dashboard routes
-Route::get('/Dashboard', [DashboardController::class, 'Dashboard'])->name('Dashboard');
+Route::get('/dashboard', [DashboardController::class, 'Dashboard'])->name('Dashboard');
 
 // profile update
 Route::get('/profile', [AuthController::class, 'profile']) -> name('profile');
+Route::post('/profileUpdate', [AuthController::class, 'profileUpdate']) -> name('profileUpdate');
 
 // Logout route
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

@@ -12,7 +12,7 @@
                 MMS
             </h1>
         </div>
-
+        
         <!-- User Section -->
         <div class="flex items-center space-x-2 sm:space-x-6">
             @isset($user)
@@ -20,8 +20,8 @@
             <div class="hidden sm:flex items-center space-x-3 px-3 py-1 rounded-lg bg-white border border-slate-200 shadow-sm cursor-pointer hover:bg-slate-100 transition">
                 <a href="{{ route('profile')}}" class="flex items-center space-x-3">
                     <!-- User Icon / Initials -->
-                    @if($user->profile_photo_path)
-                        <img src="{{ asset('storage/' . $user->profile_photo_path) }}" 
+                    @if($user->photo)
+                        <img src="{{ asset('storage/' . $user->photo) }}" 
                             alt="{{ $user->name }}" 
                             class="w-6 h-6 sm:w-8 sm:h-8 rounded-full object-cover shadow-lg">
                     @else
