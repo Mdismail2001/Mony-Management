@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
-<div class="min-h-screen bg-white py-10 px-4 sm:px-6 lg:px-8">
+<div class="min-h-screen bg-white py-8 px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl mx-auto">
         <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">

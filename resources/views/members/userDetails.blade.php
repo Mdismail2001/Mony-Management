@@ -19,11 +19,25 @@
 
         {{-- Page Header with User Avatar --}}
         <div class="mb-8 flex items-center gap-6">
-            <div class="w-24 h-24 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg">
-                <span class="text-4xl font-bold text-white">
-                    {{ strtoupper(substr($member->user->name ?? 'U', 0, 1)) }}
-                </span>
+            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-md overflow-hidden">
+                 @if($member->user->photo)
+                    <!-- Show user photo filling the entire circle -->
+                        <img src="{{ asset('storage/' . $member->user->photo) }}" 
+                        alt="{{ $member->user->name }}" 
+                    class="w-full h-full object-cover">
+                @else
+                    <!-- Show default user icon -->
+                    <div class="w-full h-full flex items-center justify-center bg-gray-400 text-white text-2xl font-bold">
+                        <svg xmlns="http://www.w3.org/2000/svg" 
+                            class="w-10 h-10" 
+                            fill="currentColor" 
+                            viewBox="0 0 24 24">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                    </div>
+                @endif
             </div>
+
             <div>
                 <h1 class="text-4xl font-bold text-gray-800 mb-2">
                     {{ $member->user->name }}
