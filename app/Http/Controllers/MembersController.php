@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class MembersController extends Controller
 {
@@ -185,16 +186,16 @@ class MembersController extends Controller
 
 
     // Show member details in a community
-        public function memberDetails($id)
-        {
-            $member = Member::with(['user', 'community'])->findOrFail($id);
-            // dd($member);
-            return view('members.userDetails', [
-                // 'showHeader' => true,
-                // 'showSidebar' => true,
-                'member' => $member,
-            ]);
-        }
+    public function memberDetails($id)
+    {
+        $member = Member::with(['user', 'community'])->findOrFail($id);
+        // dd($member);
+        return view('members.userDetails', [
+            // 'showHeader' => true,
+            // 'showSidebar' => true,
+            'member' => $member,
+        ]);
+    }
 
     // Edit member details
     public function editform(Request $request, $id)
@@ -208,31 +209,31 @@ class MembersController extends Controller
     }
 
     // Update member details
-public function updateMember(Request $request, $id)
-{
-    $request->validate([
-        'role' => 'required',
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|max:255',
-        'phone_number' => 'required',
-    ]);
+    public function updateMember(Request $request, $id)
+    {
+        $request->validate([
+            'role' => 'required',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone_number' => 'required',
+        ]);
 
-    // Fetch member
-    $member = Member::findOrFail($id);
+        // Fetch member
+        $member = Member::findOrFail($id);
 
-    // Update role from members table
-    $member->role = $request->role;
-    $member->save();
+        // Update role from members table
+        $member->role = $request->role;
+        $member->save();
 
-    // Update user info from users table
-    $user = User::findOrFail($member->user_id);
-    $user->name = $request->name;
-    $user->email = $request->email;
-    $user->phone_number = $request->phone_number;
-    $user->save();
+        // Update user info from users table
+        $user = User::findOrFail($member->user_id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone_number = $request->phone_number;
+        $user->save();
 
-    return redirect()->route('communities', $member->community_id)->with('success', 'Member updated successfully!');
-}
+        return redirect()->route('communities', $member->community_id)->with('success', 'Member updated successfully!');
+    }
 
     // Delete member
     public function deleteMember($id)
@@ -245,5 +246,58 @@ public function updateMember(Request $request, $id)
                          ->with('success', 'Member deleted successfully!');
     }
 
+    // // All Member show function
+    public function allMembers(Request $request)
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Session expired. Please login again.');
+        }
+        // for filtering 
+        $search = $request->input('search');
+
+        // Fetch members info with joined users and communities
+        $members = DB::table('members')
+            ->join('users', 'members.user_id', '=', 'users.id')
+            ->join('communities', 'members.community_id', '=', 'communities.id')
+            ->select(
+                'users.name as member_name',
+                'users.phone_number',
+                'users.photo',
+                'communities.name as community_name',
+                'members.last_payment',
+                'members.updated_at as last_activity',
+
+            )
+            ->whereIn(
+                'members.community_id',
+                $user->communities()->pluck('communities.id')
+            )
+            // for Filtering 
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('users.name', 'LIKE', "%{$search}%")
+                    ->orWhere('communities.name', 'LIKE', "%{$search}%");
+                });
+            })
+
+            ->orderBy('members.updated_at', 'desc')
+            ->get();
+
+        // dd($members);
+        // Render the view with the members data
+
+        return view('members.allMembers', [
+            'showHeader' => true,
+            'showSidebar' => true,
+            'members' => $members,
+        ]);
+    }
+
 
 }
+
+
+
+

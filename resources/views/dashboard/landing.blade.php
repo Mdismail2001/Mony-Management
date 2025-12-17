@@ -91,7 +91,7 @@
             </section>
           
             <!-- Charts Section -->
-            <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            {{-- <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div class="bg-white border border-gray-200 rounded-2xl p-6">
                     <div class="flex items-center justify-between mb-6">
                         <div>
@@ -126,9 +126,9 @@
                     @endforeach
                 </div>
             </section>
-
+ --}}
             <!-- Recent Activities -->
-            <section class="bg-white border border-gray-200 rounded-2xl p-6">
+            {{-- <section class="bg-white border border-gray-200 rounded-2xl p-6">
                 <div class="flex items-center justify-between mb-6">
                     <div>
                         <h3 class="text-lg font-semibold text-gray-800 mb-1">Recent User Activities</h3>
@@ -180,7 +180,7 @@
                         </tbody>
                     </table>
                 </div>
-            </section>
+            </section> --}}
         </main>
     </div>
 </div>

@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/edit-member/{id}', [MembersController::class, 'editform'])->name('edit-member');
     Route::put('/update-member/{id}', [MembersController::class, 'updateMember'])->name('update-member');
     Route::get('/delete-member/{id}', [MembersController::class, 'deleteMember'])->name('delete-member');
+    Route::get('/all-members', [MembersController::class, 'allMembers'])->name('all-members');
 
     /*
     |--------------------------------------------------------------------------
@@ -78,4 +79,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/store-transaction', [TransactionController::class, 'store'])->name('store-transaction');
     Route::get('/view-transaction/{id}', [TransactionController::class, 'view'])->name('view-transaction');
     Route::put('/status-update/{id}', [TransactionController::class, 'status'])->name('status-update');
+    Route::get('/all-transactions', [TransactionController::class, 'allTransactions'])->name('all-transactions');
 });

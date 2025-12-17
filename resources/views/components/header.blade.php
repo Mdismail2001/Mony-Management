@@ -35,13 +35,21 @@
             </div>
 
             <!-- Mobile initials -->
-            <div class="sm:hidden flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-semibold shadow-lg cursor-pointer hover:opacity-80 transition">
+            <div class="sm:hidden flex items-center justify-center  rounded-full  text-white font-semibold shadow-lg cursor-pointer hover:opacity-80 transition">
                 <a href="{{ route('profile')}}">
-                    {{ strtoupper(substr($user->name ?? 'G', 0, 1)) }}
+                    @if($user->photo)
+                        <img src="{{ asset('storage/' . $user->photo) }}" 
+                            alt="{{ $user->name }}" 
+                            class="w-8 h-8 sm:w-8 sm:h-8 rounded-full object-cover shadow-lg">
+                    @else
+                    <div class="w-8 h-8 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-sm sm:text-base font-semibold shadow-lg">
+                        {{ strtoupper(substr($user->name ?? 'G', 0, 1)) }}
+                    </div>
+                    @endif
                 </a>
             </div>
                 <!-- Logout Button -->
-                <form method="POST" action="{{ route('logout') }}">
+                <form method="POST" action="{{ route('logout') }}" class="block sm:hidden">
                     @csrf
                     <button type="submit"
                         class="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-1 sm:py-2 rounded-lg bg-white hover:bg-red-50 text-slate-800 hover:text-red-600 border border-slate-200 hover:border-red-300 text-sm sm:text-base font-medium transition-all duration-200">
