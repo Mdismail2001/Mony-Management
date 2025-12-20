@@ -27,7 +27,7 @@
             <span class="font-medium">All Members</span>
         </a>
 
-        <a href="#"            
+        <a href="{{ route('all-transactions') }}"            
             class="group flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200
             {{ request()->routeIs('all-transactions') ? $activeClass : $inactiveClass }}">
 

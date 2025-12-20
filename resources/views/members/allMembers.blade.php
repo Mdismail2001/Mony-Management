@@ -19,22 +19,20 @@
         <main class="flex-1 overflow-y-auto p-6 lg:p-8 {{ (!empty($showSidebar) && $showSidebar) ? 'lg:ml-64' : '' }}">
             <div class="bg-white rounded-xl shadow border border-slate-200 overflow-hidden">
                 <!-- Table Header -->
-<div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
-    <h2 class="text-lg font-semibold text-slate-800">All Members</h2>
+                <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+                    <h2 class="text-lg font-semibold text-slate-800">All Members</h2>
 
-    <!-- Search -->
-    <form method="GET" action="{{ route('all-members') }}">
-        <input
-            type="text"
-            name="search"
-            value="{{ request('search') }}"
-            placeholder="Search member or community..."
-            class="w-56 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-        >
-    </form>
-</div>
-
-
+                    <!-- Search -->
+                    <form method="GET" action="{{ route('all-members') }}">
+                        <input
+                            type="text"
+                            name="search"
+                            value="{{ request('search') }}"
+                            placeholder="Search member or community..."
+                            class="w-56 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                        >
+                    </form>
+                </div>
                 <!-- Table -->
                 <div class="overflow-x-auto">
                     <table class="min-w-full text-sm">
