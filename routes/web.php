@@ -75,8 +75,10 @@ Route::middleware('auth')->group(function () {
     | Transactions
     |--------------------------------------------------------------------------
     */
-    Route::get('/transactionsForm', [TransactionController::class, 'showForm'])->name('transactions-form');
+    Route::get('/transactions-Form', [TransactionController::class, 'showForm'])->name('transactions-form');
     Route::post('/store-transaction', [TransactionController::class, 'store'])->name('store-transaction');
+    Route::get('/transaction-edit-form/{id}', [TransactionController::class, 'transactionEditForm'])->name('transaction-edit-form');
+    Route::put('/transaction-update/{id}', [TransactionController::class, 'transactionUpdate'])->name('transaction-update');
     Route::get('/view-transaction/{id}', [TransactionController::class, 'view'])->name('view-transaction');
     Route::put('/status-update/{id}', [TransactionController::class, 'status'])->name('status-update');
     Route::get('/all-transactions', [TransactionController::class, 'allTransactions'])->name('all-transactions');

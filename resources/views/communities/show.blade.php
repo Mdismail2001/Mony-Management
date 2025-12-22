@@ -130,7 +130,7 @@
                     <p class="text-sm text-gray-500 mt-1">Total transactions: {{ $community->transactions->count() }}</p>
                 </div>
                 <a href="{{ route('transactions-form', ['member_id' => $loggedUserMember->id, 'community_id' => $community->id]) }}"
-                class="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-medium rounded-lg hover:from-emerald-600 hover:to-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all shadow">
+                    class="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-medium rounded-lg hover:from-emerald-600 hover:to-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all shadow">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                     </svg>
@@ -149,9 +149,7 @@
                             <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Month</th>
                             <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Date</th>
                             <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
-                            @if($loggedUserRole === 'leader')
-                                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
-                            @endif
+                            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
@@ -175,18 +173,32 @@
                                     @else Pending
                                     @endif
                                 </td>
-                                @if($loggedUserRole === 'leader')
                                 <td class="px-4 py-3">
-                                    <a href="{{ route('view-transaction', $transaction->id) }}"
-                                    class="inline-flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-blue-500 text-gray-800 hover:text-white rounded-lg border border-gray-200 hover:border-blue-500 transition-all text-sm">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                        </svg>
-                                        View
-                                    </a>
+                                    @if($loggedUserRole === 'leader')
+                                        {{-- Leader: View --}}
+                                        <a href="{{ route('view-transaction', $transaction->id) }}"
+                                            class="inline-flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-blue-500
+                                                text-gray-800 hover:text-white rounded-lg border border-gray-200
+                                                hover:border-blue-500 transition-all text-sm">
+                                            View
+                                        </a>
+
+                                    @elseif(
+                                        $transaction->status != 1 &&
+                                        $transaction->member->user_id === auth()->id()
+                                    )
+                                        {{-- Member: Edit only own & not approved --}}
+                                        <a href="{{ route('transaction-edit-form',$transaction->id) }}"
+                                            class="inline-flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-blue-500
+                                                text-gray-800 hover:text-white rounded-lg border border-gray-200
+                                                hover:border-blue-500 transition-all text-sm">
+                                            Edit
+                                        </a>
+                                    @else
+                                        {{-- No action --}}
+                                        <span class="text-gray-400 text-sm">—</span>
+                                    @endif
                                 </td>
-                                @endif
                             </tr>
                         @empty
                             <tr>
