@@ -83,56 +83,64 @@
                 </div>
             @endif
 
-{{-- Member Notices --}}
-@if ($loggedUserRole !== 'leader' && !empty($showNotices))
-    <div class="relative w-full sm:w-[460px] bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 overflow-hidden">
+            {{-- Member Notices --}}
+            @if ($loggedUserRole !== 'leader' && !empty($showNotices))
+                <div class="relative w-full sm:w-[460px]  overflow-hidden">
 
-        <div class="space-y-1">
-            @foreach ($showNotices as $notice)
-                @php
-                    $textColor = match ($notice['type']) {
-                        'warning' => 'text-red-600',
-                        'deposit' => 'text-yellow-700',
-                        'info'    => 'text-green-600',
-                        default   => 'text-gray-700',
-                    };
+                    <div class="space-y-1">
+                        @foreach ($showNotices as $notice)
+                            @php
+                                $textColor = match ($notice['type']) {
+                                    'warning' => 'text-red-600',
+                                    'deposit' => 'text-yellow-700',
+                                    'info'    => 'text-green-600',
+                                    default   => 'text-gray-700',
+                                };
 
-                    $badgeColor = match ($notice['type']) {
-                        'warning' => 'bg-red-100 text-red-700',
-                        'deposit' => 'bg-yellow-100 text-yellow-700',
-                        'info'    => 'bg-green-100 text-green-700',
-                        default   => 'bg-gray-100 text-gray-700',
-                    };
-                @endphp
+                                $badgeColor = match ($notice['type']) {
+                                    'warning' => 'bg-red-100 text-red-700',
+                                    'deposit' => 'bg-yellow-100 text-yellow-700',
+                                    'info'    => 'bg-green-100 text-green-700',
+                                    default   => 'bg-gray-100 text-gray-700',
+                                };
+                            @endphp
 
-                <div class="flex items-center justify-between gap-2">
+                            <div class="flex items-center justify-between gap-2">
 
-                    {{-- Marquee Message --}}
-                    <div class="relative overflow-hidden flex-1">
-                        <div class="animate-marquee whitespace-nowrap text-sm font-medium {{ $textColor }}">
-                            • {{ $notice['message'] }}
-                        </div>
-                    </div>
+                                {{-- Marquee Message --}}
+                                <div class="relative overflow-hidden flex-1">
+                                    <div class="animate-marquee whitespace-nowrap text-sm font-medium {{ $textColor }}">
+                                        • {{ $notice['message'] }}
+                                    </div>
+                                </div>
 
-                    {{-- Right Fixed Badge --}}
-                    <div class="flex-shrink-0">
-                        @if ($notice['type'] === 'deposit' && !empty($notice['due_date']))
-                            <span class="text-xs font-semibold px-2 py-1 rounded {{ $badgeColor }}">
-                                {{ \Carbon\Carbon::parse($notice['due_date'])->format('d M Y') }}
-                            </span>
-                        @else
-                            <span class="text-xs font-semibold uppercase px-2 py-1 rounded {{ $badgeColor }}">
-                                {{ $notice['type'] }}
-                            </span>
-                        @endif
+                                {{-- Right Fixed Badge --}}
+                                <div class="flex-shrink-0 w-24 flex justify-center">
+                                    @php
+                                        $badgeText = ($notice['type'] === 'deposit' && !empty($notice['due_date']))
+                                            ? \Carbon\Carbon::parse($notice['due_date'])->format('d M Y')
+                                            : strtoupper($notice['type']);
+                                    @endphp
+
+                                    <span
+                                        class="
+                                            inline-flex items-center justify-center
+                                            w-20 h-6
+                                            text-xs font-semibold
+                                            rounded-lg
+                                            {{ $badgeColor }}
+                                        "
+                                    >
+                                        {{ $badgeText }}
+                                    </span>
+                                </div>
+
+                            </div>
+                        @endforeach
                     </div>
 
                 </div>
-            @endforeach
-        </div>
-
-    </div>
-@endif
+            @endif
                 
         </div>
 
