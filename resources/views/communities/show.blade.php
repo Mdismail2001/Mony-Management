@@ -25,7 +25,7 @@
         </div>
 
         {{-- Page Header --}}
-        <div class="mb-8 flex flex-col md:flex-row md:items-start justify-between bg-white p-4 rounded-lg shadow-sm">
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between bg-white p-4 rounded-lg shadow-sm">
             <div class="mb-4 md:mb-0">
                 <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 truncate">{{ $community->name }}</h1>
                 <p class="text-gray-500 text-sm sm:text-base">Manage community details and member information</p>
@@ -50,6 +50,17 @@
             {{-- Action Buttons --}}
             @if ($loggedUserRole === 'leader')
                 <div class="flex flex-wrap gap-2 mt-4 md:mt-0">
+                    <!-- Notice Button -->
+                    <a href="{{ route('community-notice', $community->id) }}" 
+                    class="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-emerald-500 text-gray-800 hover:text-white rounded-lg transition-all border border-gray-300 hover:border-emerald-500"
+                    title="Notice Community">
+                        <svg class="w-5 h-5 text-gray-600 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        <span class="text-sm font-medium">Create Notice</span>
+                    </a>
+
+
                     <!-- Edit Button -->
                     <a href="{{ route('community-edit', $community->id) }}" 
                     class="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-emerald-500 text-gray-800 hover:text-white rounded-lg transition-all border border-gray-300 hover:border-emerald-500"
@@ -71,6 +82,58 @@
                     </button>
                 </div>
             @endif
+
+{{-- Member Notices --}}
+@if ($loggedUserRole !== 'leader' && !empty($showNotices))
+    <div class="relative w-full sm:w-[460px] bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 overflow-hidden">
+
+        <div class="space-y-1">
+            @foreach ($showNotices as $notice)
+                @php
+                    $textColor = match ($notice['type']) {
+                        'warning' => 'text-red-600',
+                        'deposit' => 'text-yellow-700',
+                        'info'    => 'text-green-600',
+                        default   => 'text-gray-700',
+                    };
+
+                    $badgeColor = match ($notice['type']) {
+                        'warning' => 'bg-red-100 text-red-700',
+                        'deposit' => 'bg-yellow-100 text-yellow-700',
+                        'info'    => 'bg-green-100 text-green-700',
+                        default   => 'bg-gray-100 text-gray-700',
+                    };
+                @endphp
+
+                <div class="flex items-center justify-between gap-2">
+
+                    {{-- Marquee Message --}}
+                    <div class="relative overflow-hidden flex-1">
+                        <div class="animate-marquee whitespace-nowrap text-sm font-medium {{ $textColor }}">
+                            • {{ $notice['message'] }}
+                        </div>
+                    </div>
+
+                    {{-- Right Fixed Badge --}}
+                    <div class="flex-shrink-0">
+                        @if ($notice['type'] === 'deposit' && !empty($notice['due_date']))
+                            <span class="text-xs font-semibold px-2 py-1 rounded {{ $badgeColor }}">
+                                {{ \Carbon\Carbon::parse($notice['due_date'])->format('d M Y') }}
+                            </span>
+                        @else
+                            <span class="text-xs font-semibold uppercase px-2 py-1 rounded {{ $badgeColor }}">
+                                {{ $notice['type'] }}
+                            </span>
+                        @endif
+                    </div>
+
+                </div>
+            @endforeach
+        </div>
+
+    </div>
+@endif
+                
         </div>
 
         {{-- Community Stats Cards --}}
@@ -130,7 +193,7 @@
                     <p class="text-sm text-gray-500 mt-1">Total transactions: {{ $community->transactions->count() }}</p>
                 </div>
                 <a href="{{ route('transactions-form', ['member_id' => $loggedUserMember->id, 'community_id' => $community->id]) }}"
-                    class="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-medium rounded-lg hover:from-emerald-600 hover:to-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all shadow">
+                class="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-medium rounded-lg hover:from-emerald-600 hover:to-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all shadow">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                     </svg>
@@ -188,12 +251,13 @@
                                         $transaction->member->user_id === auth()->id()
                                     )
                                         {{-- Member: Edit only own & not approved --}}
-                                        <a href="{{ route('transaction-edit-form',$transaction->id) }}"
+                                        <a href="{{ route('transaction-edit-form', $transaction->id) }}"
                                             class="inline-flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-blue-500
                                                 text-gray-800 hover:text-white rounded-lg border border-gray-200
                                                 hover:border-blue-500 transition-all text-sm">
                                             Edit
                                         </a>
+
                                     @else
                                         {{-- No action --}}
                                         <span class="text-gray-400 text-sm">—</span>

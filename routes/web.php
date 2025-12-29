@@ -56,6 +56,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/community-edit/{id}', [CommunityController::class, 'editForm'])->name('community-edit');
     Route::post('/edit/{id}', [CommunityController::class, 'edit'])->name('edit');
     Route::get('/delete-community/{id}', [CommunityController::class, 'delete'])->name('delete-community');
+    Route::get('/community-notice/{id}', [CommunityController::class, 'noticeForm'])->name('community-notice');
+    Route::post('/notice-store/{id}',[CommunityController::class, 'noticeStore'])->name('notice-store');
 
     /*
     |--------------------------------------------------------------------------
