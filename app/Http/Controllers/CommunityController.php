@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Community;
 use App\Models\Member;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 
 class CommunityController extends Controller
@@ -75,15 +76,21 @@ class CommunityController extends Controller
     {
         $community = Community::with([
             'members.user',
+            'transactions' => function ($query) {
+                $query->whereIn('id', function ($sub) {
+                    $sub->select(DB::raw('MAX(id)'))
+                        ->from('transactions')
+                        ->groupBy('member_id');
+                });
+            },
             'transactions.member.user'
         ])->findOrFail($id);
-
         // Decode notices
         $notices = $community->notice
             ? json_decode($community->notice, true)
             : [];
 
-        $showNotices = []; // 👈 THIS is what blade will use
+        $showNotices = []; //  THIS is what blade will use
 
         if (!auth()->check() || empty($notices)) {
             return view('communities.show', compact('community', 'showNotices'));
@@ -124,7 +131,7 @@ class CommunityController extends Controller
                     ->sortByDesc('created_at')
                     ->first();
 
-                // ❌ Not paid OR wrong amount OR not approved
+                //  Not paid OR wrong amount OR not approved
                 if (
                     !$paymentForMonth ||
                     $paymentForMonth->month !== $noticeMonth ||
