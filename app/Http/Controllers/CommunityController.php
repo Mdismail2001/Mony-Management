@@ -232,30 +232,6 @@ class CommunityController extends Controller
     }
 
     // notice store function
-    // public function noticeStore(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'notice_type'     => 'required|in:deposit,info,warning',
-    //         'notice'          => 'required|string|max:1000',
-    //         'notice_due_date' => 'required|date',
-    //     ]);
-
-    //     $community = Community::findOrFail($id);
-
-    //     $community->notice = json_encode([
-    //         'type'       => $request->notice_type,
-    //         'month'      => $request->notice_month,
-    //         'message'    => $request->notice,
-    //         'due_date'   => Carbon::parse($request->notice_due_date)->format('Y-m-d'),
-    //         'created_at'=> now()->toDateTimeString(),
-    //     ]);
-
-    //     $community->save();
-
-    //     return redirect()
-    //         ->route('communities', $community->id)
-    //         ->with('success', 'Notice published successfully.');
-    // }
     public function noticeStore(Request $request, $id)
     {
         $request->validate([

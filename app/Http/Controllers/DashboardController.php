@@ -30,7 +30,7 @@ class DashboardController extends Controller
             $cards[] = [
                 'title' => $community->name,
                 'value_1' => ' Total Members: ' . $community->members_count,
-                'value_2' => ' Total Funds: $' . number_format($community->total_amount, 2),
+                'value_2' => ' Total Funds: ' . number_format($community->total_amount, 2),
                 'description' => 'Manage ' . $community->name . ' community',
                 'border' => 'border-blue-500',
                 'text_color' => 'text-blue-500',

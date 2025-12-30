@@ -147,7 +147,7 @@
         {{-- Community Stats Cards --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-8">
             {{-- Community Name --}}
-            <div class="bg-white rounded-xl border border-gray-200 p-6 shadow hover:shadow-lg transition-all">
+            <div class="bg-white rounded-xl border border-gray-200 p-6 shadow hover:shadow-lg transition-all hidden lg:block">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-500 mb-1">Community Name</p>
