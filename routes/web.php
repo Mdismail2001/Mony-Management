@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,18 @@ Route::post('/create-user', [AuthController::class, 'createUserByAdmin'])->name(
 // Invite registration (must be public)
 Route::get('/invite/{token}', [MembersController::class, 'showInviteForm'])->name('invite.show');
 Route::post('/invite/register', [MembersController::class, 'processInviteRegistration'])->name('invite.register');
+
+// Forget password 
+Route::get('/forget-password', [ForgotPasswordController::class, 'forgetPasswordForm'])->name('password-request');
+Route::post('/password-otpSend', [ForgotPasswordController::class, 'sendOtp'])->name('password-otpSend');
+Route::get('/otp-verify-from', [ForgotPasswordController::class, 'verifyForm'])->name('otp-verify-from');
+Route::post('/submit-otp', [ForgotPasswordController::class, 'verifyOtp'])->name('submit-otp');
+Route::get('/reset-password-form', [ForgotPasswordController::class, 'resetPasswordForm'])->name('password.reset.form');
+Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword'])->name('reset-password');
+
+
+
+
 
 
 /*

@@ -6,6 +6,13 @@
         <!-- Title -->
         <div class="text-center mb-6">
             <h1 class="text-2xl font-bold text-emerald-700">Login</h1>
+            {{-- Success message --}}
+            @if (session('message'))
+                <p class="text-sm text-green-600 mb-3">
+                    {{ session('message') }}
+                </p>
+            @endif
+
             <p class="text-gray-500 text-sm mt-1">Access your account securely</p>
         </div>
 
@@ -58,7 +65,7 @@
                     />
                     <span class="ml-2 text-gray-600">Remember me</span>
                 </label>
-                <a href="#" class="text-emerald-600 hover:underline">Forgot password?</a>
+                <a href="{{ route('password-request') }}" class="text-emerald-600 hover:underline">Forgot password?</a>
             </div>
 
             <!-- Submit -->
