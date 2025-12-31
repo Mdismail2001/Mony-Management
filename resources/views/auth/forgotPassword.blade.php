@@ -3,106 +3,100 @@
 @section('title', 'Forgot Password')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+<div class="min-h-screen flex items-center justify-center bg-slate-100 p-4">
+    <div class="w-full max-w-md bg-white shadow-xl rounded-2xl p-8"
+         x-data="{ type: 'email' }">
 
         <!-- Header -->
         <div class="text-center mb-6">
-            <h2 class="text-2xl font-bold text-gray-900">Forgot Password</h2>
+            <h1 class="text-2xl font-bold text-emerald-700">
+                Forgot Password
+            </h1>
+
             @if ($errors->has('message'))
                 <p class="text-sm text-red-600 mt-2">
                     {{ $errors->first('message') }}
                 </p>
             @endif
-            <p class="text-sm text-gray-500 mt-1">
-                Recover your account using email or mobile number
+
+            <p class="text-gray-500 text-sm mt-1">
+                Recover your account securely
             </p>
+        </div>
+
+        <!-- Toggle -->
+        <div class="flex bg-gray-100 rounded-xl p-1 mb-6">
+            <button
+                type="button"
+                @click="type = 'email'"
+                :class="type === 'email'
+                    ? 'bg-white shadow text-emerald-600'
+                    : 'text-gray-500'"
+                class="flex-1 py-2 rounded-lg text-sm font-medium transition">
+                Email
+            </button>
+
+            <button
+                type="button"
+                @click="type = 'phone_number'"
+                :class="type === 'phone_number'
+                    ? 'bg-white shadow text-emerald-600'
+                    : 'text-gray-500'"
+                class="flex-1 py-2 rounded-lg text-sm font-medium transition">
+                Mobile
+            </button>
         </div>
 
         <!-- Form -->
         <form method="POST" action="{{ route('password-otpSend') }}" class="space-y-5">
             @csrf
 
-            <!-- Recovery Type -->
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Recovery Method
-                </label>
+            <input type="hidden" name="type" :value="type">
 
-                <div class="flex gap-4">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="type" value="email" checked
-                               class="text-emerald-600 focus:ring-emerald-500">
-                        <span class="text-sm text-gray-700">Email</span>
-                    </label>
-
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="type" value="phone_number"
-                               class="text-emerald-600 focus:ring-emerald-500">
-                        <span class="text-sm text-gray-700">Mobile Number</span>
-                    </label>
-                </div>
-            </div>
-
-            <!-- Email Input -->
-            <div id="emailField">
-                <label class="block text-sm font-medium text-gray-700 mb-1">
+            <!-- Email -->
+            <div x-show="type === 'email'">
+                <label class="block text-sm font-medium text-gray-600 mb-1">
                     Email Address
                 </label>
                 <input
                     type="email"
                     name="email"
                     placeholder="example@email.com"
-                    class="w-full rounded-lg border-gray-300 focus:border-emerald-500 focus:ring-emerald-500"
-                >
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2
+                           focus:outline-none focus:ring-2 focus:ring-emerald-500">
             </div>
 
-            <!-- Mobile Input -->
-            <div id="mobileField" class="hidden">
-                <label class="block text-sm font-medium text-gray-700 mb-1">
+            <!-- Mobile -->
+            <div x-show="type === 'phone_number'">
+                <label class="block text-sm font-medium text-gray-600 mb-1">
                     Mobile Number
                 </label>
                 <input
                     type="text"
                     name="phone_number"
                     placeholder="01XXXXXXXX"
-                    class="w-full rounded-lg border-gray-300 focus:border-emerald-500 focus:ring-emerald-500"
-                >
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2
+                           focus:outline-none focus:ring-2 focus:ring-emerald-500">
             </div>
 
-            <!-- Submit Button -->
+            <!-- Submit -->
             <button
                 type="submit"
-                class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-lg font-semibold transition">
+                class="w-full px-6 py-3 bg-gradient-to-br
+                       from-emerald-500 to-teal-600 text-white
+                       rounded-xl font-medium hover:opacity-90
+                       transition-all shadow-md">
                 Send OTP
             </button>
 
-            <!-- Back to Login -->
+            <!-- Back -->
             <div class="text-center">
-                <a href="{{ route('login') }}" class="text-sm text-emerald-600 hover:underline">
+                <a href="{{ route('login') }}"
+                   class="text-sm text-emerald-600 hover:underline">
                     Back to Login
                 </a>
             </div>
         </form>
     </div>
 </div>
-
-<!-- Toggle Script -->
-<script>
-    const radios = document.querySelectorAll('input[name="type"]');
-    const emailField = document.getElementById('emailField');
-    const mobileField = document.getElementById('mobileField');
-
-    radios.forEach(radio => {
-        radio.addEventListener('change', function () {
-            if (this.value === 'email') {
-                emailField.classList.remove('hidden');
-                mobileField.classList.add('hidden');
-            } else {
-                mobileField.classList.remove('hidden');
-                emailField.classList.add('hidden');
-            }
-        });
-    });
-</script>
 @endsection

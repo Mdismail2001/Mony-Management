@@ -74,7 +74,7 @@ class ForgotPasswordController extends Controller
         ]);
 
         return redirect()->route('otp-verify-from')
-            ->with('message', 'OTP sent successfully');
+            ->with('message', 'OTP sent successfully in your email');
     }
 
     // OTP Submit Page

@@ -40,20 +40,54 @@
             </div>
 
             <!-- Password -->
-            <div>
-                <label for="password" class="block text-sm font-medium text-gray-600 mb-1">Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="••••••••"
-                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    required
-                />
-                @error('password')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
+            <div x-data="{ show: false }">
+                <label class="block text-sm font-medium text-gray-600 mb-1">
+                    Password
+                </label>
+
+                <div class="relative">
+                    <input
+                        :type="show ? 'text' : 'password'"
+                        name="password"
+                        placeholder="••••••••"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2 pr-12
+                            focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        required
+                    />
+
+                    <button
+                        type="button"
+                        @click="show = !show"
+                        class="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-emerald-600"
+                        aria-label="Toggle password visibility"
+                    >
+                        <!-- Eye icon -->
+                        <svg x-show="!show" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M2.036 12.322a1 1 0 010-.644C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.577 3.01 9.964 7.178a1 1 0 010 .644C20.577 16.49 16.638 19.5 12 19.5c-4.64 0-8.577-3.01-9.964-7.178z" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+
+                        <!-- Eye slash icon -->
+                        <svg x-show="show" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3 3l18 18" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M10.585 10.585a2 2 0 002.83 2.83" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9.88 4.243A10.477 10.477 0 0112 4.5c4.638 0 8.577 3.01 9.964 7.178a10.523 10.523 0 01-4.305 5.568" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M6.228 6.228A10.451 10.451 0 002.036 11.678a1 1 0 000 .644C3.423 16.49 7.36 19.5 12 19.5c1.48 0 2.905-.303 4.228-.85" />
+                        </svg>
+                    </button>
+                </div>
             </div>
+
 
             <!-- Remember Me & Forgot Password -->
             <div class="flex items-center justify-between text-sm">
@@ -71,8 +105,8 @@
             <!-- Submit -->
             <button
                 type="submit"
-                class="w-full bg-emerald-600 text-white py-2.5 rounded-lg hover:bg-emerald-700 transition font-medium"
-            >
+                class=" w-full items-center gap-2 px-6 py-3 bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-xl font-medium hover:opacity-90 transition-all shadow-md">
+            
                 Sign In
             </button>
         </form>
