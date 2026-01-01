@@ -16,7 +16,7 @@
             <x-sideNave />
         @endif
 
-    <main class="flex-1 overflow-y-auto p-6 lg:p-8 {{ (!empty($showSidebar) && $showSidebar) ? 'lg:ml-64' : '' }}">
+    <main class="flex-1 overflow-y-auto lg:p-6 {{ (!empty($showSidebar) && $showSidebar) ? 'lg:ml-64' : '' }}">
         @php
         $columns = [
             'No','Member Name', 'Last Deposit', 'Total Deposit',

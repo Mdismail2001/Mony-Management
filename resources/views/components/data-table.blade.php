@@ -1,8 +1,8 @@
 
 
-<div class="bg-white rounded-xl shadow border border-slate-200 overflow-hidden">
+<div class="bg-white rounded-xl shadow  overflow-hidden">
     @if(!empty($title))
-        <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+        <div class=" px-2 lg:px-4 py-4 border-b border-slate-200 flex items-center justify-between">
             <h2 class="text-lg font-semibold text-slate-800">{{ $title }}</h2>
 
             @if(!empty($searchField))
@@ -40,14 +40,14 @@
         <thead class="bg-slate-50 text-slate-600">
             <tr>
                 @foreach($columns as $col)
-                    <th class="px-6 py-3 text-left font-medium">{{ $col }}</th>
+                    <th class="px-2 lg:px-4 py-3 text-left font-medium">{{ $col }}</th>
                 @endforeach
             </tr>
         </thead>
         <tbody class="divide-y divide-slate-200">
             @forelse($rows as $index => $row)
                 <tr class="hover:bg-slate-50 transition">
-                    <td class="px-6 py-4 text-slate-600">{{ $index + 1 }}</td>
+                    <td class="px-2 lg:px-4 py-4 text-slate-600">{{ $index + 1 }}</td>
                     @foreach($row as $cell)
                         <td class="px-6 py-4">{{ $cell }}</td>
                     @endforeach

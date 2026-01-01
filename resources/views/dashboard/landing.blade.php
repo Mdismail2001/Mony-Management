@@ -16,7 +16,7 @@
         @endif
     
         <!-- Page Content -->
-        <main class="flex-1 overflow-y-auto p-6 lg:p-8 {{ (!empty($showSidebar) && $showSidebar) ? 'lg:ml-64' : '' }}">
+        <main class="flex-1 overflow-y-auto p-4 lg:p-6 {{ (!empty($showSidebar) && $showSidebar) ? 'lg:ml-64' : '' }}">
             
             <!-- Header Section -->
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">

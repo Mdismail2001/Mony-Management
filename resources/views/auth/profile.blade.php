@@ -49,14 +49,16 @@
             <div class="mb-4">
                 <label class="text-sm font-medium text-slate-700">Name</label>
                 <input type="text" name="name" value="{{ auth()->user()->name }}"
-                       class="mt-1 w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500">
+                class="mt-1 w-full border-0 bg-slate-50 shadow-sm rounded-lg px-3 py-2
+                    focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none">
             </div>
 
             <!-- Email -->
             <div class="mb-4">
                 <label class="text-sm font-medium text-slate-700">Email</label>
                 <input type="email" name="email" value="{{ auth()->user()->email }}"
-                       class="mt-1 w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500">
+                class="mt-1 w-full border-0 bg-slate-50 shadow-sm rounded-lg px-3 py-2
+                    focus:bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none">
             </div>
 
             <!-- Submit -->
