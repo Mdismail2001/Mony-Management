@@ -275,5 +275,90 @@ class CommunityController extends Controller
             ->with('success', 'Notice published successfully.');
     }
 
+    // each community all members
+    public function eachAllMembers(Request $request, $id)
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            return redirect()->route('login')
+                ->with('error', 'Session expired. Please login again.');
+        }
+
+        $search = $request->input('search');
+
+        $community = Community::with([
+            'members' => function ($query) use ($search) {
+                $query->when($search, function ($q) use ($search) {
+                    $q->whereHas('user', function ($u) use ($search) {
+                        $u->where('name', 'LIKE', "%{$search}%");
+                    });
+                })
+                ->orderBy('updated_at', 'desc');
+            },
+            'members.user',
+            'transactions' => function ($query) {
+                $query->whereIn('id', function ($sub) {
+                    $sub->select(DB::raw('MAX(id)'))
+                        ->from('transactions')
+                        ->groupBy('member_id');
+                });
+            },
+            'transactions.member.user'
+        ])->findOrFail($id);
+
+        return view('members.eachAllmem', compact('community'));
+    }
+
+    // each community all transaction
+    public function eachAllTransactions(Request $request, $id)
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            return redirect()->route('login')
+                ->with('error', 'Session expired. Please login again.');
+        }
+
+        $search = $request->input('search'); // member name
+        $year   = $request->input('year');   // YYYY
+        $month  = $request->input('month');  // January, February, etc.
+
+        $community = Community::with([
+            'transactions' => function ($query) use ($search, $year, $month) {
+
+                // 🔍 Filter by member name
+                $query->when($search, function ($q) use ($search) {
+                    $q->whereHas('member.user', function ($u) use ($search) {
+                        $u->where('name', 'LIKE', "%{$search}%");
+                    });
+                });
+
+                // 📅 Filter by year
+                $query->when($year, function ($q) use ($year) {
+                    $q->whereYear('date', $year);
+                });
+
+                // 📆 Filter by month
+                $query->when($month, function ($q) use ($month) {
+                    $monthNumber = \Carbon\Carbon::parse($month)->month;
+                    $q->whereMonth('date', $monthNumber);
+                });
+
+                // Latest transaction per member
+                $query->whereIn('id', function ($sub) {
+                    $sub->select(DB::raw('MAX(id)'))
+                        ->from('transactions')
+                        ->groupBy('member_id');
+                });
+
+                $query->orderBy('date', 'desc');
+            },
+
+            'transactions.member.user',
+        ])->findOrFail($id);
+
+        return view('transactions.eachAllTransation', compact('community'));
+    }
 
 }

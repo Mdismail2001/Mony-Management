@@ -71,6 +71,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/delete-community/{id}', [CommunityController::class, 'delete'])->name('delete-community');
     Route::get('/community-notice/{id}', [CommunityController::class, 'noticeForm'])->name('community-notice');
     Route::post('/notice-store/{id}',[CommunityController::class, 'noticeStore'])->name('notice-store');
+    Route::get('/each/all/members{id}', [CommunityController::class, 'eachAllMembers'])->name('eachAllMembers');
+    Route::get('/each/all/transactions{id}', [CommunityController::class, 'eachAllTransactions'])->name('eachAllTransactions');
 
     /*
     |--------------------------------------------------------------------------

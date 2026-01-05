@@ -26,7 +26,7 @@
 
         {{-- Page Header --}}
         <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between bg-white p-4 rounded-lg shadow-sm">
-            <div class="mb-4 md:mb-0">
+            <div class="mb-4 md:mb-0 pl-2">
                 <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 truncate">{{ $community->name }}</h1>
                 <p class="text-gray-500 text-sm sm:text-base">Manage community details and member information</p>
             </div>
@@ -145,68 +145,155 @@
         </div>
 
         {{-- Community Stats Cards --}}
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-8">
-            {{-- Community Name --}}
-            <div class="bg-white rounded-xl border border-gray-200 p-6 shadow hover:shadow-lg transition-all hidden lg:block">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500 mb-1">Community Name</p>
-                        <p class="text-2xl font-bold text-gray-900 truncate">{{ $community->name }}</p>
+        <div class="grid grid-cols-3 gap-4 mb-8">
+
+            {{-- Deposit Card --}}
+            <a href="{{ route('transactions-form', [
+                    'member_id' => $loggedUserMember->id,
+                    'community_id' => $community->id
+                ]) }}"
+            class="block bg-white rounded-xl border border-gray-200
+                    p-3 sm:p-4 lg:p-6
+                    shadow hover:shadow-lg hover:border-emerald-400 transition-all">
+
+                <div class="flex items-center justify-between gap-2">
+                    <div class="min-w-0">
+                        <p class="text-xs sm:text-sm font-medium text-gray-500 mb-1">
+                            Make a Deposit
+                        </p>
+                        <p class="text-sm sm:text-lg lg:text-2xl font-bold text-emerald-600 truncate">
+                            Deposit Now
+                        </p>
                     </div>
-                    <div class="w-12 h-12 bg-gradient-to-br from-emerald-400 to-teal-400 rounded-lg flex items-center justify-center shadow">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+
+                    <div
+                        class="w-7 h-7 sm:w-9 sm:h-9 lg:w-12 lg:h-12
+                            bg-gradient-to-br from-emerald-500 to-teal-500
+                            rounded-lg flex items-center justify-center shadow">
+                        <svg
+                            class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                         </svg>
                     </div>
                 </div>
-            </div>
+            </a>
 
             {{-- Minimum Amount --}}
-            <div class="bg-white rounded-xl border border-gray-200 p-6 shadow hover:shadow-lg transition-all">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500 mb-1">Minimum Amount</p>
-                        <p class="text-2xl font-bold text-gray-900">{{ number_format($community->min_amount, 2) }}</p>
+            <div
+                class="bg-white rounded-xl border border-gray-200
+                    p-3 sm:p-4 lg:p-6
+                    shadow hover:shadow-lg transition-all">
+
+                <div class="flex items-center justify-between gap-2">
+                    <div class="min-w-0">
+                        <p class="text-xs sm:text-sm font-medium text-gray-500 mb-1">
+                            Minimum Amount
+                        </p>
+                        <p class="text-sm sm:text-lg lg:text-2xl font-bold text-gray-900 truncate">
+                            {{ number_format($community->min_amount, 2) }}
+                        </p>
                     </div>
-                    <div class="w-12 h-12 bg-gradient-to-br from-emerald-400 to-teal-400 rounded-lg flex items-center justify-center shadow">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+
+                    <div
+                        class="w-7 h-7 sm:w-9 sm:h-9 lg:w-12 lg:h-12
+                            bg-gradient-to-br from-emerald-400 to-teal-400
+                            rounded-lg flex items-center justify-center shadow">
+                        <svg
+                            class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2
+                                    3 .895 3 2-1.343 2-3 2m0-8
+                                    c1.11 0 2.08.402 2.599 1M12 8V7
+                                    m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1
+                                    M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                     </div>
                 </div>
             </div>
 
             {{-- Total Amount --}}
-            <div class="bg-white rounded-xl border border-gray-200 p-6 shadow hover:shadow-lg transition-all">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500 mb-1">Total Amount</p>
-                        <p class="text-2xl font-bold text-gray-900">{{ number_format($community->total_amount, 2) }}</p>
+            <div
+                class="bg-white rounded-xl border border-gray-200
+                    p-3 sm:p-4 lg:p-6
+                    shadow hover:shadow-lg transition-all">
+
+                <div class="flex items-center justify-between gap-2">
+                    <div class="min-w-0">
+                        <p class="text-xs sm:text-sm font-medium text-gray-500 mb-1">
+                            Total Amount
+                        </p>
+                        <p class="text-sm sm:text-lg lg:text-2xl font-bold text-gray-900 truncate">
+                            {{ number_format($community->total_amount, 2) }}
+                        </p>
                     </div>
-                    <div class="w-12 h-12 bg-gradient-to-br from-amber-400 to-orange-400 rounded-lg flex items-center justify-center shadow">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+
+                    <div
+                        class="w-7 h-7 sm:w-9 sm:h-9 lg:w-12 lg:h-12
+                            bg-gradient-to-br from-amber-400 to-orange-400
+                            rounded-lg flex items-center justify-center shadow">
+                        <svg
+                            class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01
+                                    M9 14h.01M12 14h.01M15 11h.01
+                                    M12 11h.01M9 11h.01M7 21h10
+                                    a2 2 0 002-2V5a2 2 0 00-2-2H7
+                                    a2 2 0 00-2 2v14a2 2 0 002 2z"/>
                         </svg>
                     </div>
                 </div>
             </div>
+
         </div>
 
         {{-- Transactions Section --}}
         <div class="mb-8 bg-white rounded-xl border border-gray-200 shadow overflow-hidden">
             {{-- Section Header --}}
-            <div class="px-6 py-5 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                    <h2 class="text-xl font-bold text-gray-900">Transactions History</h2>
-                    <p class="text-sm text-gray-500 mt-1">Total transactions: {{ $community->transactions->count() }}</p>
+            <div class="px-6 py-5 border-b border-gray-200
+                        flex items-center justify-between gap-4">
+
+                {{-- Title --}}
+                <div class="min-w-0">
+                    <h2 class="text-xl font-bold text-gray-900 truncate">
+                        Transactions History
+                    </h2>
+                    <p class="text-sm text-gray-500 mt-1 truncate">
+                        Total transactions: {{ $community->transactions->count() }}
+                    </p>
                 </div>
-                <a href="{{ route('transactions-form', ['member_id' => $loggedUserMember->id, 'community_id' => $community->id]) }}"
-                class="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-medium rounded-lg hover:from-emerald-600 hover:to-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all shadow">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                    </svg>
-                    Deposit Now
-                </a>
+
+                {{-- Action Buttons --}}
+                <div class="flex items-center gap-3 shrink-0">
+
+                    {{-- See More Button --}}
+                    <a href="{{ route('eachAllTransactions', $community->id) }}"
+                    class="inline-flex items-center gap-2
+                            px-3 py-2
+                            sm:px-4 sm:py-2.5
+                            bg-gray-100 text-gray-700 text-sm font-medium
+                            rounded-lg
+                            hover:bg-gray-200
+                            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300
+                            transition-all shadow-sm">
+
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12H9m6 0l-3-3m3 3l-3 3"/>
+                        </svg>
+
+                        <span class="">See More</span>
+                    </a>
+                </div>
             </div>
 
             {{-- Transaction Table --}}
@@ -303,20 +390,62 @@
         {{-- Members Section --}}
         <div class="bg-white rounded-xl border border-gray-200 shadow overflow-hidden mb-8">
             {{-- Section Header --}}
-            <div class="px-6 py-5 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                    <h2 class="text-xl font-bold text-gray-900">Community Members</h2>
-                    <p class="text-sm text-gray-500 mt-1">Total members: {{ $community->members->count() }}</p>
+            <div class="px-6 py-5 border-b border-gray-200
+                        flex items-center justify-between gap-4">
+
+                {{-- Title --}}
+                <div class="min-w-0">
+                    <h2 class="text-xl font-bold text-gray-900 truncate">
+                        Community Members
+                    </h2>
+                    <p class="text-sm text-gray-500 mt-1 truncate">
+                        Total members: {{ $community->members->count() }}
+                    </p>
                 </div>
-                @if ($loggedUserRole === 'leader')
-                    <a href="{{ route('create-member', $community->id) }}"
-                    class="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-medium rounded-lg hover:from-emerald-600 hover:to-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all shadow">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+
+                {{-- Action Buttons --}}
+                <div class="flex items-center gap-3 shrink-0">
+
+                    {{-- Add Member (Leader Only) --}}
+                    @if ($loggedUserRole === 'leader')
+                        <a href="{{ route('create-member', $community->id) }}"
+                        class="inline-flex items-center gap-2
+                                px-3 py-2
+                                sm:px-4 sm:py-2.5
+                                bg-gradient-to-r from-emerald-500 to-teal-500
+                                text-white text-sm font-medium
+                                rounded-lg
+                                hover:from-emerald-600 hover:to-teal-600
+                                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500
+                                transition-all shadow">
+
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                            </svg>
+
+                            <span class="">Add Member</span>
+                        </a>
+                    @endif
+                                        {{-- See More Button --}}
+                    <a href="{{ route('eachAllMembers', $community->id) }}"
+                        class="inline-flex items-center gap-2
+                            px-3 py-2
+                            sm:px-4 sm:py-2.5
+                            bg-gray-100 text-gray-700 text-sm font-medium
+                            rounded-lg
+                            hover:bg-gray-200
+                            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300
+                            transition-all shadow-sm">
+
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12H9m6 0l-3-3m3 3l-3 3"/>
                         </svg>
-                        Add Member
+
+                        <span class="">See More</span>
                     </a>
-                @endif
+                </div>
             </div>
 
             {{-- Members Table --}}
