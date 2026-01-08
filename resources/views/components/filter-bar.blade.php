@@ -1,4 +1,4 @@
-<div class="px-2 lg:px-4 py-4 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
+<div class="px-2 lg:px-4 py-4 border-1 border-slate-200 flex flex-wrap items-center justify-between gap-2">
 
     {{-- Title --}}
     <h2 class="text-lg font-semibold text-slate-800">{{ $title }}</h2>
@@ -21,9 +21,19 @@
         @foreach($filters as $name => $options)
         <select name="{{ $name }}"
                 class="px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
-            <option value="">All {{ ucfirst($name) }}</option>
+
+            {{-- All option --}}
+            <option value=""
+                {{ request()->has($name) && request($name)==='' ? 'selected' : '' }}>
+                All {{ ucfirst($name) }}
+            </option>
+
+            {{-- Values --}}
             @foreach($options as $option)
-                <option value="{{ $option }}" {{ request($name)==$option ? 'selected' : '' }}>{{ $option }}</option>
+                <option value="{{ $option }}"
+                    {{ request($name) == $option ? 'selected' : '' }}>
+                    {{ $option }}
+                </option>
             @endforeach
         </select>
         @endforeach

@@ -121,15 +121,80 @@ class TransactionController extends Controller
     }
 
     //  all transaction function
+    // public function allTransactions(Request $request)
+    // {
+    //     dd($request->all());
+    //     $user = auth()->user();
+
+    //     if (!$user) {
+    //         return redirect()->route('login')->with('error', 'Session expired. Please login again.');
+    //     }
+
+    //     $now = now();
+
+    //     $search = $request->input('search'); // member name
+    //     $year   = $request->input('year',$now->year );   // YYYY
+    //     $month  = $request->input('month',$now->format('F'));  // January, February, etc.
+
+    //     // Get community IDs where current user is a member
+    //     $userCommunityIds = $user->communities()->pluck('communities.id');
+
+    //     // Subquery: latest transaction per member
+    //     $latestTransactions = DB::table('transactions')
+    //         ->select('member_id', DB::raw('MAX(updated_at) as latest_date'))
+    //         ->groupBy('member_id');
+
+    //     // Main query
+    //     $transactions = DB::table('transactions as t')
+    //         ->joinSub($latestTransactions, 'latest', function ($join) {
+    //             $join->on('t.member_id', '=', 'latest.member_id')
+    //                 ->on('t.updated_at', '=', 'latest.latest_date');
+    //         })
+    //         ->join('members as m', 't.member_id', '=', 'm.id')
+    //         ->join('users as u', 'm.user_id', '=', 'u.id')
+    //         ->join('communities as c', 'm.community_id', '=', 'c.id')
+    //         ->select(
+    //             'u.name as member_name',
+    //             'm.last_payment as last_deposit',
+    //             'm.total_amount as member_total',
+    //             'c.name as community_name',
+    //             'c.total_amount as community_total',
+    //             't.updated_at as latest_transaction_date'
+    //         )
+    //         ->whereIn('m.community_id', $userCommunityIds)
+    //         //  THIS IS THE FILTER PART
+    //         ->when($request->search, function ($query) use ($request) {
+    //             $query->where(function ($q) use ($request) {
+    //                 $q->where('u.name', 'LIKE', '%' . $request->search . '%')
+    //                 ->orWhere('c.name', 'LIKE', '%' . $request->search . '%');
+    //             });
+    //         })
+            
+    //         ->orderBy('t.updated_at', 'desc')
+    //         ->get();
+
+    //     return view('transactions.allTransaction', [
+    //         'showHeader' => true,
+    //         'showSidebar' => true,
+    //         'transactions' => $transactions,
+    //     ]);
+    // }
     public function allTransactions(Request $request)
     {
         $user = auth()->user();
 
         if (!$user) {
-            return redirect()->route('login')->with('error', 'Session expired. Please login again.');
+            return redirect()->route('login')
+                ->with('error', 'Session expired. Please login again.');
         }
 
-        // Get community IDs where current user is a member
+        // Current year and month defaults
+        // $now = now();
+        $search = $request->input('search'); // member/community name
+        $year   = $request->input('year');       // default current year
+        $month  = $request->input('month'); // default current month name (January, February...)
+
+        // Community IDs where user is a member
         $userCommunityIds = $user->communities()->pluck('communities.id');
 
         // Subquery: latest transaction per member
@@ -155,14 +220,21 @@ class TransactionController extends Controller
                 't.updated_at as latest_transaction_date'
             )
             ->whereIn('m.community_id', $userCommunityIds)
-            //  THIS IS THE FILTER PART
-            ->when($request->search, function ($query) use ($request) {
-                $query->where(function ($q) use ($request) {
-                    $q->where('u.name', 'LIKE', '%' . $request->search . '%')
-                    ->orWhere('c.name', 'LIKE', '%' . $request->search . '%');
+            // Filter by member or community name
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('u.name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('c.name', 'LIKE', '%' . $search . '%');
                 });
             })
-            
+            // Filter by year
+            ->when($year, function ($query) use ($year) {
+                $query->whereYear('t.updated_at', $year);
+            })
+            // Filter by month name
+            ->when($month, function ($query) use ($month) {
+                $query->whereRaw("DATE_FORMAT(t.updated_at, '%M') = ?", [$month]);
+            })
             ->orderBy('t.updated_at', 'desc')
             ->get();
 
@@ -170,7 +242,11 @@ class TransactionController extends Controller
             'showHeader' => true,
             'showSidebar' => true,
             'transactions' => $transactions,
+            'search' => $search,
+            'year' => $year,
+            'month' => $month,
         ]);
     }
+
 
 }

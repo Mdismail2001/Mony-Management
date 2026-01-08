@@ -7,7 +7,7 @@
 <div class="overflow-x-auto ">
 
     {{-- Back Button --}}
-    <div class="p-4">
+    <div class="m-4 mt-6">
         <a href="{{ route('communities', $community->id) }}"
            class="inline-flex items-center gap-2 text-slate-600 hover:text-emerald-500 transition-colors group">
             <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1"
@@ -23,13 +23,13 @@
         title="All Members"
         search-field="search"
         search-placeholder="Name or Community..."
-        :filters="[
+        {{-- :filters="[
             'year' => range(date('Y'), date('Y') - 3),
             'month' => [
                 'January','February','March','April','May','June',
                 'July','August','September','October','November','December'
             ]
-        ]"
+        ]" --}}
         :actions="[
             [
                 'label' => 'Download',

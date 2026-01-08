@@ -7,7 +7,7 @@
 <div class="overflow-x-auto ">
 
     {{-- Back Button --}}
-    <div class="p-4">
+    <div class="m-4 mt-6">
         <a href="{{ route('communities', $community->id) }}"
            class="inline-flex items-center gap-2 text-slate-600 hover:text-emerald-500 transition-colors group">
             <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1"
@@ -19,8 +19,8 @@
         </a>
     </div>
     {{-- Member Filtring option --}} 
-       <x-filter-bar
-        title="All Transactions"
+    <x-filter-bar
+        title="Transactions History" 
         search-field="search"
         search-placeholder="Name or Community..."
         :filters="[
@@ -36,7 +36,7 @@
                 // 'route' => route('members.export', request()->query())
             ]
         ]"
-        />
+    />
 
     <table class="w-full min-w-[600px]">
         <thead class="bg-gray-50 border-b border-gray-200">

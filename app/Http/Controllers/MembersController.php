@@ -256,6 +256,8 @@ class MembersController extends Controller
         }
         // for filtering 
         $search = $request->input('search');
+        $year   = $request->input('year');   // YYYY
+        $month  = $request->input('month');  // January, February, etc.
 
         // Fetch members info with joined users and communities
         $members = DB::table('members')
@@ -267,14 +269,14 @@ class MembersController extends Controller
                 'users.photo',
                 'communities.name as community_name',
                 'members.last_payment',
-                'members.updated_at as last_activity',
-
+                'members.updated_at as last_activity'
             )
             ->whereIn(
                 'members.community_id',
                 $user->communities()->pluck('communities.id')
             )
-            // for Filtering 
+
+            //  Search filter
             ->when($search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('users.name', 'LIKE', "%{$search}%")
@@ -282,9 +284,19 @@ class MembersController extends Controller
                 });
             })
 
+            //  Year filter
+            ->when($year, function ($query, $year) {
+                $query->whereYear('members.updated_at', $year);
+            })
+
+            //  Month filter
+            ->when($month, function ($query, $month) {
+                $monthNumber = \Carbon\Carbon::parse($month)->month;
+                $query->whereMonth('members.updated_at', $monthNumber);
+            })
+
             ->orderBy('members.updated_at', 'desc')
             ->get();
-
         // dd($members);
         // Render the view with the members data
 

@@ -319,9 +319,11 @@ class CommunityController extends Controller
             return redirect()->route('login')
                 ->with('error', 'Session expired. Please login again.');
         }
+        //  DEFINE NOW FIRST
+        // $now = Carbon::now();
 
         $search = $request->input('search'); // member name
-        $year   = $request->input('year');   // YYYY
+        $year   = $request->input('year' );   // YYYY
         $month  = $request->input('month');  // January, February, etc.
 
         $community = Community::with([
