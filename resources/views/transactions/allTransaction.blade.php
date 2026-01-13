@@ -40,7 +40,8 @@
             'searchField' => 'search',
             'searchPlaceholder' => 'Search member or community...',
             'columns' => $columns,
-            'rows' => $rows
+            'rows' => $rows,
+            'downloadRoute' => 'all-transactions',
         ])
     </main>
 

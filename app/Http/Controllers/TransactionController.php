@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; 
-use Illuminate\Support\Facades\DB;   
+use Illuminate\Support\Facades\DB;  
+use App\Exports\GenericExport; 
+use Maatwebsite\Excel\Facades\Excel; 
 
 class TransactionController extends Controller
 {
@@ -120,65 +122,6 @@ class TransactionController extends Controller
             ->with('success', 'Transaction status updated successfully.');
     }
 
-    //  all transaction function
-    // public function allTransactions(Request $request)
-    // {
-    //     dd($request->all());
-    //     $user = auth()->user();
-
-    //     if (!$user) {
-    //         return redirect()->route('login')->with('error', 'Session expired. Please login again.');
-    //     }
-
-    //     $now = now();
-
-    //     $search = $request->input('search'); // member name
-    //     $year   = $request->input('year',$now->year );   // YYYY
-    //     $month  = $request->input('month',$now->format('F'));  // January, February, etc.
-
-    //     // Get community IDs where current user is a member
-    //     $userCommunityIds = $user->communities()->pluck('communities.id');
-
-    //     // Subquery: latest transaction per member
-    //     $latestTransactions = DB::table('transactions')
-    //         ->select('member_id', DB::raw('MAX(updated_at) as latest_date'))
-    //         ->groupBy('member_id');
-
-    //     // Main query
-    //     $transactions = DB::table('transactions as t')
-    //         ->joinSub($latestTransactions, 'latest', function ($join) {
-    //             $join->on('t.member_id', '=', 'latest.member_id')
-    //                 ->on('t.updated_at', '=', 'latest.latest_date');
-    //         })
-    //         ->join('members as m', 't.member_id', '=', 'm.id')
-    //         ->join('users as u', 'm.user_id', '=', 'u.id')
-    //         ->join('communities as c', 'm.community_id', '=', 'c.id')
-    //         ->select(
-    //             'u.name as member_name',
-    //             'm.last_payment as last_deposit',
-    //             'm.total_amount as member_total',
-    //             'c.name as community_name',
-    //             'c.total_amount as community_total',
-    //             't.updated_at as latest_transaction_date'
-    //         )
-    //         ->whereIn('m.community_id', $userCommunityIds)
-    //         //  THIS IS THE FILTER PART
-    //         ->when($request->search, function ($query) use ($request) {
-    //             $query->where(function ($q) use ($request) {
-    //                 $q->where('u.name', 'LIKE', '%' . $request->search . '%')
-    //                 ->orWhere('c.name', 'LIKE', '%' . $request->search . '%');
-    //             });
-    //         })
-            
-    //         ->orderBy('t.updated_at', 'desc')
-    //         ->get();
-
-    //     return view('transactions.allTransaction', [
-    //         'showHeader' => true,
-    //         'showSidebar' => true,
-    //         'transactions' => $transactions,
-    //     ]);
-    // }
     public function allTransactions(Request $request)
     {
         $user = auth()->user();
@@ -190,9 +133,9 @@ class TransactionController extends Controller
 
         // Current year and month defaults
         // $now = now();
-        $search = $request->input('search'); // member/community name
-        $year   = $request->input('year');       // default current year
-        $month  = $request->input('month'); // default current month name (January, February...)
+        $search = $request->input('search'); 
+        $year   = $request->input('year');     
+        $month  = $request->input('month'); 
 
         // Community IDs where user is a member
         $userCommunityIds = $user->communities()->pluck('communities.id');
@@ -237,6 +180,25 @@ class TransactionController extends Controller
             })
             ->orderBy('t.updated_at', 'desc')
             ->get();
+
+            // --- EXCEL DOWNLOAD LOGIC ---
+            if ($request->has('excelfile')) {
+                $headings = ['No', 'Member Name','Last Depost','Total Deposit', 'Community', 'Community Total' ];
+
+                $exportData = $transactions->map(function ($transaction, $index) {
+                    return [
+                        'No'          => $index + 1,
+                        'Member Name' => $transaction->member_name ?? 'N/A',
+                        'Last Depost'  => $transaction->last_deposit ? number_format($transaction->last_deposit, 2) :'0.00',
+                        'Total Deposit' => $transaction->member_total ? number_format($transaction->member_total, 2) :'0.00',
+                        'Community'   => $transaction->community_name ?? 'N/A',
+                        'Community Total' => $transaction->community_total ? number_format($transaction->community_total, 2) :'0.00'
+                    ];
+                });
+                $filename = 'All Transactions_' . now()->format('Y-m-d') . '.xlsx';
+
+                return Excel::download(new GenericExport($headings, $exportData), $filename);
+            }
 
         return view('transactions.allTransaction', [
             'showHeader' => true,

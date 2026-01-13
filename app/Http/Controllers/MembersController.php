@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use App\Exports\GenericExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MembersController extends Controller
 {
@@ -297,9 +299,27 @@ class MembersController extends Controller
 
             ->orderBy('members.updated_at', 'desc')
             ->get();
-        // dd($members);
-        // Render the view with the members data
 
+            // --- EXCEL DOWNLOAD LOGIC ---
+            if ($request->has('excelfile')) {
+                $headings = ['No', 'Member Name','Community', 'Mobile','Last Depost', 'Last Activity' ];
+
+                $exportData = $members->map(function ($member, $index) {
+                    // dd($member);
+                    return [
+                        'No'          => $index + 1,
+                        'Member Name' => $member->member_name ?? 'N/A',
+                        'Community'   => $member->community_name ?? 'N/A',
+                        'Mobile'       => $member->phone_number ?? 'N/A',
+                        'Last Depost'  => $member->last_payment ? number_format($member->last_payment, 2) :'0.00',
+                        'Last Activity' => $member->last_activity ?? 'N/A',
+                        // 'Joined Date' => $member->created_at->format('d M Y'),
+                    ];
+                });
+                $filename = 'All Members_' . now()->format('Y-m-d') . '.xlsx';
+
+                return Excel::download(new GenericExport($headings, $exportData), $filename);
+        }
         return view('members.allMembers', [
             'showHeader' => true,
             'showSidebar' => true,

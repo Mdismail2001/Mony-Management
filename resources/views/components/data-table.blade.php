@@ -16,7 +16,10 @@
         :actions="[
             [
                 'label' => 'Download',
-                // 'route' => route('members.export', request()->query())
+                'route' => route($downloadRoute, array_merge(request()->query(), [
+                'excelfile' => true
+                ]))
+
             ]
         ]"
     />

@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\GenericExport;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Str;
 
 
 class CommunityController extends Controller
