@@ -7,6 +7,9 @@ use App\Models\Community;
 use App\Models\Member;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\GenericExport;
+use App\Http\Controllers\Controller;
 
 
 class CommunityController extends Controller
@@ -360,7 +363,32 @@ class CommunityController extends Controller
             'transactions.member.user',
         ])->findOrFail($id);
 
-        return view('transactions.eachAllTransation', compact('community'));
+        // 2. CHECK FOR EXCEL PLUG HERE
+        if ($request->has('excelfile')) {
+            // 1. Define your headings
+            $headings = ['Name', 'Amount', 'Month', 'Date', 'Status'];
+
+            // 2. Map your data into a clean collection of arrays
+            $exportData = $community->transactions->map(function ($t) {
+                $formattedMonth = \Carbon\Carbon::parse($t->month)->format('F, Y');
+                return [
+                    'Name'   => $t->member->user->name ?? 'N/A',
+                    'Amount' => number_format($t->amount, 2),
+                    'Month'  => $formattedMonth,
+                    'Date'   => \Carbon\Carbon::parse($t->date)->format('d M Y'),
+                    'Status' => $t->status == 1 ? 'Approved' : ($t->status == 2 ? 'Rejected' : 'Pending'),
+                ];
+            });
+            // 3. Pass both to the GenericExport
+            $filename = $community->name . '_Transactions_' . now()->format('Y-m-d') . '.xlsx';
+            // 4. Download
+            return Excel::download(
+                new GenericExport($headings, $exportData), 
+                $filename
+            );
+        }   
+
+       return view('transactions.eachAllTransation', compact('community'));
     }
 
 }

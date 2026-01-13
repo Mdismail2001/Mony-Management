@@ -33,7 +33,10 @@
         :actions="[
             [
                 'label' => 'Download',
-                // 'route' => route('members.export', request()->query())
+                'route' => route('eachAllTransactions', array_merge(request()->query(), [
+                    'id' => $community->id, 
+                    'excelfile' => true
+                ]))            
             ]
         ]"
     />
