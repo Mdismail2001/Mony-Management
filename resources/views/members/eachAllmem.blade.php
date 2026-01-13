@@ -33,7 +33,10 @@
         :actions="[
             [
                 'label' => 'Download',
-                // 'route' => route('members.export', request()->query())
+                'route' => route('eachAllMembers', array_merge(request()->query(), [
+                    'id' => $community->id, 
+                    'excelfile' => true
+                ]))
             ]
         ]"
     />
@@ -42,9 +45,8 @@
             <tr>
                 <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">No</th>
                 <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Name</th>
-                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Phone</th>
+                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Mobile</th>
                 <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Community</th>
-                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Role</th>
                 <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Last Deposit</th>
                 <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Total Amount</th>
             </tr>
@@ -79,16 +81,6 @@
                 {{-- Community --}}
                 <td class="px-4 py-3 text-sm text-gray-700">
                     {{ $community->name }}
-                </td>
-
-                {{-- Role --}}
-                <td class="px-4 py-3">
-                    <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-medium
-                        {{ $member->role === 'admin'
-                            ? 'bg-purple-100 text-purple-700 border border-purple-200'
-                            : 'bg-gray-100 text-gray-700 border border-gray-200' }}">
-                        {{ ucfirst($member->role) }}
-                    </span>
                 </td>
 
                 {{-- Last Deposit --}}

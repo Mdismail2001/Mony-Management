@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\GenericExport;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 
 
 class CommunityController extends Controller
@@ -309,6 +310,27 @@ class CommunityController extends Controller
             },
             'transactions.member.user'
         ])->findOrFail($id);
+
+        // --- EXCEL DOWNLOAD LOGIC ---
+        if ($request->has('excelfile')) {
+            $headings = ['No', ' Name','Mobile', 'Email', 'Community', 'Last Deposit', 'Total Amount', 'Joined Date', ];
+
+            $exportData = $community->members->map(function ($member, $index) use ($community) {
+                return [
+                    'No'          => $index + 1,
+                    'Name' => $member->user->name ?? 'N/A',
+                    'Mobile'      => $member->user->phone_number ?? 'N/A',
+                    'Email'       => $member->user->email ?? 'N/A',
+                    'Community'   => $community->name ?? 'N/A',
+                    'Last Deposit'=> $member->last_payment ? number_format($member->last_payment, 2) : '0.00',
+                    'Total Amount' => $member->total_amount ? number_format($member->total_amount, 2) : '0.00',
+                    'Joined Date' => $member->created_at->format('d M Y'),
+                ];
+            });
+            $filename = ($community->name) . '_Members list_' . now()->format('Y-m-d') . '.xlsx';
+
+            return Excel::download(new GenericExport($headings, $exportData), $filename);
+        }
 
         return view('members.eachAllmem', compact('community'));
     }
