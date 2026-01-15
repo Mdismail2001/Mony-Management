@@ -71,29 +71,29 @@ class AuthController extends Controller
     // Uer registration
     public function createUserByAdmin(Request $request)
     {
-        if (Auth::user()->role != 'admin') {
-            abort(403, 'Unauthorized action.');
-        }
+        // if (Auth::user()->role != 'admin') {
+        //     abort(403, 'Unauthorized action.');
+        // }
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'phone_number' => 'required|string|max:20|unique:users,phone_number',
-            'role' => 'required|string',
+            // 'role' => 'required|string',
         ], [
             'name.required' => 'The name field is required.',
             'email.required' => 'The email field is required.',
             'email.unique' => 'This email is already registered.',
             'phone_number.required' => 'The phone number field is required.',
             'phone_number.unique' => 'This phone number is already registered.',
-            'role.required' => 'Please select a user role.',
+            // 'role.required' => 'Please select a user role.',
         ]);
 
         User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone_number' => $validated['phone_number'],
-            'role' => $validated['role'],
+            // 'role' => $validated['role'],
             'password' => Hash::make('123456'), // default password
         ]);
 
