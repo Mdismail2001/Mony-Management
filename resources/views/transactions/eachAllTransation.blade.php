@@ -58,9 +58,6 @@
                     <td class="px-4 py-3 text-sm text-gray-900 font-medium">{{$index + 1}}</td>
                     <td class="px-4 py-3">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-teal-400 flex items-center justify-center flex-shrink-0 shadow">
-                                <span class="text-sm font-semibold text-white">{{ strtoupper(substr($transaction->member->user->name, 0, 1)) }}</span>
-                            </div>
                             <span class="text-sm font-medium text-gray-900">{{$transaction->member->user->name}}</span>
                         </div>
                     </td>

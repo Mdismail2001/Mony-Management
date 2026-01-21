@@ -62,11 +62,6 @@
                 {{-- Name --}}
                 <td class="px-4 py-3">
                     <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-teal-400 flex items-center justify-center shadow">
-                            <span class="text-sm font-semibold text-white">
-                                {{ strtoupper(substr($member->user->name ?? 'N', 0, 1)) }}
-                            </span>
-                        </div>
                         <span class="text-sm font-medium text-gray-900">
                             {{ $member->user->name ?? 'N/A' }}
                         </span>

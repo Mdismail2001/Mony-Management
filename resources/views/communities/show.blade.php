@@ -267,10 +267,10 @@
                 {{-- Title --}}
                 <div class="min-w-0">
                     <h2 class="text-xl font-bold text-gray-900 truncate">
-                        Transactions History
+                        Transactions 
                     </h2>
                     <p class="text-sm text-gray-500 mt-1 truncate">
-                        Total transactions: {{ $community->transactions->count() }}
+                        Total : {{ $community->transactions->count() }}
                     </p>
                 </div>
 
@@ -318,9 +318,6 @@
                                 <td class="px-4 py-3 text-sm text-gray-900 font-medium">{{$index + 1}}</td>
                                 <td class="px-4 py-3">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-teal-400 flex items-center justify-center flex-shrink-0 shadow">
-                                            <span class="text-sm font-semibold text-white">{{ strtoupper(substr($transaction->member->user->name, 0, 1)) }}</span>
-                                        </div>
                                         <span class="text-sm font-medium text-gray-900">{{$transaction->member->user->name}}</span>
                                     </div>
                                 </td>
@@ -398,10 +395,10 @@
                 {{-- Title --}}
                 <div class="min-w-0">
                     <h2 class="text-xl font-bold text-gray-900 truncate">
-                        Community Members
+                        Members
                     </h2>
                     <p class="text-sm text-gray-500 mt-1 truncate">
-                        Total members: {{ $community->members->count() }}
+                        Total : {{ $community->members->count() }}
                     </p>
                 </div>
 
@@ -472,9 +469,6 @@
                                 <td class="px-4 py-3 text-sm text-gray-900 font-medium">{{ $index + 1 }}</td>
                                 <td class="px-4 py-3">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-teal-400 flex items-center justify-center flex-shrink-0 shadow">
-                                            <span class="text-sm font-semibold text-white">{{ strtoupper(substr($member->user->name ?? 'N', 0, 1)) }}</span>
-                                        </div>
                                         <span class="text-sm font-medium text-gray-900">{{ $member->user->name ?? 'N/A' }}</span>
                                     </div>
                                 </td>
