@@ -14,7 +14,7 @@
     <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
         {{-- Back Button --}}
-        <div class="mb-6">
+        <div class="mb-6 flex items-center justify-between flex-wrap gap-2">
             <a href="{{ route('Dashboard') }}"
             class="inline-flex items-center gap-2 text-slate-600 hover:text-emerald-500 transition-colors group">
                 <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -22,14 +22,6 @@
                 </svg>
                 <span class="text-sm font-medium">Back to Dashboard</span>
             </a>
-        </div>
-
-        {{-- Page Header --}}
-        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between bg-white p-4 rounded-lg shadow-sm">
-            <div class="mb-4 md:mb-0 pl-2">
-                <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 truncate">{{ $community->name }}</h1>
-                <p class="text-gray-500 text-sm sm:text-base">Manage community details and member information</p>
-            </div>
 
             {{-- Message --}}
             @if(session('success'))
@@ -38,7 +30,7 @@
                     x-init="setTimeout(() => show = false, 5000)" 
                     x-show="show"
                     x-transition
-                    class="mt-2 md:mt-0 bg-emerald-100 border border-emerald-300 text-emerald-700 px-4 py-3 rounded-lg text-sm flex items-center gap-2 w-full md:w-auto"
+                    class="mt-2 md:mt-0 bg-emerald-100  text-emerald-700 px-2 py-2 rounded-lg text-sm flex items-center gap-2 w-full md:w-auto"
                 >
                     <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
@@ -47,14 +39,23 @@
                 </div>
             @endif
 
+        </div>
+
+        {{-- Page Header --}}
+        <div class="mb-8 flex flex-row md:items-center justify-between bg-white p-4 rounded-lg shadow-sm">
+            <div class="mb-4 md:mb-0 pl-2 ">
+                <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 truncate">{{ $community->name }}</h1>
+                {{-- <p class="text-gray-500 text-sm sm:text-base">Manage community details </p> --}}
+            </div>
+
             {{-- Action Buttons --}}
             @if ($loggedUserRole === 'leader')
-                <div class="flex flex-wrap gap-2 mt-4 md:mt-0">
+                <div class="flex flex-wrap gap-2  ">
                     <!-- Notice Button -->
                     <a href="{{ route('community-notice', $community->id) }}" 
-                    class="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-emerald-500 text-gray-800 hover:text-white rounded-lg transition-all border border-gray-300 hover:border-emerald-500"
+                    class="flex items-center gap-2 px-2 py-2 bg-gray-100 hover:bg-emerald-500 text-gray-800 hover:text-white rounded-lg transition-all  hover:border-emerald-500"
                     title="Notice Community">
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="hidden sm:block w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                         </svg>
@@ -65,9 +66,9 @@
 
                     <!-- Edit Button -->
                     <a href="{{ route('community-edit', $community->id) }}" 
-                    class="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-emerald-500 text-gray-800 hover:text-white rounded-lg transition-all border border-gray-300 hover:border-emerald-500"
+                    class="flex items-center gap-2 px-2 py-2 bg-gray-100 hover:bg-emerald-500 text-gray-800 hover:text-white rounded-lg transition-all  hover:border-emerald-500"
                     title="Edit Community">
-                        <svg class="w-5 h-5 text-gray-600 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="hidden sm:block w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
                         <span class="text-sm font-medium">Edit</span>
@@ -75,9 +76,9 @@
 
                     <!-- Delete Button -->
                     <button onclick="if(confirm('Are you sure you want to delete this community? This action cannot be undone.')) { window.location.href='{{ route('delete-community', $community->id) }}'; }"
-                            class="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-red-500 text-gray-800 hover:text-white rounded-lg transition-all border border-gray-300 hover:border-red-500"
+                            class="flex items-center gap-2 px-2 py-2 bg-gray-100 hover:bg-red-500 text-gray-800 hover:text-white rounded-lg transition-all  hover:border-red-500"
                             title="Delete Community">
-                        <svg class="w-5 h-5 text-gray-600 hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="hidden sm:block w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
                         <span class="text-sm font-medium">Delete</span>
@@ -87,7 +88,7 @@
 
             {{-- Member Notices --}}
             @if ($loggedUserRole !== 'leader' && !empty($showNotices))
-                <div class="relative w-full sm:w-[460px]  overflow-hidden">
+                <div class="relative w-full sm:w-[460px]   overflow-hidden">
 
                     <div class="space-y-1">
                         @foreach ($showNotices as $notice)
@@ -143,7 +144,7 @@
 
                 </div>
             @endif
-                
+
         </div>
 
         {{-- Community Stats Cards --}}
@@ -280,8 +281,8 @@
                     {{-- See More Button --}}
                     <a href="{{ route('eachAllTransactions', $community->id) }}"
                     class="inline-flex items-center gap-2
-                            px-3 py-2
-                            sm:px-4 sm:py-2.5
+                            px-2 py-2
+                            sm:px-2 sm:py-2
                             bg-gray-100 text-gray-700 text-sm font-medium
                             rounded-lg
                             hover:bg-gray-200
@@ -409,8 +410,8 @@
                     @if ($loggedUserRole === 'leader')
                         <a href="{{ route('create-member', $community->id) }}"
                         class="inline-flex items-center gap-2
-                                px-3 py-2
-                                sm:px-4 sm:py-2.5
+                                px-2 py-2
+                                sm:px-2 sm:py-2
                                 bg-gradient-to-r from-emerald-500 to-teal-500
                                 text-white text-sm font-medium
                                 rounded-lg
@@ -429,8 +430,8 @@
                                         {{-- See More Button --}}
                     <a href="{{ route('eachAllMembers', $community->id) }}"
                         class="inline-flex items-center gap-2
-                            px-3 py-2
-                            sm:px-4 sm:py-2.5
+                            px-2 py-2
+                            sm:px-2 sm:py-2
                             bg-gray-100 text-gray-700 text-sm font-medium
                             rounded-lg
                             hover:bg-gray-200
