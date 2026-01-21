@@ -9,79 +9,6 @@
             <h2 class="text-2xl font-bold text-slate-900 mb-2">New Deposit</h2>
             <p class="text-slate-600">Record a new payment transaction for this member.</p>
         </div>
-        <!-- Community Banking Info -->
-        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-4">
-            <h1 class="text-lg font-bold text-slate-900">
-                Banking Information
-            </h1>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                @foreach ($communityBankDetails as $detail)
-
-                    @if($detail['type'] === 'Bank')
-                        <!-- Bank Dropdown -->
-                        <details class=" group border border-slate-200 rounded-lg bg-slate-50">
-                            <summary class="flex justify-between items-center cursor-pointer p-2 font-semibold text-slate-700">
-                                🏦 Bank
-                                <span class="transition-transform group-open:rotate-180">⌄</span>
-                            </summary>
-
-                            <ul class="px-4 pb-4 space-y-2 text-sm">
-                                <li class="flex justify-between">
-                                    <span class="text-slate-500">Name</span>
-                                    <span class="font-medium select-all">{{ $detail['bank_name'] }}</span>
-                                </li>
-                                <li class="flex justify-between">
-                                    <span class="text-slate-500">Account</span>
-                                    <span class="font-medium select-all">{{ $detail['bank_account_no'] }}</span>
-                                </li>
-                                <li class="flex justify-between">
-                                    <span class="text-slate-500">Holder</span>
-                                    <span class="font-medium select-all">{{ $detail['bank_holder_name'] }}</span>
-                                </li>
-                                <li class="flex justify-between">
-                                    <span class="text-slate-500">Branch</span>
-                                    <span class="font-medium select-all">{{ $detail['branch'] }}</span>
-                                </li>
-                            </ul>
-                        </details>
-                    @endif
-
-                    @if($detail['type'] === 'Mobile Bank')
-                        <!-- Mobile Bank Dropdown -->
-                        <details class=" group border border-slate-200 rounded-lg bg-slate-50">
-                            <summary class="flex justify-between items-center cursor-pointer p-2 font-semibold text-slate-700">
-                                📱 Mobile Bank
-                                <span class="transition-transform group-open:rotate-180">⌄</span>
-                            </summary>
-
-                            <ul class="px-4 pb-4 space-y-2 text-sm">
-                                <li class="flex justify-between">
-                                    <span class="text-slate-500">Service</span>
-                                    <span class="font-medium select-all">{{ $detail['mobile_type'] }}</span>
-                                </li>
-                                <li class="flex justify-between">
-                                    <span class="text-slate-500">Number</span>
-                                    <span class="font-medium select-all">{{ $detail['mobile_account_no'] }}</span>
-                                </li>
-                                <li class="flex justify-between">
-                                    <span class="text-slate-500">Holder</span>
-                                    <span class="font-medium select-all">{{ $detail['mobile_holder_name'] }}</span>
-                                </li>
-                            </ul>
-                        </details>
-                    @endif
-
-                @endforeach
-
-            </div>
-
-            <p class="text-xs text-slate-500">
-                Tip: Click any value to copy it.
-            </p>
-        </div>
-
         <!-- Form -->
         <form action="{{ route('store-transaction') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -90,8 +17,77 @@
 
             <!-- Form Card -->
             <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-lg shadow-slate-200/50">
-                <h1 class="text-lg font-bold text-slate-900  border-b border-slate-200 mb-4">Submit Form</h1>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Community Banking Info -->
+                <div class="bg-white ">
+                    <h1 class="text-lg font-bold text-slate-900 mb-2">
+                        Banking Information
+                    </h1>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                        @foreach ($communityBankDetails as $detail)
+
+                            @if($detail['type'] === 'Bank')
+                                <!-- Bank Dropdown -->
+                                <details class=" group border border-slate-200 rounded-lg bg-slate-50">
+                                    <summary class="flex justify-between items-center cursor-pointer p-2 font-semibold text-slate-700">
+                                        🏦 Bank
+                                        <span class="transition-transform group-open:rotate-180">⌄</span>
+                                    </summary>
+
+                                    <ul class="px-4 pb-4 space-y-2 text-sm">
+                                        <li class="flex justify-between">
+                                            <span class="text-slate-500">Name</span>
+                                            <span class="font-medium select-all">{{ $detail['bank_name'] }}</span>
+                                        </li>
+                                        <li class="flex justify-between">
+                                            <span class="text-slate-500">Account</span>
+                                            <span class="font-medium select-all">{{ $detail['bank_account_no'] }}</span>
+                                        </li>
+                                        <li class="flex justify-between">
+                                            <span class="text-slate-500">Holder</span>
+                                            <span class="font-medium select-all">{{ $detail['bank_holder_name'] }}</span>
+                                        </li>
+                                        <li class="flex justify-between">
+                                            <span class="text-slate-500">Branch</span>
+                                            <span class="font-medium select-all">{{ $detail['branch'] }}</span>
+                                        </li>
+                                    </ul>
+                                </details>
+                            @endif
+
+                            @if($detail['type'] === 'Mobile Bank')
+                                <!-- Mobile Bank Dropdown -->
+                                <details class=" group border border-slate-200 rounded-lg bg-slate-50">
+                                    <summary class="flex justify-between items-center cursor-pointer p-2 font-semibold text-slate-700">
+                                        📱 Mobile Bank
+                                        <span class="transition-transform group-open:rotate-180">⌄</span>
+                                    </summary>
+
+                                    <ul class="px-4 pb-4 space-y-2 text-sm">
+                                        <li class="flex justify-between">
+                                            <span class="text-slate-500">Service</span>
+                                            <span class="font-medium select-all">{{ $detail['mobile_type'] }}</span>
+                                        </li>
+                                        <li class="flex justify-between">
+                                            <span class="text-slate-500">Number</span>
+                                            <span class="font-medium select-all">{{ $detail['mobile_account_no'] }}</span>
+                                        </li>
+                                        <li class="flex justify-between">
+                                            <span class="text-slate-500">Holder</span>
+                                            <span class="font-medium select-all">{{ $detail['mobile_holder_name'] }}</span>
+                                        </li>
+                                    </ul>
+                                </details>
+                            @endif
+
+                        @endforeach
+
+                    </div>
+                </div>
+
+                {{-- <h1 class="text-lg font-bold text-slate-900  border-b border-slate-200 pt-2">Submit Form</h1> --}}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6">
                     
                     <!-- Amount -->
                     <div class="col-span-2 md:col-span-1">
@@ -101,7 +97,7 @@
                                 <span class="text-slate-500 font-semibold">RM</span>
                             </div>
                             <input type="number" name="amount" step="0.01" required placeholder="0.00"
-                                class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all">
+                                class="w-full pl-10 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all">
                         </div>
                     </div>
 
@@ -115,7 +111,7 @@
                                 </svg>
                             </div>
                             <input type="month" name="month" required
-                                class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all">
+                                class="w-full pl-10 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all">
                         </div>
                     </div>
 
@@ -129,37 +125,38 @@
                                 </svg>
                             </div>
                             <input type="date" name="date" required
-                                class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all">
+                                class="w-full pl-10 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all">
                         </div>
                     </div>
 
-                    <!-- Proof Upload -->
-                    {{-- <div class="col-span-2">
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Payment Proof</label>
-                        <div class="relative group">
-                            <div class="absolute inset-0 bg-emerald-50 rounded-lg pointer-events-none group-hover:bg-emerald-100 transition-colors"></div>
-                            <input type="file" name="proof" accept="image/*,application/pdf" required
-                                class="block w-full text-sm text-slate-500
-                                file:mr-4 file:py-2.5 file:px-4
-                                file:rounded-l-lg file:border-0
-                                file:text-sm file:font-semibold
-                                file:bg-emerald-100 file:text-emerald-700
-                                hover:file:bg-emerald-200
-                                border border-slate-300 rounded-lg bg-white cursor-pointer focus:outline-none focus:border-emerald-500 transition-all">
-                        </div>
-                        <p class="mt-2 text-xs text-slate-500">Accepted formats: JPG, PNG, PDF. Max size: 2MB</p>
-                    </div> --}}
-                    <div class="col-span-2">
-                        <label class="block text-sm font-medium text-slate-600 mb-1">
+                   <div class="col-span-2">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
                             Proof of Payment
                         </label>
 
-                        <input type="file"
-                            name="proof"
-                            class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all">
+                        <div class="relative">
+                            <!-- Icon -->
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828L18 9.828a4 4 0 00-5.656-5.656L5.757 10.757a6 6 0 108.486 8.486L20 13" />
+                                </svg>
+                            </div>
 
+                            <!-- File Input -->
+                            <input
+                                type="file"
+                                name="proof"
+                                class="w-full pl-10 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900
+                                    file:hidden
+                                    focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
+                            />
+                        </div>
+
+                        <p class="mt-1 text-xs text-slate-500">
+                            Accepted formats: JPG, PNG, PDF
+                        </p>
                     </div>
-
                 </div>
 
                 <!-- Actions -->
