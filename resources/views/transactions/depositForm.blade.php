@@ -9,31 +9,88 @@
             <h2 class="text-2xl font-bold text-slate-900 mb-2">New Deposit</h2>
             <p class="text-slate-600">Record a new payment transaction for this member.</p>
         </div>
+        <!-- Community Banking Info -->
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-4">
+            <h1 class="text-lg font-bold text-slate-900">
+                Banking Information
+            </h1>
 
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                @foreach ($communityBankDetails as $detail)
+
+                    @if($detail['type'] === 'Bank')
+                        <!-- Bank Dropdown -->
+                        <details class=" group border border-slate-200 rounded-lg bg-slate-50">
+                            <summary class="flex justify-between items-center cursor-pointer p-2 font-semibold text-slate-700">
+                                🏦 Bank
+                                <span class="transition-transform group-open:rotate-180">⌄</span>
+                            </summary>
+
+                            <ul class="px-4 pb-4 space-y-2 text-sm">
+                                <li class="flex justify-between">
+                                    <span class="text-slate-500">Name</span>
+                                    <span class="font-medium select-all">{{ $detail['bank_name'] }}</span>
+                                </li>
+                                <li class="flex justify-between">
+                                    <span class="text-slate-500">Account</span>
+                                    <span class="font-medium select-all">{{ $detail['bank_account_no'] }}</span>
+                                </li>
+                                <li class="flex justify-between">
+                                    <span class="text-slate-500">Holder</span>
+                                    <span class="font-medium select-all">{{ $detail['bank_holder_name'] }}</span>
+                                </li>
+                                <li class="flex justify-between">
+                                    <span class="text-slate-500">Branch</span>
+                                    <span class="font-medium select-all">{{ $detail['branch'] }}</span>
+                                </li>
+                            </ul>
+                        </details>
+                    @endif
+
+                    @if($detail['type'] === 'Mobile Bank')
+                        <!-- Mobile Bank Dropdown -->
+                        <details class=" group border border-slate-200 rounded-lg bg-slate-50">
+                            <summary class="flex justify-between items-center cursor-pointer p-2 font-semibold text-slate-700">
+                                📱 Mobile Bank
+                                <span class="transition-transform group-open:rotate-180">⌄</span>
+                            </summary>
+
+                            <ul class="px-4 pb-4 space-y-2 text-sm">
+                                <li class="flex justify-between">
+                                    <span class="text-slate-500">Service</span>
+                                    <span class="font-medium select-all">{{ $detail['mobile_type'] }}</span>
+                                </li>
+                                <li class="flex justify-between">
+                                    <span class="text-slate-500">Number</span>
+                                    <span class="font-medium select-all">{{ $detail['mobile_account_no'] }}</span>
+                                </li>
+                                <li class="flex justify-between">
+                                    <span class="text-slate-500">Holder</span>
+                                    <span class="font-medium select-all">{{ $detail['mobile_holder_name'] }}</span>
+                                </li>
+                            </ul>
+                        </details>
+                    @endif
+
+                @endforeach
+
+            </div>
+
+            <p class="text-xs text-slate-500">
+                Tip: Click any value to copy it.
+            </p>
+        </div>
+
+        <!-- Form -->
         <form action="{{ route('store-transaction') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="member_id" value="{{ $memberId }}">
             <input type="hidden" name="community_id" value="{{ $communityId }}">
 
-            <!-- Context Card -->
-            <div class="bg-white border border-slate-200 rounded-xl p-4 flex items-center gap-4 shadow-sm">
-                <div class="h-10 w-10 rounded-full bg-emerald-50 flex items-center justify-center border border-emerald-100">
-                    <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                </div>
-                <div>
-                    <div class="text-sm text-slate-500">Recording deposit for</div>
-                    <div class="font-medium text-slate-900 flex gap-3 text-sm mt-0.5">
-                        <span>Member ID: <span class="text-emerald-600">{{ $memberId }}</span></span>
-                        <span class="text-slate-300">|</span>
-                        <span>Community ID: <span class="text-emerald-600">{{ $communityId }}</span></span>
-                    </div>
-                </div>
-            </div>
-
             <!-- Form Card -->
             <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-lg shadow-slate-200/50">
+                <h1 class="text-lg font-bold text-slate-900  border-b border-slate-200 mb-4">Submit Form</h1>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     
                     <!-- Amount -->

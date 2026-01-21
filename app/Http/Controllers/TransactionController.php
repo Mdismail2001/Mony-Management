@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;  
 use App\Exports\GenericExport; 
 use Maatwebsite\Excel\Facades\Excel; 
+use App\Models\Community;
 
 class TransactionController extends Controller
 {
@@ -16,8 +17,11 @@ class TransactionController extends Controller
     {
         $memberId = $request->input('member_id');
         $communityId = $request->input('community_id');
+        $communityBankDetails = Community::find($communityId)->banking_info;
+        // dd($communityBankDetails);
+
         // dd($memberId, $communityId);
-        return view('transactions.depositForm', compact('memberId', 'communityId'));
+        return view('transactions.depositForm', compact('memberId', 'communityId' ,'communityBankDetails'));
     }
 
     //  store transaction
