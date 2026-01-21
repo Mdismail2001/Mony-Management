@@ -165,7 +165,8 @@
                         Cancel
                     </a>
                     <button type="submit"
-                        class="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg shadow-lg shadow-emerald-900/10 transition-all transform active:scale-95 flex items-center gap-2">
+                        class="px-2 py-2 bg-emerald-600                                 bg-gradient-to-r from-emerald-500 to-teal-500
+                            text-white text-sm font-medium rounded-lg shadow-lg shadow-emerald-900/10 transition-all transform active:scale-95 flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>

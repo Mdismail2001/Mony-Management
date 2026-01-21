@@ -54,9 +54,11 @@
                     <a href="{{ route('community-notice', $community->id) }}" 
                     class="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-emerald-500 text-gray-800 hover:text-white rounded-lg transition-all border border-gray-300 hover:border-emerald-500"
                     title="Notice Community">
-                        <svg class="w-5 h-5 text-gray-600 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                         </svg>
+
                         <span class="text-sm font-medium">Create Notice</span>
                     </a>
 
