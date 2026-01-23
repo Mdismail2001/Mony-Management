@@ -88,7 +88,7 @@
         </tbody>
     </table>
     {{-- PAGINATION UI OUTSIDE TABLE --}}
-    <div class="mt-4 flex justify-end">
+    <div class=" px-4 ">
         <x-pagination :paginator="null" />
     </div>
 </div>

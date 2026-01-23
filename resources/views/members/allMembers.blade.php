@@ -38,6 +38,9 @@
             'rows' => $rows,
             'downloadRoute' => 'all-members',
             ])
+            {{-- PAGINATION UI OUTSIDE TABLE --}}
+            <x-pagination :paginator="null" />
+
         </main>
 
     </div>

@@ -29,8 +29,8 @@ class DashboardController extends Controller
             // You can add more community-specific data here if needed
             $cards[] = [
                 'title' => $community->name,
-                'value_1' => ' Total Members: ' . $community->members_count,
-                'value_2' => ' Total Funds: ' . number_format($community->total_amount, 2),
+                'value_1' => ' Members: ' . $community->members_count,
+                'value_2' => ' Balance: ' . number_format($community->total_amount, 2),
                 'description' => 'Manage ' . $community->name . ' community',
                 'border' => 'border-blue-500',
                 'text_color' => 'text-blue-500',

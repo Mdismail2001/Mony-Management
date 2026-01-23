@@ -43,14 +43,12 @@
             'rows' => $rows,
             'downloadRoute' => 'all-transactions',
         ])
+        {{-- PAGINATION UI OUTSIDE TABLE --}}
+         <x-pagination :paginator="null" />
+
     </main>
 
     </div>
-    {{-- PAGINATION UI OUTSIDE TABLE --}}
-    <div class="mt-4 flex justify-end">
-        <x-pagination :paginator="null" />
-    </div>
-  
 
 </div>
 

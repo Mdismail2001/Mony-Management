@@ -80,7 +80,7 @@
                         $icon = $iconMap[$card['title']] ?? '';
                     @endphp
                     
-                    <a href="{{ $card['route'] ?? '#' }}" class="group relative bg-gray-100 border border-gray-200 rounded-2xl p-6 hover:shadow-lg transition-all">
+                    {{-- <a href="{{ $card['route'] ?? '#' }}" class="group relative bg-gray-100 border border-gray-200 rounded-2xl p-6 hover:shadow-lg transition-all">
                         <div class="flex items-center justify-between mb-4">
                         <div class="p-3 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center w-12 h-12 shadow-md">
                                 <span class="text-white text-xl font-bold">
@@ -93,8 +93,39 @@
                         @if(!empty($card['value_2']))
                             <p class="text-gray-500 font-semibold">{{ $card['value_2'] }}</p>
                         @endif
-                    </a>
+                    </a>--}}
+                    <a href="{{ $card['route'] ?? '#' }}"
+                        class="group relative bg-gray-100 border border-gray-200 rounded-2xl p-6 hover:shadow-lg transition-all">
 
+                        <!-- Top content -->
+                        <div class="flex items-start gap-3 mb-5">
+                            
+                            <!-- Icon -->
+                            <div class="p-3 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl
+                                        flex items-center justify-center w-12 h-12 shadow-md">
+                                <span class="text-white text-xl font-bold">
+                                    {{ strtoupper(substr($card['title'], 0, 1)) }}
+                                </span>
+                            </div>
+
+                            <!-- Title + Value 1 -->
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900">
+                                    {{ $card['title'] }}
+                                </h3>
+                                <p class="text-gray-600">
+                                    {{ $card['value_1'] }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Center Amount -->
+                        @if(!empty($card['value_2']))
+                                <span
+                                    class=" text-emerald-500 font-semibold" >{{($card['value_2']) }} tk
+                                </span>
+                        @endif
+                    </a>
                 @endforeach
             </section>
           

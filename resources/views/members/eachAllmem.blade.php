@@ -97,6 +97,9 @@
         @endforelse
         </tbody>
     </table>
+    <div class=" px-4 ">
+        <x-pagination :paginator="null" />
+    </div>
 
 </div>
 
