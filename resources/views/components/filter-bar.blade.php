@@ -13,14 +13,14 @@
             name="{{ $searchField }}"
             value="{{ request($searchField) }}"
             placeholder="{{ $searchPlaceholder ?? 'Search...' }}"
-            class="w-64 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+            class="w-auto px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"
         />
         @endif
 
         {{-- Dynamic Filters --}}
         @foreach($filters as $name => $options)
         <select name="{{ $name }}"
-                class="px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                class="px-2 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
 
             {{-- All option --}}
             <option value=""
@@ -40,7 +40,7 @@
 
         {{-- Submit Button --}}
         <button type="submit"
-                class="px-4 py-2 text-sm text-white bg-gradient-to-r from-emerald-400 to-teal-400 rounded-lg hover:from-emerald-500 hover:to-teal-500">
+                class="px-2 py-2 text-sm text-white bg-gradient-to-r from-emerald-400 to-teal-400 rounded-lg hover:from-emerald-500 hover:to-teal-500">
             Filter
         </button>
 

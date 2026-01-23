@@ -42,11 +42,19 @@
                 @endif
 
                 <a href="{{ route('community-create') }}"
-                    class="mt-4 lg:mt-0 inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-xl font-medium hover:opacity-90 transition-all shadow-md">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                class="
+                    w-full sm:w-auto
+                    flex items-center justify-center
+                    gap-2 px-3 py-2
+                    bg-gradient-to-br from-emerald-500 to-teal-600
+                    text-white rounded-xl font-medium
+                    hover:opacity-90 transition-all shadow-md
+                    mt-4 lg:mt-0
+                ">
+                    <svg class="w-5 h-5 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
-                    Create Community
+                    <span class="text-center">Create Community</span>
                 </a>
             </div>
 

@@ -46,7 +46,11 @@
     </main>
 
     </div>
-    
+    {{-- PAGINATION UI OUTSIDE TABLE --}}
+    <div class="mt-4 flex justify-end">
+        <x-pagination :paginator="null" />
+    </div>
+  
 
 </div>
 

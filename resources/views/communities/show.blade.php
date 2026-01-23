@@ -44,7 +44,7 @@
         {{-- Page Header --}}
         <div class="mb-8 flex flex-row md:items-center justify-between bg-white p-4 rounded-lg shadow-sm">
             <div class="mb-4 md:mb-0 pl-2 ">
-                <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 truncate">{{ $community->name }}</h1>
+                <h1 class="text-2xl sm:text-xl md:text-2xl font-bold text-gray-900 mb-2 truncate">{{ $community->name }}</h1>
                 {{-- <p class="text-gray-500 text-sm sm:text-base">Manage community details </p> --}}
             </div>
 
@@ -53,9 +53,9 @@
                 <div class="flex flex-wrap gap-2  ">
                     <!-- Notice Button -->
                     <a href="{{ route('community-notice', $community->id) }}" 
-                    class="flex items-center gap-2 px-2 py-2 bg-gray-100 hover:bg-emerald-500 text-gray-800 hover:text-white rounded-lg transition-all  hover:border-emerald-500"
+                    class="flex items-center gap-2  px-4 sm:py-2 sm:px-2  bg-gray-100 hover:bg-emerald-500 text-gray-800 hover:text-white rounded-lg transition-all  hover:border-emerald-500"
                     title="Notice Community">
-                        <svg class="hidden sm:block w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="hidden sm:block w-4 h-4 " fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                         </svg>
@@ -66,9 +66,9 @@
 
                     <!-- Edit Button -->
                     <a href="{{ route('community-edit', $community->id) }}" 
-                    class="flex items-center gap-2 px-2 py-2 bg-gray-100 hover:bg-emerald-500 text-gray-800 hover:text-white rounded-lg transition-all  hover:border-emerald-500"
+                    class="flex items-center gap-2  px-4 sm:py-2 sm:px-2  bg-gray-100 hover:bg-emerald-500 text-gray-800 hover:text-white rounded-lg transition-all  hover:border-emerald-500"
                     title="Edit Community">
-                        <svg class="hidden sm:block w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="hidden sm:block w-4 h-4 " fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
                         <span class="text-sm font-medium">Edit</span>
@@ -76,9 +76,9 @@
 
                     <!-- Delete Button -->
                     <button onclick="if(confirm('Are you sure you want to delete this community? This action cannot be undone.')) { window.location.href='{{ route('delete-community', $community->id) }}'; }"
-                            class="flex items-center gap-2 px-2 py-2 bg-gray-100 hover:bg-red-500 text-gray-800 hover:text-white rounded-lg transition-all  hover:border-red-500"
+                            class="flex items-center gap-2  px-4 sm:py-2 sm:px-2 bg-gray-100 hover:bg-red-500 text-gray-800 hover:text-white rounded-lg transition-all  hover:border-red-500"
                             title="Delete Community">
-                        <svg class="hidden sm:block w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="hidden sm:block w-4 h-4 " fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
                         <span class="text-sm font-medium">Delete</span>
@@ -486,32 +486,14 @@
                                     <td class="px-4 py-3">
                                         <div class="flex items-center gap-2 flex-wrap">
                                             <!-- View Button -->
-                                            <a href="{{ route('member-details', $member->id) }}" 
-                                            class="p-2 bg-gray-100 hover:bg-blue-500 text-gray-800 hover:text-white rounded-lg transition-all"
-                                            title="View Details">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                                </svg>
+                                            <a href="{{ route('member-details', $member->id) }}"
+                                                class="inline-flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-blue-500
+                                                    text-gray-800 hover:text-white rounded-lg border border-gray-200
+                                                    hover:border-blue-500 transition-all text-sm">
+                                                View
                                             </a>
 
-                                            <!-- Edit Button -->
-                                            <a href="{{ route('edit-member', $member->id) }}" 
-                                            class="p-2 bg-gray-100 hover:bg-emerald-500 text-gray-800 hover:text-white rounded-lg transition-all"
-                                            title="Edit">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                                </svg>
-                                            </a>
 
-                                            <!-- Delete Button -->
-                                            <button onclick="if(confirm('Are you sure you want to remove this member?')) { window.location.href='{{ route('delete-member', $member->id) }}'; }"
-                                                    class="p-2 bg-gray-100 hover:bg-red-500 text-gray-800 hover:text-white rounded-lg transition-all"
-                                                    title="Delete">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                            </button>
                                         </div>
                                     </td>
                                 @endif
