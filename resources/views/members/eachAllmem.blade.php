@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="overflow-x-auto ">
+<div class="overflow-x-auto bg-white h-screen">
 
     {{-- Back Button --}}
     <div class="m-4 mt-6">
