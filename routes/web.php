@@ -21,6 +21,11 @@ Route::get('/', function () {
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('loginForm');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
+Route::get('email-verify', [AuthController::class, 'emailVerifyForm'])->name('email-verify');
+Route::post('send-otp', [AuthController::class, 'sendOtpForm'])->name('send-otp');
+Route::post('verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-otp');
+
+
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/create-user', [AuthController::class, 'createUserByAdmin'])->name('create-user');
 

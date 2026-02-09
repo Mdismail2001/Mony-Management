@@ -88,7 +88,7 @@
         <div class="mt-8 pt-6 border-t border-white/10 text-center">
             <p class="text-gray-400 text-sm">
                 Don't have an account? 
-                <a href="{{ route('register') }}" class="text-emerald-400 font-bold hover:underline underline-offset-4 ml-1">
+                <a href="{{ route('email-verify') }}" class="text-emerald-400 font-bold hover:underline underline-offset-4 ml-1">
                     Create Account
                 </a>
             </p>

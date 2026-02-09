@@ -58,6 +58,36 @@ class AuthController extends Controller
 
     }
 
+    // Email  form
+    public function emailVerifyForm()
+    {
+        return view('auth.emailVerifyForm',[
+            'showHeader' => false,
+            'showSidebar' => false,
+        ]);
+    
+    }
+
+    // Otp submit function
+    public function sendOtpForm(Request $request)
+    {
+        // dd($request->all());
+        return view('auth.otpForm',[
+            'showHeader' => false,
+            'showSidebar' => false,
+        ]);
+    
+    }
+    
+    // otp verify function
+    public function verifyOtp(Request $request)
+    {
+        dd($request->all());
+        return view('auth.register',[
+            'showHeader' => false,
+            'showSidebar' => false,
+        ]);
+    }
 
     // Show the registration form
     public function showRegisterForm()

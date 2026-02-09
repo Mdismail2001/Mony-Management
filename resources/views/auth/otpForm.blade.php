@@ -33,7 +33,7 @@
             <p class="text-emerald-300/80 text-sm mt-2">Enter the 6-digit security code</p>
         </div>
 
-        <form method="POST" action="{{ route('submit-otp') }}" class="space-y-6">
+        <form  action="{{ route('verify-otp') }}" method="POST" class="space-y-6">
             @csrf
 
             <div class="text-center">

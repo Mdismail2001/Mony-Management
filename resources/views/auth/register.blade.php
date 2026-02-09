@@ -65,16 +65,6 @@
                     class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:bg-white/10 transition-all" required />
             </div>
 
-            {{-- <div>
-                <label class="block text-xs font-semibold text-emerald-300 uppercase tracking-wider mb-1 px-1">Role</label>
-                <select name="role" required 
-                    class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:bg-slate-800 transition-all appearance-none">
-                    <option value="" class="bg-slate-900">Select Role</option>
-                    <option value="admin" class="bg-slate-900" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                    <option value="user" class="bg-slate-900" {{ old('role') == 'user' ? 'selected' : '' }}>User</option>
-                </select>
-            </div>
-            --}}
             <div class="flex items-start gap-2 p-3 bg-white/5 rounded-xl border border-white/5">
                 <svg class="w-5 h-5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
