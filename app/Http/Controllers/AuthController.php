@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\PasswordOtp;
+use App\Models\Member;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -71,63 +75,107 @@ class AuthController extends Controller
     // Otp submit function
     public function sendOtpForm(Request $request)
     {
-        // dd($request->all());
-        return view('auth.otpForm',[
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $email = $request->email;
+        // 1️⃣ Check if email already exists
+        $userExists = User::where('email', $email)->exists();
+
+        if ($userExists) {
+            return redirect()->route('login')
+                ->with('error', 'This email is already registered. Please login.');
+        }
+
+        // 2️⃣ Generate 6 digit OTP
+        $otp = rand(100000, 999999);
+
+        // 3️⃣ Delete old OTPs for this email (important)
+        PasswordOtp::where('email', $email)->delete();
+
+        // 4️⃣ Save OTP
+        PasswordOtp::create([
+            'email' => $email,
+            'otp' => $otp,
+            'expires_at' => Carbon::now()->addMinutes(10),
+        ]);
+
+        // 5️⃣ Send OTP Email
+        Mail::raw("Your verification OTP is: $otp", function ($message) use ($email) {
+            $message->to($email)
+                    ->subject('Email Verification OTP');
+        });
+
+        // 6️⃣ Show OTP form
+        return view('auth.otpForm', [
+            'email' => $email,
             'showHeader' => false,
             'showSidebar' => false,
         ]);
-    
-    }
-    
+    }    
+
     // otp verify function
     public function verifyOtp(Request $request)
     {
-        dd($request->all());
-        return view('auth.register',[
-            'showHeader' => false,
-            'showSidebar' => false,
+        $request->validate([
+            'email' => 'required|email',
+            'otp'   => 'required|digits:6',
         ]);
-    }
 
-    // Show the registration form
-    public function showRegisterForm()
-    {
-        return view('auth.register',[
+        $email = $request->email;
+
+        $otpRecord = PasswordOtp::where('email', $email)
+            ->where('otp', $request->otp)
+            ->where('expires_at', '>', now())
+            ->first();
+
+        if (!$otpRecord) {
+            return back()->with('error', 'Invalid or expired OTP.');
+        }
+
+        $otpRecord->delete();
+
+        return view('auth.register', [
+            'email' => $email,
             'showHeader' => false,
             'showSidebar' => false,
         ]);
     }
 
     // Uer registration
-    public function createUserByAdmin(Request $request)
+    public function createUser(Request $request)
     {
-        // if (Auth::user()->role != 'admin') {
-        //     abort(403, 'Unauthorized action.');
-        // }
-
+        // ✅ Validate input
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'phone_number' => 'required|string|max:20|unique:users,phone_number',
-            // 'role' => 'required|string',
+            'password' => 'required|string|min:6|confirmed',
         ], [
             'name.required' => 'The name field is required.',
             'email.required' => 'The email field is required.',
+            'email.email' => 'Please provide a valid email address.',
             'email.unique' => 'This email is already registered.',
             'phone_number.required' => 'The phone number field is required.',
             'phone_number.unique' => 'This phone number is already registered.',
-            // 'role.required' => 'Please select a user role.',
+            'password.required' => 'The password field is required.',
+            'password.min' => 'Password must be at least 6 characters.',
+            'password.confirmed' => 'Password confirmation does not match.',
         ]);
 
+        // ✅ Create user
         User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone_number' => $validated['phone_number'],
-            // 'role' => $validated['role'],
-            'password' => Hash::make('123456'), // default password
+            'password' => Hash::make($validated['password']),
         ]);
 
-        return redirect()->back()->with('success', 'User created successfully with default password (123456).');
+        // ✅ Redirect with success
+        return redirect()
+            ->route('login')
+            ->with('success', 'Account created successfully. You can now log in.');
     }
 
     // Profile 

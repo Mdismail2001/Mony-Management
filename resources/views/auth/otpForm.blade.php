@@ -40,7 +40,7 @@
                 <label class="block text-xs font-semibold text-emerald-300 uppercase tracking-wider mb-4 px-1">
                     OTP Code
                 </label>
-                
+                <input type="hidden" name="email" value="{{ $email }}">
                 <input
                     type="text"
                     name="otp"

@@ -28,9 +28,20 @@
 
             @if (session('message'))
                 <div class="mt-4 p-2 bg-emerald-500/20 border border-emerald-500/30 rounded-lg">
-                    <p class="text-xs text-emerald-400 font-medium">{{ session('message') }}</p>
+                    <p class="text-xs text-emerald-400 font-medium">
+                        {{ session('message') }}
+                    </p>
                 </div>
             @endif
+
+            @if (session('error'))
+                <div class="mt-4 p-2 bg-red-500/20 border border-red-500/30 rounded-lg">
+                    <p class="text-xs text-red-400 font-medium">
+                        {{ session('error') }}
+                    </p>
+                </div>
+            @endif
+
         </div>
 
         <form action="{{ route('login') }}" method="POST" class="space-y-5">
