@@ -85,6 +85,11 @@ Route::middleware('auth')->group(function () {
     |--------------------------------------------------------------------------
     */
     Route::get('/create-member/{id}', [MembersController::class, 'createMemberForm'])->name('create-member');
+    
+    Route::get('/community/confirm/{token}', [MemberController::class, 'confirmJoin'])->name('community.confirm');
+
+    Route::get('/invite/register/{token}', [AuthController::class, 'inviteRegister'])->name('invite.register');
+
     Route::post('/store-member', [MembersController::class, 'storeMember'])->name('store-member');
     Route::get('/member-details/{id}', [MembersController::class, 'memberDetails'])->name('member-details');
     Route::get('/edit-member/{id}', [MembersController::class, 'editform'])->name('edit-member');

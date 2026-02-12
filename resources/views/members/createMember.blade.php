@@ -28,12 +28,14 @@
             <form action="{{ route('store-member') }}" method="POST" class="space-y-4 sm:space-y-6">
                 @csrf
 
-                <!-- Mobile Number -->
+                <!-- Email -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
-                    <input type="text" name="mobile" required
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Email Address
+                    </label>
+                    <input type="email" name="email" required
                         class="w-full bg-gray-50 border border-gray-300 text-gray-900 px-4 py-3 rounded-lg focus:ring-emerald-500 focus:border-emerald-500 transition-all placeholder-gray-400"
-                        placeholder="Enter mobile number">
+                        placeholder="user@example.com">
                 </div>
 
                 <!-- Role -->

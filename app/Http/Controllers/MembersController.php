@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\Exports\GenericExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Mail;
 
 class MembersController extends Controller
 {
@@ -31,59 +32,87 @@ class MembersController extends Controller
     public function storeMember(Request $request)
     {
         $request->validate([
-            'mobile' => 'required',
-            'role' => 'required',
+            'email' => 'required|email',
+            'role' => 'required|in:leader,member',
             'community_id' => 'required|exists:communities,id',
         ]);
 
-        // Check mobile exists in users table
-        $user = User::where('phone_number', $request->mobile)->first();
-        $community_id = $request->input('community_id');
+        $email = $request->email;
+        $community = Community::findOrFail($request->community_id);
 
-        if (!$user) {
-            // Create encrypted invite data
-            $inviteData = [
-                'community_id' => $community_id,
-                'phone_number' => $request->mobile,
+        //  Check user by email
+        $user = User::where('email', $email)->first();
+
+        /**
+         * --------------------------------------------------
+         * CASE 1: USER EXISTS → SEND CONFIRMATION EMAIL
+         * --------------------------------------------------
+         */
+        if ($user) {
+
+            // Check if already member
+            $exists = Member::where('community_id', $community->id)
+                            ->where('user_id', $user->id)
+                            ->exists();
+
+            if ($exists) {
+                return back()->withErrors([
+                    'email' => 'This user is already a member of this community.'
+                ]);
+            }
+
+            // Create encrypted confirmation token
+            $data = [
+                'community_id' => $community->id,
+                'user_id' => $user->id,
                 'role' => $request->role,
-                'expires_at' => now()->addDays(7)->timestamp, // Link expires in 7 days
+                'expires_at' => now()->addDays(7)->timestamp,
             ];
 
-            // Encrypt the data
-            $encryptedData = Crypt::encryptString(json_encode($inviteData));
+            $token = Crypt::encryptString(json_encode($data));
+            $confirmLink = route('community.confirm', ['token' => $token]);
 
-            // Generate invite link
-            $inviteLink = route('invite.show', ['token' => $encryptedData]);
+            //  Send confirmation email
+            Mail::send('emails.communityConfirm', [
+                'community' => $community,
+                'confirmLink' => $confirmLink,
+            ], function ($message) use ($email, $community) {
+                $message->to($email)
+                    ->subject("Confirm joining {$community->name}");
+            });
 
-            // Show the invite link page
-            return view('members.inviteLink', [
-                'showHeader' => false,
-                'showSidebar' => false,
-                'inviteLink' => $inviteLink,
-                'community' => Community::find($community_id),
-                'phoneNumber' => $request->mobile,
-            ]);
+            return redirect()
+                ->route('communities', $community->id)
+                ->with('success', 'Confirmation email sent to the user.');
         }
 
-        // Check if user already exists in the same community
-        $existingMember = Member::where('community_id', $community_id)
-                                ->where('user_id', $user->id)
-                                ->first();
+        /**
+         * --------------------------------------------------
+         * CASE 2: USER DOES NOT EXIST → SEND REGISTER INVITE
+         * --------------------------------------------------
+         */
+        $data = [
+            'community_id' => $community->id,
+            'email' => $email,
+            'role' => $request->role,
+            'expires_at' => now()->addDays(7)->timestamp,
+        ];
 
-        if ($existingMember) {
-            return back()->withErrors(['mobile' => 'This user is already a member of this community.']);
-        }
+        $token = Crypt::encryptString(json_encode($data));
+        $registerLink = route('invite.register', ['token' => $token]);
 
-        // Save member
-        Member::create([
-            'community_id' => $community_id,
-            'user_id'      => $user->id,
-            'phone_number' => $request->mobile,
-            'role'         => $request->role ?? 'member',
-        ]);
+        //  Send registration email
+        Mail::send('emails.communityRegisterInvite', [
+            'community' => $community,
+            'registerLink' => $registerLink,
+        ], function ($message) use ($email, $community) {
+            $message->to($email)
+                ->subject("You're invited to join {$community->name}");
+        });
 
-        return redirect()->route('communities', $community_id)
-                        ->with('success', 'Member added successfully!');
+        return redirect()
+            ->route('communities', $community->id)
+            ->with('success', 'Invitation email sent successfully.');
     }
 
     // Show invite registration form
