@@ -25,16 +25,9 @@
     <form action="{{ route('invite.register') }}" method="POST" class="space-y-5">
         @csrf
         <input type="hidden" name="token" value="{{ $token }}" />
-        <input type="hidden" name="community_id" value="{{ $communityId }}" />
-        <input type="hidden" name="role" value="{{ $role }}" />
-
-        <div>
-            <label class="block text-sm font-medium text-gray-600 mb-1">Phone Number</label>
-            <input type="text" value="{{ $phoneNumber }}" readonly
-                   class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-gray-100 cursor-not-allowed" />
-            <p class="text-xs text-gray-500 mt-1">This phone number is pre-assigned to you</p>
-        </div>
-
+        <!-- <input type="hidden" name="community_id" value="{{ $communityId }}" />
+        <input type="hidden" name="role" value="{{ $role }}" /> 
+ -->
         <div>
             <label class="block text-sm font-medium text-gray-600 mb-1">Full Name</label>
             <input type="text" name="name" value="{{ old('name') }}" required
@@ -43,10 +36,28 @@
         </div>
 
         <div>
+            <label class="block text-sm font-medium text-gray-600 mb-1">Phone Number</label>
+            <input 
+                type="text" 
+                name="phone_number"
+                value="{{ old('phone_number', $phoneNumber ?? '') }}"
+                {{ isset($phoneNumber) ? 'readonly' : '' }}
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 {{ isset($phoneNumber) ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                placeholder="Enter your phone number"
+            />        
+        </div>
+
+        <div>
             <label class="block text-sm font-medium text-gray-600 mb-1">Email Address</label>
-            <input type="email" name="email" value="{{ old('email') }}" required
-                   class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-emerald-500 focus:border-emerald-500" 
-                   placeholder="your.email@example.com" />
+            <input 
+                type="email" 
+                name="email" 
+                value="{{ old('email', $email ?? '') }}" 
+                {{ isset($email) ? 'readonly' : '' }}
+                required
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-emerald-500 focus:border-emerald-500" 
+                placeholder="your.email@example.com" 
+            />
         </div>
 
         <div>

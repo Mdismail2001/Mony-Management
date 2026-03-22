@@ -115,12 +115,67 @@ class MembersController extends Controller
             ->with('success', 'Invitation email sent successfully.');
     }
 
+    public function confirmJoin($token)
+    {
+        try {
+            $data = json_decode(Crypt::decryptString($token), true);
+
+            // Check expiration
+            if (now()->timestamp > $data['expires_at']) {
+                return redirect()->route('loginForm')
+                    ->withErrors(['error' => 'This link has expired.']);
+            }
+
+            $community = \App\Models\Community::find($data['community_id']);
+
+            return view('members.confirmJoin', [
+                'token' => $token,
+                'community' => $community,
+                'role' => $data['role'],
+            ]);
+
+        } catch (\Exception $e) {
+            return redirect()->route('loginForm')
+                ->withErrors(['error' => 'Invalid link']);
+        }
+    }
+
+    public function acceptJoin(Request $request)
+    {
+        try {
+            $data = json_decode(Crypt::decryptString($request->token), true);
+
+            if (now()->timestamp > $data['expires_at']) {
+                return back()->withErrors(['error' => 'Link expired']);
+            }
+
+            // Prevent duplicate
+            $exists = Member::where('community_id', $data['community_id'])
+                            ->where('user_id', $data['user_id'])
+                            ->exists();
+
+            if (!$exists) {
+                Member::create([
+                    'community_id' => $data['community_id'],
+                    'user_id' => $data['user_id'],
+                    'role' => $data['role'],
+                ]);
+            }
+
+            return redirect()->route('Dashboard')
+                ->with('success', 'You joined the community!');
+
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Invalid request']);
+        }
+    }
+
     // Show invite registration form
-    public function showInviteForm($token)
+    public function showInviteForm(Request $request)
     {
         try {
             // Decrypt the token
-            $decryptedData = json_decode(Crypt::decryptString($token), true);
+            $decryptedData = json_decode(Crypt::decryptString($request->token), true);
 
             // Check if link has expired
             if (now()->timestamp > $decryptedData['expires_at']) {
@@ -128,24 +183,17 @@ class MembersController extends Controller
                     ->withErrors(['error' => 'This invite link has expired.']);
             }
 
-            // Check if user already exists
-            $existingUser = User::where('phone_number', $decryptedData['phone_number'])->first();
-            
-            if ($existingUser) {
-                return redirect()->route('loginForm')
-                    ->withErrors(['error' => 'An account with this phone number already exists. Please login.']);
-            }
-
             $community = Community::find($decryptedData['community_id']);
 
             return view('auth.inviteRegister', [
                 'showHeader' => false,
                 'showSidebar' => false,
-                'phoneNumber' => $decryptedData['phone_number'],
+                // 'phoneNumber' => $decryptedData['phone_number'],
                 'communityId' => $decryptedData['community_id'],
                 'role' => $decryptedData['role'],
+                'email' => $decryptedData['email'],
                 'community' => $community,
-                'token' => $token,
+                'token' => $request->token,
             ]);
         } catch (\Exception $e) {
             return redirect()->route('loginForm')
@@ -159,7 +207,6 @@ class MembersController extends Controller
         try {
             // Decrypt and validate token again
             $decryptedData = json_decode(Crypt::decryptString($request->token), true);
-
             // Check if link has expired
             if (now()->timestamp > $decryptedData['expires_at']) {
                 return back()->withErrors(['error' => 'This invite link has expired.']);
@@ -168,23 +215,28 @@ class MembersController extends Controller
             // Validate the form
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
-                'email' => 'required|email|unique:users,email',
+                'phone_number' => ['required','string','max:20'], 
                 'password' => 'required|string|min:6|confirmed',
                 'token' => 'required',
             ], [
                 'name.required' => 'The name field is required.',
-                'email.required' => 'The email field is required.',
-                'email.unique' => 'This email is already registered.',
+                'phone_number.required' => 'Phone number is required.',
+                'phone_number.regex' => 'Invalid phone number format.',
                 'password.required' => 'The password field is required.',
                 'password.min' => 'Password must be at least 6 characters.',
                 'password.confirmed' => 'Password confirmation does not match.',
             ]);
-
+            // Extra safety check
+            if (User::where('email', $decryptedData['email'])->exists()) {
+                return back()->withErrors([
+                    'email' => 'This email is already registered. Please login.'
+                ]);
+            }
             // Create the user
             $user = User::create([
                 'name' => $validated['name'],
-                'email' => $validated['email'],
-                'phone_number' => $decryptedData['phone_number'],
+                'email' => $decryptedData['email'],
+                'phone_number' => $validated['phone_number'],
                 'role' => 'user', // Always user role for invited members
                 'password' => Hash::make($validated['password']),
             ]);
@@ -199,7 +251,7 @@ class MembersController extends Controller
                 Member::create([
                     'community_id' => $decryptedData['community_id'],
                     'user_id' => $user->id,
-                    'phone_number' => $decryptedData['phone_number'],
+                    'phone_number' => $validated['phone_number'],
                     'role' => $decryptedData['role'],
                 ]);
             }
